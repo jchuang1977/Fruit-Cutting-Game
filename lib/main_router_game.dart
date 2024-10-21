@@ -8,6 +8,7 @@ import 'package:fruit_cutting_game/core/configs/assets/app_images.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/data/models/fruit_model.dart';
+import 'package:fruit_cutting_game/presentation/game/game.dart';
 import 'package:fruit_cutting_game/presentation/home/home.dart';
 
 class MainRouterGame extends FlameGame {
@@ -44,6 +45,7 @@ class MainRouterGame extends FlameGame {
       ),
       router = RouterComponent(initialRoute: AppRouter.homePage, routes: {
         AppRouter.homePage: Route(HomePage.new),
+        AppRouter.gamePage: Route(GamePage.new),
       })
     ]);
   }

@@ -1,7 +1,7 @@
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart' hide Game;
-import 'package:fruit_cutting_game/game.dart';
+import 'package:fruit_cutting_game/main_router_game.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
