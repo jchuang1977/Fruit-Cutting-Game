@@ -1,4 +1,4 @@
-package com.example.fruit_cutting_game
+package com.chunhthanhde.fruit_cutting_game
 
 import io.flutter.embedding.android.FlutterActivity
 

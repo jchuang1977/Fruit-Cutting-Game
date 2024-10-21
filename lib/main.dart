@@ -1,20 +1,13 @@
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:flame/game.dart' hide Game;
+import 'package:fruit_cutting_game/game.dart';
 
 void main() {
-  runApp(const MainApp());
-}
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  Flame.device.fullScreen();
+  Flame.device.setLandscape();
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+  runApp(GameWidget(game: MainRouterGame()));
 }
