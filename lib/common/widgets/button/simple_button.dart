@@ -64,14 +64,12 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
   /// Resets the icon color to gray when the button is released.
   @override
   void onTapUp(TapUpEvent event) {
-    _iconPaint.color =
-        AppColors.strokeGray; // Change back to gray on tap release
+    _iconPaint.color = AppColors.strokeGray; // Change back to gray on tap release
   }
 
   /// Resets the icon color to gray when the tap is canceled.
   @override
   void onTapCancel(TapCancelEvent event) {
-    _iconPaint.color =
-        AppColors.strokeGray; // Revert to gray if tap is canceled
+    _iconPaint.color = AppColors.strokeGray; // Revert to gray if tap is canceled
   }
 }

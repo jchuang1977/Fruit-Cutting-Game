@@ -44,12 +44,7 @@ class RoundedButton extends PositionComponent with TapCallbacks {
   /// - `onPressed`: The function to be called when the button is pressed.
   /// - `bgColor`: The background color of the button.
   /// - `borderColor`: The border color of the button.
-  RoundedButton(
-      {required this.text,
-      required this.onPressed,
-      required this.bgColor,
-      required this.borderColor,
-      super.anchor = Anchor.center})
+  RoundedButton({required this.text, required this.onPressed, required this.bgColor, required this.borderColor, super.anchor = Anchor.center})
       : _textDrawable = TextPaint(
           style: const TextStyle(
             fontSize: 20,

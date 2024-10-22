@@ -6,8 +6,7 @@ import 'package:fruit_cutting_game/main_router_game.dart';
 /// A custom back button component that inherits from `SimpleButton`.
 /// This button is designed to go back (pop) in the game's navigation stack
 /// when pressed, or trigger a custom action if provided.
-class BackButtonCustom extends SimpleButton
-    with HasGameReference<MainRouterGame> {
+class BackButtonCustom extends SimpleButton with HasGameReference<MainRouterGame> {
   /// Constructor for the `BackButtonCustom` class.
   ///
   /// - `onPressed`: A callback function that will be called when the button is pressed.
