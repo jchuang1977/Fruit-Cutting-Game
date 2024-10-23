@@ -1,4 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// web_title_switcher_web.dart
+
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 import 'dart:js' as js;
@@ -13,16 +14,16 @@ class WebTitleSwitcher extends StatefulWidget {
   final Widget child;
 
   @override
-  State<WebTitleSwitcher> createState() => _WebTitleSwitcherState();
+  State<WebTitleSwitcher> createState() => _WebTitleSwitcherWebState();
 }
 
-class _WebTitleSwitcherState extends State<WebTitleSwitcher> {
+class _WebTitleSwitcherWebState extends State<WebTitleSwitcher> {
   bool _isTabActive = true;
 
   @override
   void initState() {
     super.initState();
-    // Register a blur event listener on the window object
+    // Register blur and focus events
     html.window.addEventListener('blur', _handleBlurEvent);
     html.window.addEventListener('focus', _handleFocusEvent);
 
@@ -32,7 +33,7 @@ class _WebTitleSwitcherState extends State<WebTitleSwitcher> {
 
   @override
   void dispose() {
-    // Remove the event listeners when the widget is disposed
+    // Remove event listeners
     html.window.removeEventListener('blur', _handleBlurEvent);
     html.window.removeEventListener('focus', _handleFocusEvent);
     super.dispose();
@@ -70,7 +71,7 @@ class _WebTitleSwitcherState extends State<WebTitleSwitcher> {
       // Prevent the mini-infobar from appearing on mobile
       event.preventDefault();
 
-      // Create an install button that, when triggered, prompts the user to install the app
+      // Create an install button
       html.ButtonElement installButton = html.ButtonElement()
         ..text = "Add to Home Screen"
         ..style.position = "fixed"
@@ -82,7 +83,6 @@ class _WebTitleSwitcherState extends State<WebTitleSwitcher> {
 
       // When the button is clicked, trigger the prompt
       installButton.onClick.listen((_) {
-        // Cast the event to JsObject to invoke the prompt method
         js.JsObject.fromBrowserObject(event).callMethod('prompt');
       });
     });
