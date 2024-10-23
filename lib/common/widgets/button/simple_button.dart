@@ -16,7 +16,8 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
   // Paint for the button's icon, using a stroke style and gray color.
   final Paint _iconPaint = Paint()
     ..style = PaintingStyle.stroke
-    ..color = AppColors.strokeGray;
+    ..color = AppColors.strokeGray
+    ..strokeWidth = 7;
 
   // The path used to draw the button's icon.
   final Path _iconPath;
@@ -65,6 +66,7 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
   @override
   void onTapUp(TapUpEvent event) {
     _iconPaint.color = AppColors.strokeGray; // Change back to gray on tap release
+    action?.call();
   }
 
   /// Resets the icon color to gray when the tap is canceled.

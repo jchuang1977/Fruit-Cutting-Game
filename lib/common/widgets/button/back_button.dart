@@ -17,6 +17,7 @@ class BackButtonCustom extends SimpleButton with HasGameReference<MainRouterGame
           Path()
             ..moveTo(22, 8) // Starting point of the top part of the arrow
             ..lineTo(10, 20) // Draws the left diagonal line of the arrow
+            ..lineTo(22, 32)
             ..moveTo(12, 20) // Moves to the starting point of the bottom part
             ..lineTo(34, 20), // Draws the horizontal line of the arrow
           position: Vector2.all(10), // Sets the button's position to (10, 10)
