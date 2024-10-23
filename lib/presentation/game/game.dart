@@ -5,7 +5,7 @@ import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
 import 'package:fruit_cutting_game/common/widgets/button/back_button.dart';
 import 'package:fruit_cutting_game/common/widgets/button/pause_button.dart';
-import 'package:fruit_cutting_game/common/widgets/fruit_component.dart';
+import 'package:fruit_cutting_game/presentation/game/widgets/fruit_component.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';

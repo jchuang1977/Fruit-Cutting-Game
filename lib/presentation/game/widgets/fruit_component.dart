@@ -37,21 +37,19 @@ class FruitComponent extends SpriteComponent {
   FruitComponent(
     this.parentComponent,
     Vector2 p, {
-    Vector2? size, // Optional size.
+    super.size, // Optional size.
     required this.velocity, // Required velocity.
     required this.acceleration, // Required acceleration.
     required this.pageSize, // Required page size.
     required this.image, // Required image.
     required this.fruit, // Required fruit model.
-    double? angle, // Optional rotation angle.
+    super.angle, // Optional rotation angle.
     Anchor? anchor, // Optional anchor point.
     this.divided = false, // Default divided state.
   }) : super(
           sprite: Sprite(image), // Initialize sprite with the fruit's image.
-          position: p, // Set position of the fruit.
-          size: size, // Set size of the fruit.
-          anchor: anchor ?? Anchor.center, // Set anchor, default is center.
-          angle: angle, // Set angle of rotation.
+          position: p, // Set size of the fruit.
+          anchor: anchor ?? Anchor.center, // Set angle of rotation.
         ) {
     _initPosition = p; // Store initial position.
     canDragOnShape = false; // Initially, dragging is disabled.
@@ -102,8 +100,18 @@ class FruitComponent extends SpriteComponent {
     // Check if the touch is along the vertical or horizontal axis.
     if (a < 45 || (a > 135 && a < 225) || a > 315) {
       // Create two half images for a vertical cut.
-      final dividedImage1 = composition.ImageComposition()..add(image, Vector2(0, 0), source: Rect.fromLTWH(0, 0, image.width.toDouble(), image.height / 2)),
-          dividedImage2 = composition.ImageComposition()..add(image, Vector2(0, 0), source: Rect.fromLTWH(0, image.height / 2, image.width.toDouble(), image.height / 2));
+      final dividedImage1 = composition.ImageComposition()
+            ..add(
+              image,
+              Vector2(0, 0),
+              source: Rect.fromLTWH(0, 0, image.width.toDouble(), image.height / 2),
+            ),
+          dividedImage2 = composition.ImageComposition()
+            ..add(
+              image,
+              Vector2(0, 0),
+              source: Rect.fromLTWH(0, image.height / 2, image.width.toDouble(), image.height / 2),
+            );
 
       parentComponent.addAll([
         // Add both halves to the game.
@@ -136,8 +144,18 @@ class FruitComponent extends SpriteComponent {
       ]);
     } else {
       // Create two half images for a horizontal cut.
-      final dividedImage1 = composition.ImageComposition()..add(image, Vector2(0, 0), source: Rect.fromLTWH(0, 0, image.width / 2, image.height.toDouble())),
-          dividedImage2 = composition.ImageComposition()..add(image, Vector2(0, 0), source: Rect.fromLTWH(image.width / 2, 0, image.width / 2, image.height.toDouble()));
+      final dividedImage1 = composition.ImageComposition()
+            ..add(
+              image,
+              Vector2(0, 0),
+              source: Rect.fromLTWH(0, 0, image.width / 2, image.height.toDouble()),
+            ),
+          dividedImage2 = composition.ImageComposition()
+            ..add(
+              image,
+              Vector2(0, 0),
+              source: Rect.fromLTWH(image.width / 2, 0, image.width / 2, image.height.toDouble()),
+            );
 
       parentComponent.addAll([
         // Add both halves to the game.
@@ -156,7 +174,11 @@ class FruitComponent extends SpriteComponent {
         ),
         FruitComponent(
           parentComponent,
-          center + Vector2(size.x / 2 * cos(angle + 3 * pi / 2), size.x / 2 * sin(angle + 3 * pi / 2)),
+          center +
+              Vector2(
+                size.x / 2 * cos(angle + 3 * pi / 2),
+                size.x / 2 * sin(angle + 3 * pi / 2),
+              ),
           size: Vector2(size.x / 2, size.y),
           angle: angle,
           anchor: Anchor.topLeft,

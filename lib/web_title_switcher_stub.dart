@@ -9,7 +9,6 @@ class WebTitleSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Không có logic gì cần làm trên các nền tảng khác ngoài web
     return child;
   }
 }

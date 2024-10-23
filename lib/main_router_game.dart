@@ -26,7 +26,11 @@ class MainRouterGame extends FlameGame {
     FruitModel(image: AppImages.orange),
     FruitModel(image: AppImages.peach),
     FruitModel(image: AppImages.pineapple),
+    FruitModel(image: AppImages.watermelon),
+    FruitModel(image: AppImages.cherry),
     FruitModel(image: AppImages.bomb, isBomb: true),
+    FruitModel(image: AppImages.flame, isBomb: true),
+    FruitModel(image: AppImages.flutter, isBomb: true),
   ];
 
   @override

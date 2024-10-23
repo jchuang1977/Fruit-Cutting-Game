@@ -43,3 +43,10 @@ flutter:
   assets:
     - assets/images/
 
+  fonts:
+
+    - family: Insan
+      fonts:
+        - asset: assets/fonts/Insanibu.ttf
+        - asset: assets/fonts/Insanibc.ttf
+

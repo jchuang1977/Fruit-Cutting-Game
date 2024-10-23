@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
+import 'package:fruit_cutting_game/main_router_game.dart';
 
 /// A custom rounded button component for the game.
 /// This button is built using Flame's `PositionComponent` and responds to tap events.
@@ -44,16 +45,23 @@ class RoundedButton extends PositionComponent with TapCallbacks {
   /// - `onPressed`: The function to be called when the button is pressed.
   /// - `bgColor`: The background color of the button.
   /// - `borderColor`: The border color of the button.
-  RoundedButton({required this.text, required this.onPressed, required this.bgColor, required this.borderColor, super.anchor = Anchor.center})
-      : _textDrawable = TextPaint(
+  RoundedButton({
+    required this.text,
+    required this.onPressed,
+    required this.bgColor,
+    required this.borderColor,
+    super.anchor = Anchor.center,
+  }) : _textDrawable = TextPaint(
           style: const TextStyle(
-            fontSize: 20,
-            color: AppColors.dark, // Text color
-            fontWeight: FontWeight.w800, // Font weight for bold effect
+            fontSize: 23,
+            color: AppColors.white,
+            fontWeight: FontWeight.w800,
+            fontFamily: 'Insan',
+            letterSpacing: 2.0,
           ),
         ).toTextPainter(text) {
     // Sets the button size
-    size = Vector2(150, 40);
+    size = Vector2(190, 50);
 
     // Centers the text inside the button
     _textOffset = Offset(
@@ -70,7 +78,7 @@ class RoundedButton extends PositionComponent with TapCallbacks {
     // Paint for the border of the button
     _borderPaint = Paint()
       ..style = PaintingStyle.stroke // Border style
-      ..strokeWidth = 2 // Border thickness
+      ..strokeWidth = 3 // Border thickness
       ..color = borderColor;
   }
 
