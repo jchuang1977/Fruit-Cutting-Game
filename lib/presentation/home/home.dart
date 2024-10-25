@@ -16,6 +16,7 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
   late final TutorialRuleComponent _tutorialRuleScore1Component;
   late final TutorialRuleComponent _tutorialRuleScore2Component;
 
+  // ignore: unused_field
   late final TextComponent _ediblesTextComponent;
   late final TextComponent _bombTextComponent;
 
@@ -104,10 +105,10 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
 
     // button in center of page
     _button.position = size / 2;
-    _tutorialRuleScore1Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 4);
-    _tutorialRuleScore2Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 5);
-    _tutorialRuleLose1Component.position = Vector2(game.size.x / 2, game.size.y / 5);
-    _tutorialRuleLose2Component.position = Vector2(game.size.x / 2, game.size.y / 4);
+    _tutorialRuleScore1Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 3.9);
+    _tutorialRuleScore2Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 5.1);
+    _tutorialRuleLose1Component.position = Vector2(game.size.x / 2, game.size.y / 5.1);
+    _tutorialRuleLose2Component.position = Vector2(game.size.x / 2, game.size.y / 3.9);
     _bombTextComponent.position = Vector2(game.size.x - 45, 10);
   }
 }

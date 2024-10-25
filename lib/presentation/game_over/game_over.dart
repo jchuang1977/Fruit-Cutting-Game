@@ -5,7 +5,9 @@ import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/rendering.dart';
+import 'package:flame/text.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
+import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
 import 'package:fruit_cutting_game/presentation/game/game.dart';
 
@@ -51,6 +53,15 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
   FutureOr<void> onLoad() {
     final game = findGame()!; // Find the current game instance.
 
+    final textTitlePaint = TextPaint(
+      style: const TextStyle(
+        fontSize: 60,
+        color: AppColors.white,
+        fontFamily: 'Insan',
+        letterSpacing: 2.0,
+      ),
+    );
+
     // Add the text component to display "Game Over".
     addAll(
       [
@@ -69,6 +80,8 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
               ),
             ),
           ],
+
+          textRenderer: textTitlePaint,
         )
       ],
     );

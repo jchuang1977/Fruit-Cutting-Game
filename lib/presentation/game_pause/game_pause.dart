@@ -3,6 +3,8 @@ import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart' hide Game; // Hides the Game class to avoid naming conflicts.
 import 'package:flame/rendering.dart';
+import 'package:flame/text.dart';
+import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
 
 /// This class represents the route for the pause screen in the game.
@@ -41,6 +43,14 @@ class GamePausePage extends Component with TapCallbacks, HasGameReference<MainRo
     print("pause load"); // Log message to indicate the pause page is loading.
     final game = findGame()!; // Find the current game instance.
 
+    final textTitlePaint = TextPaint(
+      style: const TextStyle(
+        fontSize: 60,
+        color: AppColors.white,
+        fontFamily: 'Insan',
+        letterSpacing: 2.0,
+      ),
+    );
     // Add the text component to display "PAUSED".
     addAll([
       _textComponent = TextComponent(
@@ -58,6 +68,7 @@ class GamePausePage extends Component with TapCallbacks, HasGameReference<MainRo
             ),
           ),
         ],
+        textRenderer: textTitlePaint,
       ),
     ]);
   }

@@ -35,7 +35,7 @@ class TutorialRuleComponent extends PositionComponent with TapCallbacks {
       style: TextStyle(
         fontSize: fontSize,
         color: textColor,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w200,
         fontFamily: 'Insan',
         letterSpacing: 1.5,
       ),
