@@ -3,7 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
 /// A custom text component for the game, with flexible styling and tap interaction support.
-class TutorialRuleComponent extends PositionComponent with TapCallbacks {
+class SimpleCenterText extends PositionComponent with TapCallbacks {
   /// The text displayed by this component.
   final String text;
 
@@ -25,7 +25,7 @@ class TutorialRuleComponent extends PositionComponent with TapCallbacks {
   /// - `textColor`: The color of the text.
   /// - `fontSize`: The font size of the text.
   /// - `onTap`: An optional callback triggered when the text is tapped.
-  TutorialRuleComponent({
+  SimpleCenterText({
     required this.text,
     required this.textColor,
     required this.fontSize,

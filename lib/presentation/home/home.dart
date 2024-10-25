@@ -1,20 +1,20 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit_cutting_game/common/widgets/button/rounded_button.dart';
+import 'package:fruit_cutting_game/common/widgets/text/simple_center_text.dart';
 import 'package:fruit_cutting_game/core/configs/assets/app_images.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
 import 'package:fruit_cutting_game/presentation/home/widgets/tutorial_fruit_component.dart';
-import 'package:fruit_cutting_game/presentation/home/widgets/tutorial_rule_component.dart';
 
 class HomePage extends Component with HasGameReference<MainRouterGame> {
   late final RoundedButton _button;
 
-  late final TutorialRuleComponent _tutorialRuleLose1Component;
-  late final TutorialRuleComponent _tutorialRuleLose2Component;
-  late final TutorialRuleComponent _tutorialRuleScore1Component;
-  late final TutorialRuleComponent _tutorialRuleScore2Component;
+  late final SimpleCenterText _tutorialRuleLose1Component;
+  late final SimpleCenterText _tutorialRuleLose2Component;
+  late final SimpleCenterText _tutorialRuleScore1Component;
+  late final SimpleCenterText _tutorialRuleScore2Component;
 
   // ignore: unused_field
   late final TextComponent _ediblesTextComponent;
@@ -50,25 +50,25 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
           anchor: Anchor.topLeft,
           textRenderer: textTitlePaint,
         ),
-        _tutorialRuleLose1Component = TutorialRuleComponent(
+        _tutorialRuleLose1Component = SimpleCenterText(
           text: 'Bomb explodes is lose,',
           textColor: AppColors.white,
-          fontSize: 32,
+          fontSize: 28,
         ),
-        _tutorialRuleLose2Component = TutorialRuleComponent(
+        _tutorialRuleLose2Component = SimpleCenterText(
           text: 'miss three fruit is a loss.',
           textColor: AppColors.white,
-          fontSize: 32,
+          fontSize: 28,
         ),
-        _tutorialRuleScore1Component = TutorialRuleComponent(
+        _tutorialRuleScore1Component = SimpleCenterText(
           text: 'Hit 1 fruit for 1 point,',
           textColor: AppColors.white,
-          fontSize: 32,
+          fontSize: 28,
         ),
-        _tutorialRuleScore2Component = TutorialRuleComponent(
+        _tutorialRuleScore2Component = SimpleCenterText(
           text: '1 fruit can earn many points..',
           textColor: AppColors.white,
-          fontSize: 32,
+          fontSize: 28,
         ),
         TutorialFruitsListComponent(
           isLeft: true,

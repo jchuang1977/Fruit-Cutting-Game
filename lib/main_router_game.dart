@@ -1,8 +1,12 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/parallax.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' as material;
+import 'package:flutter/services.dart';
 
 import 'package:fruit_cutting_game/core/configs/assets/app_images.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
@@ -15,7 +19,7 @@ import 'package:fruit_cutting_game/presentation/game_pause/game_pause.dart';
 import 'package:fruit_cutting_game/presentation/home/home.dart';
 
 /// Main game class that extends FlameGame
-class MainRouterGame extends FlameGame {
+class MainRouterGame extends FlameGame with KeyboardEvents {
   late final RouterComponent router;
   late double maxVerticalVelocity;
 
@@ -80,4 +84,26 @@ class MainRouterGame extends FlameGame {
     // Formula to calculate maximum vertical velocity.
     maxVerticalVelocity = sqrt(2 * (AppConfig.gravity.abs() + AppConfig.acceleration.abs()) * (size.y - AppConfig.objSize * 2)); // Adjust for the object's size.
   }
+
+  @override
+  @mustCallSuper
+  material.KeyEventResult onKeyEvent(
+    material.KeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    super.onKeyEvent(event, keysPressed);
+
+    //print(keysPressed);
+    print(event);
+
+    return material.KeyEventResult.handled;
+  }
+
+  void saveName() {}
+
+  void deleteName() {}
+
+  void saveGithub() {}
+
+  void deleteGithub() {}
 }

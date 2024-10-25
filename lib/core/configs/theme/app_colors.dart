@@ -8,4 +8,6 @@ class AppColors {
   static const blue = Color.fromARGB(255, 22, 118, 207);
   static const lightGray = Color(0x66ffffff);
   static const strokeGray = Color(0xffaaaaaa);
+  static const darkOrange = Color(0xffFF4500);
+  static const githubColor = Color(0xff0d1117);
 }
