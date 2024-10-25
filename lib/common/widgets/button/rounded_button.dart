@@ -2,7 +2,6 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
-import 'package:fruit_cutting_game/main_router_game.dart';
 
 /// A custom rounded button component for the game.
 /// This button is built using Flame's `PositionComponent` and responds to tap events.

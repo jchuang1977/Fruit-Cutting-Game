@@ -5,18 +5,22 @@ import 'package:fruit_cutting_game/core/configs/assets/app_images.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
-import 'package:fruit_cutting_game/presentation/home/widgets/tutorial_component.dart';
+import 'package:fruit_cutting_game/presentation/home/widgets/tutorial_fruit_component.dart';
+import 'package:fruit_cutting_game/presentation/home/widgets/tutorial_rule_component.dart';
 
 class HomePage extends Component with HasGameReference<MainRouterGame> {
   late final RoundedButton _button;
 
-  late final TextComponent _ediblesTextComponent;
+  late final TutorialRuleComponent _tutorialRuleLose1Component;
+  late final TutorialRuleComponent _tutorialRuleLose2Component;
+  late final TutorialRuleComponent _tutorialRuleScore1Component;
+  late final TutorialRuleComponent _tutorialRuleScore2Component;
 
+  late final TextComponent _ediblesTextComponent;
   late final TextComponent _bombTextComponent;
 
   @override
   void onLoad() async {
-    print("game.size.y: " + game.size.y.toString());
     super.onLoad();
 
     final textTitlePaint = TextPaint(
@@ -41,18 +45,38 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
         ),
         _ediblesTextComponent = TextComponent(
           text: 'Edibles',
-          position: Vector2(45, 10), // Cách trái 40 pixels và ở trên cùng 10 pixels
-          anchor: Anchor.topLeft, // Gán anchor là topLeft để văn bản nằm ở vị trí này
+          position: Vector2(45, 10),
+          anchor: Anchor.topLeft,
           textRenderer: textTitlePaint,
         ),
-        TutorialListComponent(
+        _tutorialRuleLose1Component = TutorialRuleComponent(
+          text: 'Bomb explodes is lose,',
+          textColor: AppColors.white,
+          fontSize: 32,
+        ),
+        _tutorialRuleLose2Component = TutorialRuleComponent(
+          text: 'miss three fruit is a loss.',
+          textColor: AppColors.white,
+          fontSize: 32,
+        ),
+        _tutorialRuleScore1Component = TutorialRuleComponent(
+          text: 'Hit 1 fruit for 1 point,',
+          textColor: AppColors.white,
+          fontSize: 32,
+        ),
+        _tutorialRuleScore2Component = TutorialRuleComponent(
+          text: '1 fruit can earn many points..',
+          textColor: AppColors.white,
+          fontSize: 32,
+        ),
+        TutorialFruitsListComponent(
           isLeft: true,
           fruits: [
-            TutorialComponent(text: 'Apple', imagePath: AppImages.apple, isLeft: true),
-            TutorialComponent(text: 'Banana', imagePath: AppImages.banana, isLeft: true),
-            TutorialComponent(text: 'Cherry', imagePath: AppImages.cherry, isLeft: true),
-            TutorialComponent(text: 'Kiwi', imagePath: AppImages.kiwi, isLeft: true),
-            TutorialComponent(text: 'Orange', imagePath: AppImages.orange, isLeft: true),
+            TutorialFruitComponent(text: 'Apple', imagePath: AppImages.apple, isLeft: true),
+            TutorialFruitComponent(text: 'Banana', imagePath: AppImages.banana, isLeft: true),
+            TutorialFruitComponent(text: 'Cherry', imagePath: AppImages.cherry, isLeft: true),
+            TutorialFruitComponent(text: 'Kiwi', imagePath: AppImages.kiwi, isLeft: true),
+            TutorialFruitComponent(text: 'Orange', imagePath: AppImages.orange, isLeft: true),
           ],
         )..position = Vector2(0, 50),
         _bombTextComponent = TextComponent(
@@ -61,12 +85,12 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
           anchor: Anchor.topRight,
           textRenderer: textTitlePaint,
         ),
-        TutorialListComponent(
+        TutorialFruitsListComponent(
           isLeft: false,
           fruits: [
-            TutorialComponent(text: 'Bomp', imagePath: AppImages.bomb, isLeft: false),
-            TutorialComponent(text: 'Flame', imagePath: AppImages.flame, isLeft: false),
-            TutorialComponent(text: 'Flutter', imagePath: AppImages.flutter, isLeft: false),
+            TutorialFruitComponent(text: 'Bomp', imagePath: AppImages.bomb, isLeft: false),
+            TutorialFruitComponent(text: 'Flame', imagePath: AppImages.flame, isLeft: false),
+            TutorialFruitComponent(text: 'Flutter', imagePath: AppImages.flutter, isLeft: false),
           ],
         )..position = Vector2(0, 50),
       ],
@@ -80,6 +104,10 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
 
     // button in center of page
     _button.position = size / 2;
+    _tutorialRuleScore1Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 4);
+    _tutorialRuleScore2Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 5);
+    _tutorialRuleLose1Component.position = Vector2(game.size.x / 2, game.size.y / 5);
+    _tutorialRuleLose2Component.position = Vector2(game.size.x / 2, game.size.y / 4);
     _bombTextComponent.position = Vector2(game.size.x - 45, 10);
   }
 }
