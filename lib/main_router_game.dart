@@ -9,6 +9,7 @@ import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/data/models/fruit_model.dart';
 import 'package:fruit_cutting_game/presentation/game/game.dart';
+import 'package:fruit_cutting_game/presentation/game_end/game_end.dart';
 import 'package:fruit_cutting_game/presentation/game_over/game_over.dart';
 import 'package:fruit_cutting_game/presentation/game_pause/game_pause.dart';
 import 'package:fruit_cutting_game/presentation/home/home.dart';
@@ -59,6 +60,7 @@ class MainRouterGame extends FlameGame {
           routes: {
             AppRouter.homePage: Route(HomePage.new),
             AppRouter.gamePage: Route(GamePage.new),
+            AppRouter.gameEnd: Route(GameEndPage.new),
             AppRouter.gameOver: GameOverRoute(),
             AppRouter.gamePause: PauseRoute(),
           },

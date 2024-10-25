@@ -1,10 +1,13 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
+import 'package:flame/text.dart';
 import 'package:fruit_cutting_game/common/widgets/button/back_button.dart';
 import 'package:fruit_cutting_game/common/widgets/button/pause_button.dart';
+import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/presentation/game/widgets/fruit_component.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
@@ -23,6 +26,8 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
   late int mistakeCount; // Number of mistakes made by the player
   late int score; // Player's score
 
+  double finishCountDown = 2.0;
+
   /// Called when the component is added to the game.
   @override
   void onMount() {
@@ -39,7 +44,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     double initTime = 0; // Variable to store the initial time for fruit generation
 
     // Generate timings for when fruits will appear
-    for (int i = 0; i < 40; i++) {
+    for (int i = 0; i < 4; i++) {
       // Loop to create 40 fruit appearance timings
       if (i != 0) {
         initTime = fruitsTime.last; // Get the last recorded time for the previous fruit
@@ -52,6 +57,35 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
       final componentTime = random.nextInt(1) + milliSecondTime + initTime;
       fruitsTime.add(componentTime); // Add the calculated time to the fruitsTime list
     }
+
+    final _scoreTextPaint = TextPaint(
+      style: const TextStyle(
+        fontSize: 32,
+        color: AppColors.white,
+        fontWeight: FontWeight.w100,
+        fontFamily: 'Insan',
+        letterSpacing: 2.0,
+      ),
+    );
+
+    final _countdownTextPaint = TextPaint(
+      style: const TextStyle(
+        fontSize: 50,
+        color: AppColors.white,
+        fontFamily: 'Insan',
+        letterSpacing: 2.0,
+      ),
+    );
+
+    final _mistakeTextPaint = TextPaint(
+      style: const TextStyle(
+        fontSize: 32,
+        color: AppColors.white,
+        fontWeight: FontWeight.w100,
+        fontFamily: 'Insan',
+        letterSpacing: 2.0,
+      ),
+    );
 
     // Add game components to the page
     addAll(
@@ -71,6 +105,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
           size: Vector2.all(50), // Set size of the text
           position: game.size / 2, // Center position
           anchor: Anchor.center, // Anchor point for centering
+          textRenderer: _countdownTextPaint,
         ),
         // Mistake text component to show the number of mistakes
         _mistakeTextComponent = TextComponent(
@@ -78,12 +113,14 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
           // 10 is padding
           position: Vector2(game.size.x - 10, 10),
           anchor: Anchor.topRight,
+          textRenderer: _mistakeTextPaint,
         ),
         // Score text component to show the current score
         _scoreTextComponent = TextComponent(
           text: 'Score: $score', // Display score
           position: Vector2(game.size.x - 10, _mistakeTextComponent!.position.y + 40), // Position below mistakes
           anchor: Anchor.topRight, // Anchor point for top right
+          textRenderer: _scoreTextPaint,
         ),
       ],
     );
@@ -103,6 +140,26 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
       // Check if the countdown has finished
       if (countDown < 0) {
         _countdownFinished = true; // Set countdown finished flag
+      }
+    } else if (fruitsTime.isEmpty && !hasFruits()) {
+      if (_countdownTextComponent != null && !_countdownTextComponent!.isMounted) {
+        _countdownTextComponent?.addToParent(this); // Thêm vào cha nếu chưa có trên màn hình
+      }
+
+      // Cập nhật thành phần văn bản đếm ngược với giá trị hiện tại
+      _countdownTextComponent?.text = (finishCountDown.toInt() + 1).toString(); // Chuyển về kiểu int để hiển thị
+
+      // Kiểm tra xem thời gian đếm ngược đã kết thúc chưa
+      if (finishCountDown <= 0) {
+        gameWin(); // Gọi hàm thông báo thắng cuộc
+      }
+
+      // Giảm giá trị đếm ngược theo thời gian (dt)
+      finishCountDown -= dt; // Giảm dần theo thời gian thực
+
+      // Đảm bảo finishCountDown không âm
+      if (finishCountDown < 0) {
+        finishCountDown = 0; // Đặt lại về 0 nếu đã vượt quá
       }
     } else {
       // Remove the countdown text component once finished
@@ -158,9 +215,26 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     });
   }
 
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+
+    _countdownTextComponent?.position = game.size / 2;
+    _mistakeTextComponent?.position = Vector2(game.size.x - 10, 10);
+    _scoreTextComponent?.position = Vector2(game.size.x - 10, _mistakeTextComponent!.position.y + 40);
+  }
+
+  bool hasFruits() {
+    return children.any((component) => component is FruitComponent);
+  }
+
   /// Navigate to the game over screen.
   void gameOver() {
     game.router.pushNamed(AppRouter.gameOver); // Navigate to game over route
+  }
+
+  void gameWin() {
+    game.router.pushNamed(AppRouter.gameEnd);
   }
 
   /// Increment the player's score by one and update the score display.

@@ -11,7 +11,8 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
   // Paint for the button's border with a light gray color and stroke style.
   final Paint _borderPaint = Paint()
     ..style = PaintingStyle.stroke
-    ..color = AppColors.lightGray;
+    ..color = AppColors.lightGray
+    ..strokeWidth = 3.0; // Đặt độ dày của viền ở đây
 
   // Paint for the button's icon, using a stroke style and gray color.
   final Paint _iconPaint = Paint()
@@ -48,7 +49,10 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
   void render(Canvas canvas) {
     // Draw the button's border with rounded corners (radius of 8).
     canvas.drawRRect(
-      RRect.fromRectAndRadius(size.toRect(), const Radius.circular(8)),
+      RRect.fromRectAndRadius(
+        size.toRect(),
+        const Radius.circular(8),
+      ),
       _borderPaint,
     );
 
