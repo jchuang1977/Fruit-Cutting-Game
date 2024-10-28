@@ -9,8 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+
   flame: ^1.21.0
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
@@ -44,9 +45,11 @@ flutter:
     - assets/images/
 
   fonts:
-
     - family: Insan
       fonts:
         - asset: assets/fonts/Insanibu.ttf
         - asset: assets/fonts/Insanibc.ttf
 
+    - family: Marshmallow
+      fonts:
+        - asset: assets/fonts/Soft Marshmallow.otf

@@ -13,7 +13,7 @@ import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
 
-/// The main game page where the gameplay happens.
+/// The main game page where the game play happens.
 class GamePage extends Component with DragCallbacks, HasGameReference<MainRouterGame> {
   final Random random = Random(); // Random number generator for fruit timings
   late List<double> fruitsTime; // List to hold the timing for when fruits appear
@@ -143,23 +143,23 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
       }
     } else if (fruitsTime.isEmpty && !hasFruits()) {
       if (_countdownTextComponent != null && !_countdownTextComponent!.isMounted) {
-        _countdownTextComponent?.addToParent(this); // Thêm vào cha nếu chưa có trên màn hình
+        _countdownTextComponent?.addToParent(this); // Add to parent if not already on screen
       }
 
-      // Cập nhật thành phần văn bản đếm ngược với giá trị hiện tại
-      _countdownTextComponent?.text = (finishCountDown.toInt() + 1).toString(); // Chuyển về kiểu int để hiển thị
+      // Update the countdown text component with the current value
+      _countdownTextComponent?.text = (finishCountDown.toInt() + 1).toString(); // Convert to int for display
 
-      // Kiểm tra xem thời gian đếm ngược đã kết thúc chưa
+      // Check if the countdown time has finished
       if (finishCountDown <= 0) {
-        gameWin(); // Gọi hàm thông báo thắng cuộc
+        gameWin(); // Call the function to indicate a win
       }
 
-      // Giảm giá trị đếm ngược theo thời gian (dt)
-      finishCountDown -= dt; // Giảm dần theo thời gian thực
+      // Decrease the countdown value over time (dt)
+      finishCountDown -= dt; // Decrease based on real time
 
-      // Đảm bảo finishCountDown không âm
+      // Ensure finishCountDown is not negative
       if (finishCountDown < 0) {
-        finishCountDown = 0; // Đặt lại về 0 nếu đã vượt quá
+        finishCountDown = 0; // Reset to 0 if it has gone below
       }
     } else {
       // Remove the countdown text component once finished
@@ -168,7 +168,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
       time += dt; // Increment time by the time since last frame
 
       // Check which fruits should appear based on the current time
-      fruitsTime.where((Element) => Element < time).toList().forEach(
+      fruitsTime.where((element) => element < time).toList().forEach(
         (element) {
           final gameSize = game.size; // Get the size of the game area
 
@@ -234,7 +234,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
   }
 
   void gameWin() {
-    game.router.pushNamed(AppRouter.gameEnd);
+    game.router.pushNamed(AppRouter.gameVictory);
   }
 
   /// Increment the player's score by one and update the score display.

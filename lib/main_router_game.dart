@@ -6,16 +6,17 @@ import 'package:flame/game.dart';
 import 'package:flame/parallax.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' as material;
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' as services;
 
 import 'package:fruit_cutting_game/core/configs/assets/app_images.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/data/models/fruit_model.dart';
 import 'package:fruit_cutting_game/presentation/game/game.dart';
-import 'package:fruit_cutting_game/presentation/game_end/game_end.dart';
+import 'package:fruit_cutting_game/presentation/game_save/game_save.dart';
 import 'package:fruit_cutting_game/presentation/game_over/game_over.dart';
 import 'package:fruit_cutting_game/presentation/game_pause/game_pause.dart';
+import 'package:fruit_cutting_game/presentation/game_victory/game_victory.dart';
 import 'package:fruit_cutting_game/presentation/home/home.dart';
 
 /// Main game class that extends FlameGame
@@ -64,7 +65,8 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
           routes: {
             AppRouter.homePage: Route(HomePage.new),
             AppRouter.gamePage: Route(GamePage.new),
-            AppRouter.gameEnd: Route(GameEndPage.new),
+            AppRouter.gameVictory: VictoryRoute(),
+            AppRouter.gameSave: SaveRoute(),
             AppRouter.gameOver: GameOverRoute(),
             AppRouter.gamePause: PauseRoute(),
           },
@@ -85,25 +87,34 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
     maxVerticalVelocity = sqrt(2 * (AppConfig.gravity.abs() + AppConfig.acceleration.abs()) * (size.y - AppConfig.objSize * 2)); // Adjust for the object's size.
   }
 
+  // Field to store the player's name
+  String name = '';
+
+  // Called when a key event is received
   @override
   @mustCallSuper
   material.KeyEventResult onKeyEvent(
     material.KeyEvent event,
-    Set<LogicalKeyboardKey> keysPressed,
+    Set<services.LogicalKeyboardKey> keysPressed,
   ) {
     super.onKeyEvent(event, keysPressed);
 
-    //print(keysPressed);
-    print(event);
+    if (event is services.KeyDownEvent) {
+      // Handle character input
+      if (event.character != null) {
+        name += event.character!;
+      }
+      // Handle backspace
+      else if (event.logicalKey == services.LogicalKeyboardKey.backspace && name.isNotEmpty) {
+        name = name.substring(0, name.length - 1);
+      }
+    }
 
     return material.KeyEventResult.handled;
   }
 
-  void saveName() {}
-
-  void deleteName() {}
-
-  void saveGithub() {}
-
-  void deleteGithub() {}
+  // Placeholder for saving the name when appropriate
+  String showName() {
+    return name;
+  }
 }
