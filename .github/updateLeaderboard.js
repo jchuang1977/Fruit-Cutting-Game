@@ -39,9 +39,9 @@ module.exports = async ({ github, context }) => {
         let date = new Date(curr.updatedAt);
         let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
 
-        const nameMatch = /1. 👤 **Name**:\s*<!--START_SECTION:Name-->(.*?)<!--END_SECTION:Name-->/s.exec(curr.bodyText);
-        const githubLinkMatch = /2. 🔗 **GitHub Profile Link**:\s*<!--START_SECTION:GitHub-->(.*?)<!--END_SECTION:GitHub-->/s.exec(curr.bodyText);
-        const messageMatch = /3. 💬 **Message**:\s*<!--START_SECTION:Message-->(.*?)<!--END_SECTION:Message-->/s.exec(curr.bodyText);
+        const nameMatch = /#### 👤 **Name**:\s*<!--START_SECTION:Name-->(.*?)<!--END_SECTION:Name-->/s.exec(curr.bodyText);
+        const githubLinkMatch = /#### 🔗 **GitHub Profile Link**:\s*<!--START_SECTION:GitHub-->(.*?)<!--END_SECTION:GitHub-->/s.exec(curr.bodyText);
+        const messageMatch = /#### 💬 **Message**:\s*<!--START_SECTION:Message-->(.*?)<!--END_SECTION:Message-->/s.exec(curr.bodyText);
         const screenshotMatch = /#### 🖼️ **Screenshot**\s*<!--START_SECTION:Screenshot-->(.*?)<!--END_SECTION:Screenshot-->/s.exec(curr.bodyText);
 
         const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
@@ -60,4 +60,4 @@ module.exports = async ({ github, context }) => {
     // Update leaderboard section
     const updatedContent = readme.replace(/(?<=<!-- Leaderboard -->.*\n)[\S\s]*?(?=<!-- \/Leaderboard -->|$(?![\n]))/gm, renderComments(result.repository.issue.comments.nodes));
     fileSystem.writeFileSync(readmePath, updatedContent, 'utf8');
-  };
+};
