@@ -46,30 +46,28 @@ module.exports = async ({ github, context }) => {
     const readmePath = 'README.md';
     let readme = fs.readFileSync(readmePath, 'utf8');
 
-// Update Recent Plays
-const recentPlaysSection = /<!-- Recent Plays -->[\s\S]*?<!-- \/Recent Plays -->/.exec(readme);
-if (recentPlaysSection) {
-    let recentPlaysContent = recentPlaysSection[0];
+    // Update Recent Plays
+    const recentPlaysSection = /<!-- Recent Plays -->[\s\S]*?<!-- \/Recent Plays -->/.exec(readme);
+    if (recentPlaysSection) {
+        let recentPlaysContent = recentPlaysSection[0];
 
-    // Lấy danh sách các hàng hiện tại
-    const recentPlaysRows = recentPlaysContent
-        .split('\n')
-        .filter(row => row.startsWith('|') && !row.includes('Date | Player | Message | Score ') && !row.includes('|-------|--------|---------|------|'));
+        
+        const recentPlaysRows = recentPlaysContent
+            .split('\n')
+            .filter(row => row.startsWith('|') && !row.includes('Date | Player | Message | Score ') && !row.includes('|-------|--------|---------|------|'));
 
-    // Thêm mục mới lên trên cùng
-    recentPlaysRows.unshift(newEntry); // Thêm vào đầu danh sách
+        
+        recentPlaysRows.unshift(newEntry); 
 
-    // Giới hạn số lượng người chơi tối đa là 20
-    if (recentPlaysRows.length > 20) {
-        recentPlaysRows.pop(); // Xoá người chơi cuối cùng nếu đã đủ 20 người
+    
+        if (recentPlaysRows.length > 20) {
+            recentPlaysRows.pop(); 
+        }
+
+
+        const updatedRecentPlays = `<!-- Recent Plays -->\n| Date | Player | Message | Score |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
+        readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
     }
-
-    // Cập nhật bảng
-    const updatedRecentPlays = `<!-- Recent Plays -->\n| Date | Player | Message | Score |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
-    readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
-}
-
-
 
     // Update Leaderboard
     const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
@@ -84,7 +82,19 @@ if (recentPlaysSection) {
         leaderboardRows.sort((a, b) => {
             const scoreA = a.match(/^\| (\d+) \|/);
             const scoreB = b.match(/^\| (\d+) \|/);
-            return (scoreB ? parseInt(scoreB[1]) : 0) - (scoreA ? parseInt(scoreA[1]) : 0);
+            const dateA = a.match(/\| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|/)[4].trim();
+            const dateB = b.match(/\| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|/)[4].trim();
+
+
+            // So sánh theo điểm trước
+            if (scoreB && scoreA) {
+                const scoreDiff = parseInt(scoreB[1]) - parseInt(scoreA[1]);
+                if (scoreDiff !== 0) {
+                    return scoreDiff; 
+                }
+            }
+            
+            return dateA.localeCompare(dateB); 
         });
 
         if (leaderboardRows.length > 20) leaderboardRows.pop();
@@ -92,7 +102,7 @@ if (recentPlaysSection) {
         const updatedLeaderboard = `<!-- Leaderboard -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${leaderboardRows.join('\n')}\n<!-- /Leaderboard -->`;
         readme = readme.replace(leaderboardSection[0], updatedLeaderboard);
     }
-
+    
     fs.writeFileSync(readmePath, readme, 'utf8');
     console.log('README.md updated successfully.');
 };
