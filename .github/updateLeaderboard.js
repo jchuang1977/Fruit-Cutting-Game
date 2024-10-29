@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = async ({ github, context }) => {
     const query = `query($owner:String!, $name:String!, $issue_number:Int!) {
       repository(owner:$owner, name:$name){
@@ -23,54 +25,55 @@ module.exports = async ({ github, context }) => {
     const result = await github.graphql(query, variables);
     console.log(JSON.stringify(result, null, 2));
 
-    // Lấy thông tin từ body và title của issue
     const issue = result.repository.issue;
 
-    // Phân tích nội dung body của issue
     const nameMatch = /👤 Name:\s*(.*)/.exec(issue.bodyText);
     const githubLinkMatch = /🔗 GitHub Profile Link:\s*(.*)/.exec(issue.bodyText);
     const messageMatch = /💬 Message:\s*(.*)/.exec(issue.bodyText);
-    const scoreMatch = /Score:\s*(\d+)/.exec(issue.title); // Lấy score từ tiêu đề
+    const scoreMatch = /Score:\s*(\d+)/.exec(issue.title);
+    const dateMatch = /Game Result Submission:\s*(.*?) - Score:/.exec(issue.title);
 
     const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
     const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
     const message = messageMatch ? messageMatch[1].trim() : 'N/A';
-    const score = scoreMatch ? scoreMatch[1].trim() : 'N/A'; // Lấy giá trị score
-
-    // Lấy ngày giờ từ tiêu đề
-    const dateMatch = /Game Result Submission:\s*([\d/]+ \d+:\d+ \(\w+ \d+\))/i.exec(issue.title);
+    const score = scoreMatch ? parseInt(scoreMatch[1].trim()) : 'N/A';
     const date = dateMatch ? dateMatch[1].trim() : 'N/A';
 
-    // Logging để kiểm tra
-    console.log(`Title: ${issue.title}`);
-    console.log(`Name: ${name}`);
-    console.log(`GitHub Link: ${githubLink}`);
-    console.log(`Message: ${message}`);
-    console.log(`Score: ${score}`);
-    console.log(`Date: ${date}`);
+    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${date} |\n`;
 
-    // Tạo dòng mới để thêm vào bảng
-    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${date} |`; 
-
-    const fileSystem = require('fs');
     const readmePath = 'README.md';
-    let readme = fileSystem.readFileSync(readmePath, 'utf8');
+    let readme = fs.readFileSync(readmePath, 'utf8');
 
-    // Tìm và giữ nguyên header và footer của bảng
-    const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
+    // Update Recent Plays
+    const recentPlaysSection = /<!-- Recent Plays -->[\s\S]*?<!-- \/Recent Plays -->/.exec(readme);
+    if (recentPlaysSection) {
+        let recentPlaysContent = recentPlaysSection[0];
+        recentPlaysContent = recentPlaysContent.replace(/<!-- \/Recent Plays -->/, `${newEntry}<!-- \/Recent Plays -->`);
 
-    if (leaderboardSection) {
-        // Tìm vị trí của tiêu đề trong bảng
-        const headerMatch = /(\| Score \|[\s\S]*?\| Date \|[\s\S]*?\|-------\|--------\|---------\|------\|)/.exec(leaderboardSection[0]);
-        
-        if (headerMatch) {
-            // Chèn newEntry ngay dưới tiêu đề
-            const updatedContent = leaderboardSection[0].replace(headerMatch[0], `${headerMatch[0]}\n${newEntry}`);
-            
-            // Thay thế toàn bộ leaderboard section trong README.md
-            readme = readme.replace(leaderboardSection[0], updatedContent);
-            fileSystem.writeFileSync(readmePath, readme, 'utf8');
-            console.log('README.md updated successfully.');
-        }
+        const recentPlaysRows = recentPlaysContent.split('\n').filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date'));
+
+        if (recentPlaysRows.length > 20) recentPlaysRows.pop();
+
+        const updatedRecentPlays = `<!-- Recent Plays -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
+        readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
     }
+
+    // Update Leaderboard
+    const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
+    if (leaderboardSection) {
+        let leaderboardContent = leaderboardSection[0];
+        leaderboardContent = leaderboardContent.replace(/<!-- \/Leaderboard -->/, `${newEntry}<!-- \/Leaderboard -->`);
+
+        const leaderboardRows = leaderboardContent.split('\n').filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date'));
+
+        leaderboardRows.sort((a, b) => parseInt(b.match(/^\| (\d+) \|/)[1]) - parseInt(a.match(/^\| (\d+) \|/)[1]));
+
+        if (leaderboardRows.length > 20) leaderboardRows.pop();
+
+        const updatedLeaderboard = `<!-- Leaderboard -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${leaderboardRows.join('\n')}\n<!-- /Leaderboard -->`;
+        readme = readme.replace(leaderboardSection[0], updatedLeaderboard);
+    }
+
+    fs.writeFileSync(readmePath, readme, 'utf8');
+    console.log('README.md updated successfully.');
 };
