@@ -20,11 +20,20 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 
 **Flutter Fruit Cutting Game** is an addictive arcade-style game where players swipe their screen to cut flying fruits. This game is developed using Flutter, making it available for Android, iOS, and web platforms.
 
+## 🤩 Leaderboard
+
+<!-- Leaderboard -->
+| Player | Message | Screenshot | Date |
+|---|---|---|---|
+<!-- /Leaderboard -->
+
 ## 🌟 Features
 
 - **Fruit Cutting Mechanics**: Swipe gestures allow you to cut fruits as they appear on the screen.
 - **Multiple Levels**: Progress through different levels, each with increasing difficulty.
 - **Time-Limited Mode**: Race against the clock to achieve the highest score.
+- **Screenshot Feature**: Capture your scores and share them with friends.
+- **Leaderboard**: Climb the ranks and see how you compare to other players.
 - **Beautiful Animations**: Smooth fruit-slicing animations to enhance the gaming experience.
 - **Cross-Platform Compatibility**: Available on Android, iOS, and web.
 
@@ -42,15 +51,9 @@ Check out how the game looks in action! You can view a gameplay demo [here](http
 ## 🛠️ Technologies Used
 
 - **Flutter**: Framework for building natively compiled applications.
-- **Dart**: The programming language used for Flutter development.
-- **Gesture Detection**: Flutter's gesture detection for swipe-based input.
-- **Animation**: Flutter's animation framework for smooth gameplay.
+- **Flame**: Game engine for building 2D games with Flutter.
+- **GitHub Actions**: For CI/CD and automation tasks, submits .
 
-## 📚 References
-
-- [Official Flutter Documentation](https://flutter.dev/docs)
-- [Dart Documentation](https://dart.dev/guides)
-  
 ## 🌟 Conclusion
 
 With its engaging fruit-cutting mechanics, **Flutter Fruit Cutting Game** is a perfect way to kill time and have fun! Enjoy the challenge of swiping through fruits and leveling up as you master the game.
@@ -65,3 +68,8 @@ With its engaging fruit-cutting mechanics, **Flutter Fruit Cutting Game** is a p
  </picture>
 </a>
 
+<div align="center">
+
+#### Made by Flutter <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/assets/icons/flutter.png" width="20" height="20"> with Love ❤️ | Developed by [ChunhThanhDe](https://github.com/chunhthanhde)
+
+</div>
