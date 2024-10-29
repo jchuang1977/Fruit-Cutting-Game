@@ -2,6 +2,7 @@ module.exports = async ({ github, context }) => {
     const query = `query($owner:String!, $name:String!, $issue_number:Int!) {
       repository(owner:$owner, name:$name){
         issue(number:$issue_number) {
+          title
           bodyText
           author {
             avatarUrl(size: 24)
@@ -22,14 +23,14 @@ module.exports = async ({ github, context }) => {
     const result = await github.graphql(query, variables);
     console.log(JSON.stringify(result, null, 2));
 
-    // Lấy thông tin từ body của issue
+    // Lấy thông tin từ body và title của issue
     const issue = result.repository.issue;
 
     // Phân tích nội dung body của issue
     const nameMatch = /👤 Name:\s*(.*)/.exec(issue.bodyText);
     const githubLinkMatch = /🔗 GitHub Profile Link:\s*(.*)/.exec(issue.bodyText);
     const messageMatch = /💬 Message:\s*(.*)/.exec(issue.bodyText);
-    const scoreMatch = /Score:\s*(\d+)/.exec(context.issue.title); // Lấy score từ tiêu đề
+    const scoreMatch = /Score:\s*(\d+)/.exec(issue.title); // Lấy score từ tiêu đề
 
     const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
     const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
@@ -37,14 +38,14 @@ module.exports = async ({ github, context }) => {
     const score = scoreMatch ? scoreMatch[1].trim() : 'N/A'; // Lấy giá trị score
 
     // Logging để kiểm tra
-    console.log(`Title: ${context.issue.title}`); // Thêm log cho tiêu đề
+    console.log(`Title: ${issue.title}`);
     console.log(`Name: ${name}`);
     console.log(`GitHub Link: ${githubLink}`);
     console.log(`Message: ${message}`);
     console.log(`Score: ${score}`);
 
     // Tạo dòng mới để thêm vào bảng
-    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |\n`; 
+    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |\n\n`; 
 
     const fileSystem = require('fs');
     const readmePath = 'README.md';
