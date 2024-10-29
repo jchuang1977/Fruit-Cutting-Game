@@ -26,8 +26,9 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 |-------|--------|---------|------|
 | 32 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> b](c) | d | 10/29/2024 15:41 (UTC 7) |
 | 31 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> a](b) | v | 10/29/2024 15:41 (UTC 7) |
-| 30 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> q](tr) | hjnghj | 10/29/2024 15:41 (UTC 7) |
+| 30 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/Flutter-Journey/Fruit-Cutting-Game/actions/runs/11578353397/job/32231962456) | no no | 10/31/2024 15:41 (UTC 7) |
 | 30 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> a a](https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/main/README.md) | jghjghj g dsfg | 10/30/2024 15:41 (UTC 7) |
+| 30 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> q](tr) | hjnghj | 10/29/2024 15:41 (UTC 7) |
 | 25 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> 🔗 GitHub Profile Link:](💬 Message:) | 🖼️ Screenshot | 10/29/2024 15:41 (UTC 7) |
 | 11 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> a a](b b) | c c | 10/29/2024 15:41 (UTC 7) |
 <!-- /Leaderboard -->
@@ -36,6 +37,7 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 <!-- Recent Plays -->
 | Date | Player | Message | Score |
 |-------|--------|---------|------|
+| 10/31/2024 15:41 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/Flutter-Journey/Fruit-Cutting-Game/actions/runs/11578353397/job/32231962456) | no no | 30 |
 | 10/30/2024 15:41 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> a a](https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/main/README.md) | jghjghj g dsfg | 30 |
 | 10/29/2024 15:41 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> a a](b b) | c c | 11 |
 | 32 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> b](c) | d | 10/29/2024 15:41 (UTC 7) |
