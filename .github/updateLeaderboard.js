@@ -61,7 +61,7 @@ module.exports = async ({ github, context }) => {
 
         console.log("Current length of recentPlaysRows after sorting:", recentPlaysRows.length);
         if (recentPlaysRows.length > 20) {
-            ecentPlaysRows = recentPlaysRows.slice(0, 20);
+            recentPlaysRows = recentPlaysRows.slice(0, 20);
         }
 
 
