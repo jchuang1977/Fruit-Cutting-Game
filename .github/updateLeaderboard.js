@@ -29,7 +29,6 @@ module.exports = async ({ github, context }) => {
     const nameMatch = /👤 Name:\s*(.*)/.exec(issue.bodyText);
     const githubLinkMatch = /🔗 GitHub Profile Link:\s*(.*)/.exec(issue.bodyText);
     const messageMatch = /💬 Message:\s*(.*)/.exec(issue.bodyText);
-    // Loại bỏ xử lý screenshot vì không còn cần thiết
     const scoreMatch = /Score:\s*(\d+)/.exec(context.issue.title); // Lấy score từ tiêu đề
 
     const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
@@ -48,11 +47,8 @@ module.exports = async ({ github, context }) => {
     const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
 
     if (leaderboardSection) {
-        // Lấy nội dung của leaderboard
-        const leaderboardContent = leaderboardSection[0];
-
-        // Cắt nội dung giữa header và footer
-        const updatedContent = leaderboardContent.replace(/(<!-- Leaderboard -->[\s\S]*?\n)([\s\S]*?)(\n<!-- \/Leaderboard -->)/, `$1$2${newEntry}$3`);
+        // Tìm nội dung giữa header và footer của bảng mà không thay đổi header và footer
+        const updatedContent = leaderboardSection[0].replace(/(<!-- Leaderboard -->[\s\S]*?\n)(\| Player \| Message \| Screenshot \| Date \|[\s\S]*?)(\n<!-- \/Leaderboard -->)/, `$1$2${newEntry}$3`);
 
         // Thay thế toàn bộ leaderboard section trong README.md
         readme = readme.replace(leaderboardSection[0], updatedContent);
