@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 class WebTitleSwitcher extends StatelessWidget {
   final Widget child;
 
-  const WebTitleSwitcher({Key? key, required this.child}) : super(key: key);
+  const WebTitleSwitcher({
+    super.key,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
