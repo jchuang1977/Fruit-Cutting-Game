@@ -11,26 +11,14 @@ assignees: ''
 
 **Please fill in the following details:**
 
-1. 👤 **Name**:
-   <!--START_SECTION:Name-->
-   [Enter your name here, e.g., ChunhThanhDe]
-   <!--END_SECTION:Name-->
+#### 👤 **Name**:  <!-- Enter your name here -->
 
-2. 🔗 **GitHub Profile Link**:
-   <!--START_SECTION:GitHub-->
-   [Enter your GitHub link here, e.g., https://github.com/chunhthanhde]
-   <!--END_SECTION:GitHub-->
+#### 🔗 **GitHub Profile Link**:  <!-- Enter your GitHub profile link here -->
 
-3. 💬 **Message**:
-   <!--START_SECTION:Message-->
-   [Enter your message here, e.g., "Had a great time playing!"]
-   <!--END_SECTION:Message-->
+#### 💬 **Message**: <!-- Add a message about your experience -->
 
 #### 🖼️ **Screenshot**
-
-<!--START_SECTION:Screenshot-->
-[Add your screenshot here by pasting the image link]
-<!--END_SECTION:Screenshot-->
+<!-- Add your screenshot link here -->
 
 ---
 

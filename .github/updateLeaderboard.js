@@ -1,19 +1,17 @@
+const fs = require('fs');
+
 module.exports = async ({ github, context }) => {
     const query = `query($owner:String!, $name:String!, $issue_number:Int!) {
       repository(owner:$owner, name:$name){
         issue(number:$issue_number) {
-          comments(first: 50, orderBy: {direction: DESC, field: UPDATED_AT}) {
-            nodes {
-              author {
-                avatarUrl(size: 24)
-                login
-                url
-              }
-              url
-              bodyText
-              updatedAt
-            }
+          title
+          bodyText
+          author {
+            avatarUrl(size: 24)
+            login
+            url
           }
+          updatedAt
         }
       }
     }`;
@@ -25,39 +23,90 @@ module.exports = async ({ github, context }) => {
     };
 
     const result = await github.graphql(query, variables);
+    console.log(JSON.stringify(result, null, 2));
 
-    const renderComments = (comments) => {
-      return comments.reduce((prev, curr) => {
-        let sanitizedText = curr.bodyText
-          .replace('<', '&lt;')
-          .replace('>', '&gt;')
-          .replace(/(\r\n|\r|\n)/g, "<br />")
-          .replace('|', '&#124;')
-          .replace('[', '&#91;');
+    const issue = result.repository.issue;
 
-        // Convert updatedAt to a date with UTC+7 timezone
-        let date = new Date(curr.updatedAt);
-        let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+    const nameMatch = /👤 Name:\s*(.*)/.exec(issue.bodyText);
+    const githubLinkMatch = /🔗 GitHub Profile Link:\s*(.*)/.exec(issue.bodyText);
+    const messageMatch = /💬 Message:\s*(.*)/.exec(issue.bodyText);
+    const scoreMatch = /Score:\s*(\d+)/.exec(issue.title);
+    const dateMatch = /Game Result Submission:\s*(.*?) - Score:/.exec(issue.title);
 
-        const nameMatch = /1. 👤 **Name**:\s*<!--START_SECTION:Name-->(.*?)<!--END_SECTION:Name-->/s.exec(curr.bodyText);
-        const githubLinkMatch = /2. 🔗 **GitHub Profile Link**:\s*<!--START_SECTION:GitHub-->(.*?)<!--END_SECTION:GitHub-->/s.exec(curr.bodyText);
-        const messageMatch = /3. 💬 **Message**:\s*<!--START_SECTION:Message-->(.*?)<!--END_SECTION:Message-->/s.exec(curr.bodyText);
-        const screenshotMatch = /#### 🖼️ **Screenshot**\s*<!--START_SECTION:Screenshot-->(.*?)<!--END_SECTION:Screenshot-->/s.exec(curr.bodyText);
+    const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
+    const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
+    const message = messageMatch ? messageMatch[1].trim() : 'N/A';
+    const score = scoreMatch ? parseInt(scoreMatch[1].trim()) : 'N/A';
+    const date = dateMatch ? dateMatch[1].trim() : 'N/A';
 
-        const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
-        const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
-        const message = messageMatch ? messageMatch[1].trim() : 'N/A';
-        const screenshot = screenshotMatch ? screenshotMatch[1].trim() : 'N/A';
+    const newLeaderboardItem = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${date} |\n`;
 
-        return `${prev}| [<img src="${curr.author.avatarUrl}" alt="${curr.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ![Screenshot](${screenshot}) | ${formattedDate} |\n`;
-      }, "| Player | Message | Screenshot | Date |\n|---|---|---|---|\n");
-    };
+    const newEntry = `| ${date} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${score} |`;
 
-    const fileSystem = require('fs');
     const readmePath = 'README.md';
-    let readme = fileSystem.readFileSync(readmePath, 'utf8');
+    let readme = fs.readFileSync(readmePath, 'utf8');
 
-    // Update leaderboard section
-    const updatedContent = readme.replace(/(?<=<!-- Leaderboard -->.*\n)[\S\s]*?(?=<!-- \/Leaderboard -->|$(?![\n]))/gm, renderComments(result.repository.issue.comments.nodes));
-    fileSystem.writeFileSync(readmePath, updatedContent, 'utf8');
-  };
+    // Update Recent Plays
+    const recentPlaysSection = /<!-- Recent Plays -->[\s\S]*?<!-- \/Recent Plays -->/.exec(readme);
+    if (recentPlaysSection) {
+        let recentPlaysContent = recentPlaysSection[0];
+
+        
+        let recentPlaysRows = recentPlaysContent
+            .split('\n')
+            .filter(row => row.startsWith('|') && !row.includes('Date | Player | Message | Score ') && !row.includes('|-------|--------|---------|------|'));
+
+        
+        recentPlaysRows.unshift(newEntry); 
+
+        console.log("Current length of recentPlaysRows after sorting:", recentPlaysRows.length);
+        if (recentPlaysRows.length > 20) {
+            recentPlaysRows = recentPlaysRows.slice(0, 20);
+        }
+
+
+        const updatedRecentPlays = `<!-- Recent Plays -->\n| Date | Player | Message | Score |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
+        readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
+    }
+
+    // Update Leaderboard
+    const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
+    if (leaderboardSection) {
+        let leaderboardContent = leaderboardSection[0];
+        leaderboardContent = leaderboardContent.replace(/<!-- \/Leaderboard -->/, `${newLeaderboardItem}<!-- \/Leaderboard -->`);
+
+        let leaderboardRows = leaderboardContent
+            .split('\n')
+            .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
+
+        leaderboardRows.sort((a, b) => {
+            const scoreA = a.match(/^\| (\d+) \|/);
+            const scoreB = b.match(/^\| (\d+) \|/);
+            const dateA = a.match(/\| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|/)[4].trim();
+            const dateB = b.match(/\| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|/)[4].trim();
+
+
+            // So sánh theo điểm trước
+            if (scoreB && scoreA) {
+                const scoreDiff = parseInt(scoreB[1]) - parseInt(scoreA[1]);
+                if (scoreDiff !== 0) {
+                    return scoreDiff; 
+                }
+            }
+            
+            return dateB.localeCompare(dateA); 
+        });
+
+        console.log("Current length of leaderboardRows after sorting:", leaderboardRows.length);
+
+        if (leaderboardRows.length > 20) {
+            leaderboardRows = leaderboardRows.slice(0, 20); // Giữ lại 20 phần tử đầu tiên
+        }
+
+        const updatedLeaderboard = `<!-- Leaderboard -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${leaderboardRows.join('\n')}\n<!-- /Leaderboard -->`;
+        readme = readme.replace(leaderboardSection[0], updatedLeaderboard);
+    }
+    
+    fs.writeFileSync(readmePath, readme, 'utf8');
+    console.log('README.md updated successfully.');
+};

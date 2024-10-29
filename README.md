@@ -20,12 +20,21 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 
 **Flutter Fruit Cutting Game** is an addictive arcade-style game where players swipe their screen to cut flying fruits. This game is developed using Flutter, making it available for Android, iOS, and web platforms.
 
-## 🤩 Leaderboard
-
+## 🤩 Leaderboard - Top 20
 <!-- Leaderboard -->
-| Player | Message | Screenshot | Date |
-|---|---|---|---|
+| Score | Player | Message | Date |
+|-------|--------|---------|------|
+
 <!-- /Leaderboard -->
+
+## 🎮 Last 20 plays
+<!-- Recent Plays -->
+| Date | Player | Message | Score |
+|-------|--------|---------|------|
+
+<!-- /Recent Plays -->
+
+## Leaderboard
 
 ## 🌟 Features
 
@@ -52,7 +61,7 @@ Check out how the game looks in action! You can view a gameplay demo [here](http
 
 - **Flutter**: Framework for building natively compiled applications.
 - **Flame**: Game engine for building 2D games with Flutter.
-- **GitHub Actions**: For CI/CD and automation tasks, submits .
+- **GitHub Actions**: For CI/CD and automation tasks, submits.
 
 ## 🌟 Conclusion
 
