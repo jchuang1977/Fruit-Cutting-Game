@@ -25,33 +25,34 @@ module.exports = async ({ github, context }) => {
     };
 
     const result = await github.graphql(query, variables);
+    console.log(JSON.stringify(result, null, 2));
 
     const renderComments = (comments) => {
-      return comments.reduce((prev, curr) => {
-        let sanitizedText = curr.bodyText
-          .replace('<', '&lt;')
-          .replace('>', '&gt;')
-          .replace(/(\r\n|\r|\n)/g, "<br />")
-          .replace('|', '&#124;')
-          .replace('[', '&#91;');
+        return comments.reduce((prev, curr) => {
+            let sanitizedText = curr.bodyText
+                .replace('<', '&lt;')
+                .replace('>', '&gt;')
+                .replace(/(\r\n|\r|\n)/g, "<br />")
+                .replace('|', '&#124;')
+                .replace('[', '&#91;');
 
-        // Convert updatedAt to a date with UTC+7 timezone
-        let date = new Date(curr.updatedAt);
-        let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+            // Convert updatedAt to a date with UTC+7 timezone
+            let date = new Date(curr.updatedAt);
+            let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
 
-        const nameMatch = /#### 👤 \*\*Name\*\*:\s*<!--START_SECTION:Name-->(.*?)<!--END_SECTION:Name-->/s.exec(curr.bodyText);
-        const githubLinkMatch = /#### 🔗 \*\*GitHub Profile Link\*\*:\s*<!--START_SECTION:GitHub-->(.*?)<!--END_SECTION:GitHub-->/s.exec(curr.bodyText);
-        const messageMatch = /#### 💬 \*\*Message\*\*:\s*<!--START_SECTION:Message-->(.*?)<!--END_SECTION:Message-->/s.exec(curr.bodyText);
-        const screenshotMatch = /#### 🖼️ \*\*Screenshot\*\*\s*<!--START_SECTION:Screenshot-->(.*?)<!--END_SECTION:Screenshot-->/s.exec(curr.bodyText);
+            // Extracting details from the comment body
+            const nameMatch = /#### 👤 \*\*Name\*\*:\s*(.*)/.exec(curr.bodyText);
+            const githubLinkMatch = /#### 🔗 \*\*GitHub Profile Link\*\*:\s*(.*)/.exec(curr.bodyText);
+            const messageMatch = /#### 💬 \*\*Message\*\*:\s*(.*)/.exec(curr.bodyText);
+            const screenshotMatch = /#### 🖼️ \*\*Screenshot\*\*[\s\S]*?\((.*?)\)/.exec(curr.bodyText);
 
+            const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
+            const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
+            const message = messageMatch ? messageMatch[1].trim() : 'N/A';
+            const screenshot = screenshotMatch ? screenshotMatch[1].trim() : 'N/A';
 
-        const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
-        const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
-        const message = messageMatch ? messageMatch[1].trim() : 'N/A';
-        const screenshot = screenshotMatch ? screenshotMatch[1].trim() : 'N/A';
-
-        return `${prev}| [<img src="${curr.author.avatarUrl}" alt="${curr.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ![Screenshot](${screenshot}) | ${formattedDate} |\n`;
-      }, "| Player | Message | Screenshot | Date |\n|---|---|---|---|\n");
+            return `${prev}| [<img src="${curr.author.avatarUrl}" alt="${curr.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ![Screenshot](${screenshot}) | ${formattedDate} |\n`;
+        }, "| Player | Message | Screenshot | Date |\n|---|---|---|---|\n");
     };
 
     const fileSystem = require('fs');
@@ -61,4 +62,5 @@ module.exports = async ({ github, context }) => {
     // Update leaderboard section
     const updatedContent = readme.replace(/(?<=<!-- Leaderboard -->.*\n)[\S\s]*?(?=<!-- \/Leaderboard -->|$(?![\n]))/gm, renderComments(result.repository.issue.comments.nodes));
     fileSystem.writeFileSync(readmePath, updatedContent, 'utf8');
+    console.log('README.md updated successfully.');
 };
