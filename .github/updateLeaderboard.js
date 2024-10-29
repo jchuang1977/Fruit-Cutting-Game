@@ -39,7 +39,9 @@ module.exports = async ({ github, context }) => {
     const score = scoreMatch ? parseInt(scoreMatch[1].trim()) : 'N/A';
     const date = dateMatch ? dateMatch[1].trim() : 'N/A';
 
-    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${date} |\n`;
+    const newLeaderboardItem = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${date} |\n`;
+
+    const newEntry = `| ${date} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${score} |`;
 
     const readmePath = 'README.md';
     let readme = fs.readFileSync(readmePath, 'utf8');
@@ -52,7 +54,7 @@ if (recentPlaysSection) {
     // Lấy danh sách các hàng hiện tại
     const recentPlaysRows = recentPlaysContent
         .split('\n')
-        .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
+        .filter(row => row.startsWith('|') && !row.includes('Date | Player | Message | Score ') && !row.includes('|-------|--------|---------|------|'));
 
     // Thêm mục mới lên trên cùng
     recentPlaysRows.unshift(newEntry); // Thêm vào đầu danh sách
@@ -63,7 +65,7 @@ if (recentPlaysSection) {
     }
 
     // Cập nhật bảng
-    const updatedRecentPlays = `<!-- Recent Plays -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
+    const updatedRecentPlays = `<!-- Recent Plays -->\n| Date | Player | Message | Score |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
     readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
 }
 
@@ -73,7 +75,7 @@ if (recentPlaysSection) {
     const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
     if (leaderboardSection) {
         let leaderboardContent = leaderboardSection[0];
-        leaderboardContent = leaderboardContent.replace(/<!-- \/Leaderboard -->/, `${newEntry}<!-- \/Leaderboard -->`);
+        leaderboardContent = leaderboardContent.replace(/<!-- \/Leaderboard -->/, `${newLeaderboardItem}<!-- \/Leaderboard -->`);
 
         const leaderboardRows = leaderboardContent
             .split('\n')
