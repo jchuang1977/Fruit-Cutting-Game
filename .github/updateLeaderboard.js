@@ -66,7 +66,11 @@ module.exports = async ({ github, context }) => {
 
         const leaderboardRows = leaderboardContent.split('\n').filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date'));
 
-        leaderboardRows.sort((a, b) => parseInt(b.match(/^\| (\d+) \|/)[1]) - parseInt(a.match(/^\| (\d+) \|/)[1]));
+        leaderboardRows.sort((a, b) => {
+            const scoreA = a.match(/^\| (\d+) \|/);
+            const scoreB = b.match(/^\| (\d+) \|/);
+            return (scoreB ? parseInt(scoreB[1]) : 0) - (scoreA ? parseInt(scoreA[1]) : 0);
+        });
 
         if (leaderboardRows.length > 20) leaderboardRows.pop();
 
