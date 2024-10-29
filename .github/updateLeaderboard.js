@@ -48,15 +48,21 @@ module.exports = async ({ github, context }) => {
     const recentPlaysSection = /<!-- Recent Plays -->[\s\S]*?<!-- \/Recent Plays -->/.exec(readme);
     if (recentPlaysSection) {
         let recentPlaysContent = recentPlaysSection[0];
-        recentPlaysContent = recentPlaysContent.replace(/<!-- \/Recent Plays -->/, `${newEntry}<!-- \/Recent Plays -->`);
+
+        // Thêm mục mới vào đầu bảng
+        recentPlaysContent = recentPlaysContent.replace(/<!-- \/Recent Plays -->/, ${newEntry}<!-- \/Recent Plays -->);
 
         const recentPlaysRows = recentPlaysContent
             .split('\n')
             .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
 
-        if (recentPlaysRows.length > 20) recentPlaysRows.pop();
+        // Giới hạn số lượng người chơi tối đa là 20
+        if (recentPlaysRows.length >= 20) {
+            recentPlaysRows.pop(); // Xoá người chơi cuối cùng nếu đã đủ 20 người
+        }
 
-        const updatedRecentPlays = `<!-- Recent Plays -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
+        // Cập nhật bảng
+        const updatedRecentPlays = <!-- Recent Plays -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n${newEntry}<!-- /Recent Plays -->;
         readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
     }
 
