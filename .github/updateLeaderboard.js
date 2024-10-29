@@ -39,10 +39,11 @@ module.exports = async ({ github, context }) => {
         let date = new Date(curr.updatedAt);
         let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
 
-        const nameMatch = /#### 👤 **Name**:\s*<!--START_SECTION:Name-->(.*?)<!--END_SECTION:Name-->/s.exec(curr.bodyText);
-        const githubLinkMatch = /#### 🔗 **GitHub Profile Link**:\s*<!--START_SECTION:GitHub-->(.*?)<!--END_SECTION:GitHub-->/s.exec(curr.bodyText);
-        const messageMatch = /#### 💬 **Message**:\s*<!--START_SECTION:Message-->(.*?)<!--END_SECTION:Message-->/s.exec(curr.bodyText);
-        const screenshotMatch = /#### 🖼️ **Screenshot**\s*<!--START_SECTION:Screenshot-->(.*?)<!--END_SECTION:Screenshot-->/s.exec(curr.bodyText);
+        const nameMatch = /#### 👤 \*\*Name\*\*:\s*<!--START_SECTION:Name-->(.*?)<!--END_SECTION:Name-->/s.exec(curr.bodyText);
+        const githubLinkMatch = /#### 🔗 \*\*GitHub Profile Link\*\*:\s*<!--START_SECTION:GitHub-->(.*?)<!--END_SECTION:GitHub-->/s.exec(curr.bodyText);
+        const messageMatch = /#### 💬 \*\*Message\*\*:\s*<!--START_SECTION:Message-->(.*?)<!--END_SECTION:Message-->/s.exec(curr.bodyText);
+        const screenshotMatch = /#### 🖼️ \*\*Screenshot\*\*\s*<!--START_SECTION:Screenshot-->(.*?)<!--END_SECTION:Screenshot-->/s.exec(curr.bodyText);
+
 
         const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
         const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
