@@ -59,9 +59,9 @@ module.exports = async ({ github, context }) => {
         
         recentPlaysRows.unshift(newEntry); 
 
-    
+        console.log("Current length of recentPlaysRows after sorting:", recentPlaysRows.length);
         if (recentPlaysRows.length > 20) {
-            recentPlaysRows.pop(); 
+            ecentPlaysRows = recentPlaysRows.slice(0, 20);
         }
 
 
@@ -97,7 +97,11 @@ module.exports = async ({ github, context }) => {
             return dateB.localeCompare(dateA); 
         });
 
-        if (leaderboardRows.length > 20) leaderboardRows.pop();
+        console.log("Current length of leaderboardRows after sorting:", leaderboardRows.length);
+
+        if (leaderboardRows.length > 20) {
+            leaderboardRows = leaderboardRows.slice(0, 20); // Giữ lại 20 phần tử đầu tiên
+        }
 
         const updatedLeaderboard = `<!-- Leaderboard -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${leaderboardRows.join('\n')}\n<!-- /Leaderboard -->`;
         readme = readme.replace(leaderboardSection[0], updatedLeaderboard);
