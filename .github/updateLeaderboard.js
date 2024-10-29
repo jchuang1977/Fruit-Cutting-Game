@@ -50,7 +50,7 @@ module.exports = async ({ github, context }) => {
         let recentPlaysContent = recentPlaysSection[0];
 
         // Thêm mục mới vào đầu bảng
-        recentPlaysContent = recentPlaysContent.replace(/<!-- \/Recent Plays -->/, ${newEntry}<!-- \/Recent Plays -->);
+        recentPlaysContent = recentPlaysContent.replace(/<!-- \/Recent Plays -->/, `${newEntry}<!-- \/Recent Plays -->`);
 
         const recentPlaysRows = recentPlaysContent
             .split('\n')
@@ -62,9 +62,10 @@ module.exports = async ({ github, context }) => {
         }
 
         // Cập nhật bảng
-        const updatedRecentPlays = <!-- Recent Plays -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n${newEntry}<!-- /Recent Plays -->;
+        const updatedRecentPlays = `<!-- Recent Plays -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n${newEntry}<!-- /Recent Plays -->`;
         readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
     }
+
 
     // Update Leaderboard
     const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
