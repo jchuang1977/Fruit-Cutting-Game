@@ -25,7 +25,7 @@ module.exports = async ({ github, context }) => {
     // Lấy thông tin từ body của issue
     const issue = result.repository.issue;
 
-    // Chúng ta sẽ phân tích body của issue
+    // Phân tích nội dung body của issue
     const sanitizedText = issue.bodyText
       .replace('<', '&lt;')
       .replace('>', '&gt;')
@@ -37,10 +37,10 @@ module.exports = async ({ github, context }) => {
     let date = new Date(issue.updatedAt);
     let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
 
-    const nameMatch = /#### 👤 \*\*Name\*\*:\s*<!--START_SECTION:Name-->(.*?)<!--END_SECTION:Name-->/s.exec(issue.bodyText);
-    const githubLinkMatch = /#### 🔗 \*\*GitHub Profile Link\*\*:\s*<!--START_SECTION:GitHub-->(.*?)<!--END_SECTION:GitHub-->/s.exec(issue.bodyText);
-    const messageMatch = /#### 💬 \*\*Message\*\*:\s*<!--START_SECTION:Message-->(.*?)<!--END_SECTION:Message-->/s.exec(issue.bodyText);
-    const screenshotMatch = /#### 🖼️ \*\*Screenshot\*\*\s*<!--START_SECTION:Screenshot-->(.*?)<!--END_SECTION:Screenshot-->/s.exec(issue.bodyText);
+    const nameMatch = /👤 Name:\s*(.*)/.exec(issue.bodyText);
+    const githubLinkMatch = /🔗 GitHub Profile Link:\s*(.*)/.exec(issue.bodyText);
+    const messageMatch = /💬 Message:\s*(.*)/.exec(issue.bodyText);
+    const screenshotMatch = /🖼️ Screenshot\s*\n?\[(.*?)\]/.exec(issue.bodyText); // Giả sử có một liên kết screenshot trong body
 
     const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
     const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
@@ -53,9 +53,9 @@ module.exports = async ({ github, context }) => {
     const readmePath = 'README.md';
     let readme = fileSystem.readFileSync(readmePath, 'utf8');
 
-    // Cập nhật phần leaderboard
-    const updatedContent = readme.replace(/(?<=<!-- Leaderboard -->.*\n)[\S\s]*?(?=<!-- \/Leaderboard -->|$(?![\n]))/gm, newEntry);
-    
+    // Cập nhật phần leaderboard mà không xóa header và footer
+    const updatedContent = readme.replace(/(<!-- Leaderboard -->[\s\S]*?\n)([\s\S]*?)(\n<!-- \/Leaderboard -->)/, `$1${newEntry}$3`);
+
     fileSystem.writeFileSync(readmePath, updatedContent, 'utf8');
     console.log('README.md updated successfully.');
 };
