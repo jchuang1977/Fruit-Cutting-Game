@@ -45,7 +45,7 @@ module.exports = async ({ github, context }) => {
     console.log(`Score: ${score}`);
 
     // Tạo dòng mới để thêm vào bảng
-    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |\n\n`; 
+    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |`; 
 
     const fileSystem = require('fs');
     const readmePath = 'README.md';
@@ -60,7 +60,7 @@ module.exports = async ({ github, context }) => {
         
         if (headerMatch) {
             // Chèn newEntry ngay dưới tiêu đề
-            const updatedContent = leaderboardSection[0].replace(headerMatch[0], `${headerMatch[0]}${newEntry}`);
+            const updatedContent = leaderboardSection[0].replace(headerMatch[0], `${headerMatch[0]}\n${newEntry}`);
             
             // Thay thế toàn bộ leaderboard section trong README.md
             readme = readme.replace(leaderboardSection[0], updatedContent);
