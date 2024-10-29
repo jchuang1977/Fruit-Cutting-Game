@@ -66,7 +66,7 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
             AppRouter.homePage: Route(HomePage.new),
             AppRouter.gamePage: Route(GamePage.new),
             AppRouter.gameVictory: VictoryRoute(),
-            AppRouter.gameSave: SaveRoute(),
+            // AppRouter.gameSave: SaveRoute(),
             AppRouter.gameOver: GameOverRoute(),
             AppRouter.gamePause: PauseRoute(),
           },
@@ -88,33 +88,37 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
   }
 
   // Field to store the player's name
-  String name = '';
+  int score = 0;
 
   // Called when a key event is received
-  @override
-  @mustCallSuper
-  material.KeyEventResult onKeyEvent(
-    material.KeyEvent event,
-    Set<services.LogicalKeyboardKey> keysPressed,
-  ) {
-    super.onKeyEvent(event, keysPressed);
+  // @override
+  // @mustCallSuper
+  // material.KeyEventResult onKeyEvent(
+  //   material.KeyEvent event,
+  //   Set<services.LogicalKeyboardKey> keysPressed,
+  // ) {
+  //   super.onKeyEvent(event, keysPressed);
 
-    if (event is services.KeyDownEvent) {
-      // Handle character input
-      if (event.character != null) {
-        name += event.character!;
-      }
-      // Handle backspace
-      else if (event.logicalKey == services.LogicalKeyboardKey.backspace && name.isNotEmpty) {
-        name = name.substring(0, name.length - 1);
-      }
-    }
+  //   if (event is services.KeyDownEvent) {
+  //     // Handle character input
+  //     if (event.character != null) {
+  //       name += event.character!;
+  //     }
+  //     // Handle backspace
+  //     else if (event.logicalKey == services.LogicalKeyboardKey.backspace && name.isNotEmpty) {
+  //       name = name.substring(0, name.length - 1);
+  //     }
+  //   }
 
-    return material.KeyEventResult.handled;
-  }
+  //   return material.KeyEventResult.handled;
+  // }
 
   // Placeholder for saving the name when appropriate
-  String showName() {
-    return name;
+  int getScore() {
+    return score;
+  }
+
+  void saveScore(int scoreInput) {
+    score = scoreInput;
   }
 }
