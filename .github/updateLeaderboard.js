@@ -44,27 +44,29 @@ module.exports = async ({ github, context }) => {
     const readmePath = 'README.md';
     let readme = fs.readFileSync(readmePath, 'utf8');
 
-    // Update Recent Plays
-    const recentPlaysSection = /<!-- Recent Plays -->[\s\S]*?<!-- \/Recent Plays -->/.exec(readme);
-    if (recentPlaysSection) {
-        let recentPlaysContent = recentPlaysSection[0];
+// Update Recent Plays
+const recentPlaysSection = /<!-- Recent Plays -->[\s\S]*?<!-- \/Recent Plays -->/.exec(readme);
+if (recentPlaysSection) {
+    let recentPlaysContent = recentPlaysSection[0];
 
-        // Thêm mục mới vào đầu bảng
-        recentPlaysContent = recentPlaysContent.replace(/<!-- \/Recent Plays -->/, `${newEntry}<!-- \/Recent Plays -->`);
+    // Lấy danh sách các hàng hiện tại
+    const recentPlaysRows = recentPlaysContent
+        .split('\n')
+        .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
 
-        const recentPlaysRows = recentPlaysContent
-            .split('\n')
-            .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
+    // Thêm mục mới lên trên cùng
+    recentPlaysRows.unshift(newEntry); // Thêm vào đầu danh sách
 
-        // Giới hạn số lượng người chơi tối đa là 20
-        if (recentPlaysRows.length >= 20) {
-            recentPlaysRows.pop(); // Xoá người chơi cuối cùng nếu đã đủ 20 người
-        }
-
-        // Cập nhật bảng
-        const updatedRecentPlays = `<!-- Recent Plays -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n${newEntry}<!-- /Recent Plays -->`;
-        readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
+    // Giới hạn số lượng người chơi tối đa là 20
+    if (recentPlaysRows.length > 20) {
+        recentPlaysRows.pop(); // Xoá người chơi cuối cùng nếu đã đủ 20 người
     }
+
+    // Cập nhật bảng
+    const updatedRecentPlays = `<!-- Recent Plays -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
+    readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
+}
+
 
 
     // Update Leaderboard
