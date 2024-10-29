@@ -50,7 +50,9 @@ module.exports = async ({ github, context }) => {
         let recentPlaysContent = recentPlaysSection[0];
         recentPlaysContent = recentPlaysContent.replace(/<!-- \/Recent Plays -->/, `${newEntry}<!-- \/Recent Plays -->`);
 
-        const recentPlaysRows = recentPlaysContent.split('\n').filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date'));
+        const recentPlaysRows = recentPlaysContent
+            .split('\n')
+            .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
 
         if (recentPlaysRows.length > 20) recentPlaysRows.pop();
 
@@ -64,7 +66,9 @@ module.exports = async ({ github, context }) => {
         let leaderboardContent = leaderboardSection[0];
         leaderboardContent = leaderboardContent.replace(/<!-- \/Leaderboard -->/, `${newEntry}<!-- \/Leaderboard -->`);
 
-        const leaderboardRows = leaderboardContent.split('\n').filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date'));
+        const leaderboardRows = leaderboardContent
+            .split('\n')
+            .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
 
         leaderboardRows.sort((a, b) => {
             const scoreA = a.match(/^\| (\d+) \|/);
