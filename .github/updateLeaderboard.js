@@ -94,7 +94,7 @@ module.exports = async ({ github, context }) => {
                 }
             }
             
-            return dateA.localeCompare(dateB); 
+            return dateB.localeCompare(dateA); 
         });
 
         if (leaderboardRows.length > 20) leaderboardRows.pop();
