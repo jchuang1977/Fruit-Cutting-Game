@@ -36,7 +36,7 @@ module.exports = async ({ github, context }) => {
     const message = messageMatch ? messageMatch[1].trim() : 'N/A';
     const score = scoreMatch ? scoreMatch[1].trim() : 'N/A'; // Lấy giá trị score
 
-    // Cập nhật newEntry để thêm cột score và loại bỏ screenshot
+    // Tạo dòng mới để thêm vào bảng
     const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |\n`;
 
     const fileSystem = require('fs');
@@ -47,12 +47,17 @@ module.exports = async ({ github, context }) => {
     const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
 
     if (leaderboardSection) {
-        // Tìm nội dung giữa header và footer của bảng mà không thay đổi header và footer
-        const updatedContent = leaderboardSection[0].replace(/(<!-- Leaderboard -->[\s\S]*?\n)(\| Player \| Message \| Screenshot \| Date \|[\s\S]*?)(\n<!-- \/Leaderboard -->)/, `$1$2${newEntry}$3`);
-
-        // Thay thế toàn bộ leaderboard section trong README.md
-        readme = readme.replace(leaderboardSection[0], updatedContent);
-        fileSystem.writeFileSync(readmePath, readme, 'utf8');
-        console.log('README.md updated successfully.');
+        // Tìm vị trí của tiêu đề trong bảng
+        const headerMatch = /(\| Score \|[\s\S]*?\| Date \|)/.exec(leaderboardSection[0]);
+        
+        if (headerMatch) {
+            // Chèn newEntry ngay dưới tiêu đề
+            const updatedContent = leaderboardSection[0].replace(headerMatch[0], `${headerMatch[0]}${newEntry}`);
+            
+            // Thay thế toàn bộ leaderboard section trong README.md
+            readme = readme.replace(leaderboardSection[0], updatedContent);
+            fileSystem.writeFileSync(readmePath, readme, 'utf8');
+            console.log('README.md updated successfully.');
+        }
     }
 };
