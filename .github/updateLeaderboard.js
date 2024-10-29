@@ -52,7 +52,7 @@ module.exports = async ({ github, context }) => {
         let recentPlaysContent = recentPlaysSection[0];
 
         
-        const recentPlaysRows = recentPlaysContent
+        let recentPlaysRows = recentPlaysContent
             .split('\n')
             .filter(row => row.startsWith('|') && !row.includes('Date | Player | Message | Score ') && !row.includes('|-------|--------|---------|------|'));
 
@@ -75,7 +75,7 @@ module.exports = async ({ github, context }) => {
         let leaderboardContent = leaderboardSection[0];
         leaderboardContent = leaderboardContent.replace(/<!-- \/Leaderboard -->/, `${newLeaderboardItem}<!-- \/Leaderboard -->`);
 
-        const leaderboardRows = leaderboardContent
+        let leaderboardRows = leaderboardContent
             .split('\n')
             .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
 
