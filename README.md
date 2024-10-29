@@ -23,7 +23,8 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 ## 🤩 Leaderboard
 
 <!-- Leaderboard -->
-| [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" />  ChunhThanhDe](https://github.com/chunhthanhde) | Had a great time playing! | ![Screenshot](N/A) | 10/29/2024, 4:33:33 PM |
+| Player | Message | Screenshot | Date |
+|---|---|---|---|
 
 <!-- /Leaderboard -->
 
