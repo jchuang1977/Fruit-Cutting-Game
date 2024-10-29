@@ -2,18 +2,13 @@ module.exports = async ({ github, context }) => {
     const query = `query($owner:String!, $name:String!, $issue_number:Int!) {
       repository(owner:$owner, name:$name){
         issue(number:$issue_number) {
-          comments(first: 50, orderBy: {direction: DESC, field: UPDATED_AT}) {
-            nodes {
-              author {
-                avatarUrl(size: 24)
-                login
-                url
-              }
-              url
-              bodyText
-              updatedAt
-            }
+          bodyText
+          author {
+            avatarUrl(size: 24)
+            login
+            url
           }
+          updatedAt
         }
       }
     }`;
@@ -27,40 +22,40 @@ module.exports = async ({ github, context }) => {
     const result = await github.graphql(query, variables);
     console.log(JSON.stringify(result, null, 2));
 
-    const renderComments = (comments) => {
-        return comments.reduce((prev, curr) => {
-            let sanitizedText = curr.bodyText
-                .replace('<', '&lt;')
-                .replace('>', '&gt;')
-                .replace(/(\r\n|\r|\n)/g, "<br />")
-                .replace('|', '&#124;')
-                .replace('[', '&#91;');
+    // Lấy thông tin từ body của issue
+    const issue = result.repository.issue;
 
-            // Convert updatedAt to a date with UTC+7 timezone
-            let date = new Date(curr.updatedAt);
-            let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+    // Chúng ta sẽ phân tích body của issue
+    const sanitizedText = issue.bodyText
+      .replace('<', '&lt;')
+      .replace('>', '&gt;')
+      .replace(/(\r\n|\r|\n)/g, "<br />")
+      .replace('|', '&#124;')
+      .replace('[', '&#91;');
 
-            // Extracting details from the comment body
-            const nameMatch = /#### 👤 \*\*Name\*\*:\s*(.*)/.exec(curr.bodyText);
-            const githubLinkMatch = /#### 🔗 \*\*GitHub Profile Link\*\*:\s*(.*)/.exec(curr.bodyText);
-            const messageMatch = /#### 💬 \*\*Message\*\*:\s*(.*)/.exec(curr.bodyText);
-            const screenshotMatch = /#### 🖼️ \*\*Screenshot\*\*[\s\S]*?\((.*?)\)/.exec(curr.bodyText);
+    // Chuyển đổi updatedAt thành ngày với múi giờ UTC+7
+    let date = new Date(issue.updatedAt);
+    let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
 
-            const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
-            const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
-            const message = messageMatch ? messageMatch[1].trim() : 'N/A';
-            const screenshot = screenshotMatch ? screenshotMatch[1].trim() : 'N/A';
+    const nameMatch = /#### 👤 \*\*Name\*\*:\s*<!--START_SECTION:Name-->(.*?)<!--END_SECTION:Name-->/s.exec(issue.bodyText);
+    const githubLinkMatch = /#### 🔗 \*\*GitHub Profile Link\*\*:\s*<!--START_SECTION:GitHub-->(.*?)<!--END_SECTION:GitHub-->/s.exec(issue.bodyText);
+    const messageMatch = /#### 💬 \*\*Message\*\*:\s*<!--START_SECTION:Message-->(.*?)<!--END_SECTION:Message-->/s.exec(issue.bodyText);
+    const screenshotMatch = /#### 🖼️ \*\*Screenshot\*\*\s*<!--START_SECTION:Screenshot-->(.*?)<!--END_SECTION:Screenshot-->/s.exec(issue.bodyText);
 
-            return `${prev}| [<img src="${curr.author.avatarUrl}" alt="${curr.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ![Screenshot](${screenshot}) | ${formattedDate} |\n`;
-        }, "| Player | Message | Screenshot | Date |\n|---|---|---|---|\n");
-    };
+    const name = nameMatch ? nameMatch[1].trim() : 'Unknown';
+    const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : 'N/A';
+    const message = messageMatch ? messageMatch[1].trim() : 'N/A';
+    const screenshot = screenshotMatch ? screenshotMatch[1].trim() : 'N/A';
+
+    const newEntry = `| [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ![Screenshot](${screenshot}) | ${formattedDate} |\n`;
 
     const fileSystem = require('fs');
     const readmePath = 'README.md';
     let readme = fileSystem.readFileSync(readmePath, 'utf8');
 
-    // Update leaderboard section
-    const updatedContent = readme.replace(/(?<=<!-- Leaderboard -->.*\n)[\S\s]*?(?=<!-- \/Leaderboard -->|$(?![\n]))/gm, renderComments(result.repository.issue.comments.nodes));
+    // Cập nhật phần leaderboard
+    const updatedContent = readme.replace(/(?<=<!-- Leaderboard -->.*\n)[\S\s]*?(?=<!-- \/Leaderboard -->|$(?![\n]))/gm, newEntry);
+    
     fileSystem.writeFileSync(readmePath, updatedContent, 'utf8');
     console.log('README.md updated successfully.');
 };
