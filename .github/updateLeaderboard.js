@@ -45,7 +45,7 @@ module.exports = async ({ github, context }) => {
     console.log(`Score: ${score}`);
 
     // Tạo dòng mới để thêm vào bảng
-    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |`; 
+    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |\n`;
 
     const fileSystem = require('fs');
     const readmePath = 'README.md';
@@ -55,8 +55,8 @@ module.exports = async ({ github, context }) => {
     const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
 
     if (leaderboardSection) {
-        // Tìm vị trí của tiêu đề trong bảng
-        const headerMatch = /(\| Score \|[\s\S]*?\| Date \|)/.exec(leaderboardSection[0]);
+        // Tìm vị trí của tiêu đề và dòng phân cách trong bảng
+        const headerMatch = /(\| Score \| Player \| Message \| Date \|\n\|-------\|--------\|---------\|------\|)/.exec(leaderboardSection[0]);
         
         if (headerMatch) {
             // Chèn newEntry ngay dưới tiêu đề
