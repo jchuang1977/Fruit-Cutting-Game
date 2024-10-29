@@ -37,15 +37,20 @@ module.exports = async ({ github, context }) => {
     const message = messageMatch ? messageMatch[1].trim() : 'N/A';
     const score = scoreMatch ? scoreMatch[1].trim() : 'N/A'; // Lấy giá trị score
 
+    // Lấy ngày giờ từ tiêu đề
+    const dateMatch = /Game Result Submission:\s*([\d/]+ \d+:\d+ \(\w+ \d+\))/i.exec(issue.title);
+    const date = dateMatch ? dateMatch[1].trim() : 'N/A';
+
     // Logging để kiểm tra
     console.log(`Title: ${issue.title}`);
     console.log(`Name: ${name}`);
     console.log(`GitHub Link: ${githubLink}`);
     console.log(`Message: ${message}`);
     console.log(`Score: ${score}`);
+    console.log(`Date: ${date}`);
 
     // Tạo dòng mới để thêm vào bảng
-    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |\n`;
+    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${date} |`; 
 
     const fileSystem = require('fs');
     const readmePath = 'README.md';
@@ -55,8 +60,8 @@ module.exports = async ({ github, context }) => {
     const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
 
     if (leaderboardSection) {
-        // Tìm vị trí của tiêu đề và dòng phân cách trong bảng
-        const headerMatch = /(\| Score \| Player \| Message \| Date \|\n\|-------\|--------\|---------\|------\|)/.exec(leaderboardSection[0]);
+        // Tìm vị trí của tiêu đề trong bảng
+        const headerMatch = /(\| Score \|[\s\S]*?\| Date \|[\s\S]*?\|-------\|--------\|---------\|------\|)/.exec(leaderboardSection[0]);
         
         if (headerMatch) {
             // Chèn newEntry ngay dưới tiêu đề
