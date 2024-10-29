@@ -36,8 +36,15 @@ module.exports = async ({ github, context }) => {
     const message = messageMatch ? messageMatch[1].trim() : 'N/A';
     const score = scoreMatch ? scoreMatch[1].trim() : 'N/A'; // Lấy giá trị score
 
+    // Logging để kiểm tra
+    console.log(`Title: ${context.issue.title}`); // Thêm log cho tiêu đề
+    console.log(`Name: ${name}`);
+    console.log(`GitHub Link: ${githubLink}`);
+    console.log(`Message: ${message}`);
+    console.log(`Score: ${score}`);
+
     // Tạo dòng mới để thêm vào bảng
-    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |\n`;
+    const newEntry = `| ${score} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" />  ${name}](${githubLink}) | ${message} | ${new Date(issue.updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' })} |\n`; 
 
     const fileSystem = require('fs');
     const readmePath = 'README.md';
