@@ -234,6 +234,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
   }
 
   void gameWin() {
+    game.saveScore(score);
     game.router.pushNamed(AppRouter.gameVictory);
   }
 
