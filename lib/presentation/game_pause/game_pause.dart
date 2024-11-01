@@ -40,7 +40,6 @@ class GamePausePage extends Component with TapCallbacks, HasGameReference<MainRo
   /// Load the components for the pause page.
   @override
   Future<void> onLoad() async {
-    print("pause load"); // Log message to indicate the pause page is loading.
     final game = findGame()!; // Find the current game instance.
 
     final textTitlePaint = TextPaint(

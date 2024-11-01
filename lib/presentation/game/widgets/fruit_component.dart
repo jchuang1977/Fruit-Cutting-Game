@@ -82,24 +82,32 @@ class FruitComponent extends SpriteComponent {
     }
   }
 
-  /// Handles touch events on the fruit.
+  /// Handles touch events on the fruit, determining if and how the fruit should be cut,
+  /// and whether the game should end if a bomb is touched.
   ///
   /// - `vector2`: The point where the fruit was touched.
   void touchAtPoint(Vector2 vector2) {
+    // Prevent any action if the fruit has already been divided and dragging is disabled.
     if (divided && !canDragOnShape) {
-      return; // Prevent dragging if already divided.
+      return; // Exit if already divided.
     }
+
+    // Check if the fruit is a bomb.
     if (fruit.isBomb) {
-      parentComponent.gameOver(); // Trigger game over if a bomb is touched.
+      parentComponent.gameOver(); // End the game if a bomb is touched.
       return;
     }
 
-    // Calculate the angle of the touch relative to the fruit's center.
+    // Calculate the angle between the touch point and the fruit’s center.
+    // This angle helps determine the slicing direction.
     final a = AppUtils.getAngleOfTouchPont(center: position, initAngle: angle, touch: vector2);
 
-    // Check if the touch is along the vertical or horizontal axis.
+    // Check if the calculated angle falls along a vertical or horizontal slice.
+    // If angle `a` is less than 45 degrees or more than 315 degrees, we assume a vertical cut.
+    // Otherwise, if it's within the horizontal range, we'll handle it as a horizontal cut.
     if (a < 45 || (a > 135 && a < 225) || a > 315) {
-      // Create two half images for a vertical cut.
+      // Create two halves of the fruit for a vertical slice.
+
       final dividedImage1 = composition.ImageComposition()
             ..add(
               image,
@@ -113,37 +121,38 @@ class FruitComponent extends SpriteComponent {
               source: Rect.fromLTWH(0, image.height / 2, image.width.toDouble(), image.height / 2),
             );
 
+      // Add both halves of the fruit to the game after slicing.
       parentComponent.addAll([
-        // Add both halves to the game.
         FruitComponent(
           parentComponent,
-          center - Vector2(size.x / 2 * cos(angle), size.x / 2 * sin(angle)),
+          center - Vector2(size.x / 2 * cos(angle), size.x / 2 * sin(angle)), // Adjust position for upper half.
           fruit: fruit,
           image: dividedImage2.composeSync(),
           acceleration: acceleration,
-          velocity: Vector2(velocity.x - 2, velocity.y),
+          velocity: Vector2(velocity.x - 2, velocity.y), // Apply slightly different velocities for split effect.
           pageSize: pageSize,
           divided: true, // Mark as divided.
-          size: Vector2(size.x, size.y / 2),
+          size: Vector2(size.x, size.y / 2), // Adjust size for top half.
           angle: angle,
           anchor: Anchor.topLeft,
         ),
         FruitComponent(
           parentComponent,
-          center + Vector2(size.x / 4 * cos(angle + 3 * pi / 2), size.x / 4 * sin(angle + 3 * pi / 2)),
-          size: Vector2(size.x, size.y / 2),
+          center + Vector2(size.x / 4 * cos(angle + 3 * pi / 2), size.x / 4 * sin(angle + 3 * pi / 2)), // Adjust position for lower half.
+          size: Vector2(size.x, size.y / 2), // Adjust size for bottom half.
           angle: angle,
           anchor: Anchor.center,
           fruit: fruit,
           image: dividedImage1.composeSync(),
           acceleration: acceleration,
-          velocity: Vector2(velocity.x + 2, velocity.y),
+          velocity: Vector2(velocity.x + 2, velocity.y), // Different velocity for other half.
           pageSize: pageSize,
           divided: true, // Mark as divided.
         )
       ]);
     } else {
-      // Create two half images for a horizontal cut.
+      // Create two halves of the fruit for a horizontal slice.
+
       final dividedImage1 = composition.ImageComposition()
             ..add(
               image,
@@ -157,18 +166,18 @@ class FruitComponent extends SpriteComponent {
               source: Rect.fromLTWH(image.width / 2, 0, image.width / 2, image.height.toDouble()),
             );
 
+      // Add both halves of the fruit to the game after slicing.
       parentComponent.addAll([
-        // Add both halves to the game.
         FruitComponent(
           parentComponent,
-          center - Vector2(size.x / 4 * cos(angle), size.x / 4 * sin(angle)),
-          size: Vector2(size.x / 2, size.y),
+          center - Vector2(size.x / 4 * cos(angle), size.x / 4 * sin(angle)), // Adjust position for left half.
+          size: Vector2(size.x / 2, size.y), // Adjust size for left half.
           angle: angle,
           anchor: Anchor.center,
           fruit: fruit,
           image: dividedImage1.composeSync(),
           acceleration: acceleration,
-          velocity: Vector2(velocity.x - 2, velocity.y),
+          velocity: Vector2(velocity.x - 2, velocity.y), // Apply velocity change for split effect.
           pageSize: pageSize,
           divided: true, // Mark as divided.
         ),
@@ -178,21 +187,21 @@ class FruitComponent extends SpriteComponent {
               Vector2(
                 size.x / 2 * cos(angle + 3 * pi / 2),
                 size.x / 2 * sin(angle + 3 * pi / 2),
-              ),
-          size: Vector2(size.x / 2, size.y),
+              ), // Adjust position for right half.
+          size: Vector2(size.x / 2, size.y), // Adjust size for right half.
           angle: angle,
           anchor: Anchor.topLeft,
           fruit: fruit,
           image: dividedImage2.composeSync(),
           acceleration: acceleration,
-          velocity: Vector2(velocity.x + 2, velocity.y),
+          velocity: Vector2(velocity.x + 2, velocity.y), // Apply different velocity for other half.
           pageSize: pageSize,
           divided: true, // Mark as divided.
         )
       ]);
     }
 
-    parentComponent.addScore(); // Update score when the fruit is cut.
-    removeFromParent(); // Remove the original fruit from the game.
+    parentComponent.addScore(); // Update the score when fruit is successfully cut.
+    removeFromParent(); // Remove the original, whole fruit from the game.
   }
 }

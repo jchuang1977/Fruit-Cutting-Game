@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/text.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:fruit_cutting_game/common/widgets/button/back_button.dart';
 import 'package:fruit_cutting_game/common/widgets/button/pause_button.dart';
 import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
@@ -12,6 +13,8 @@ import 'package:fruit_cutting_game/presentation/game/widgets/fruit_component.dar
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
+import 'package:fruit_cutting_game/presentation/game/widgets/fruit_slice_component.dart';
+import 'package:fruit_cutting_game/presentation/game/widgets/slice_component.dart';
 
 /// The main game page where the game play happens.
 class GamePage extends Component with DragCallbacks, HasGameReference<MainRouterGame> {
@@ -28,6 +31,12 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
 
   double finishCountDown = 2.0;
 
+  int level = 1;
+
+  // slash effect
+  late SliceTrailComponent sliceTrail;
+  final List<String> sliceSounds = ['sfx/sword-cut-type.mp3', 'sfx/bush-cut.mp3'];
+
   /// Called when the component is added to the game.
   @override
   void onMount() {
@@ -35,29 +44,22 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
 
     // Initialize game variables
     fruitsTime = []; // List to store timings for fruit appearances
-    countDown = 3; // Start countdown from 3 seconds
+    countDown = 5; // Start countdown from 3 seconds
     mistakeCount = 0; // Initialize mistake count to zero (no mistakes at the start)
     score = 0; // Set initial score to zero
     time = 0; // No time has passed at the start
     _countdownFinished = false; // Countdown has not finished yet
 
-    double initTime = 0; // Variable to store the initial time for fruit generation
+    generateFruitTimings();
 
-    // Generate timings for when fruits will appear
-    for (int i = 0; i < 4; i++) {
-      // Loop to create 40 fruit appearance timings
-      if (i != 0) {
-        initTime = fruitsTime.last; // Get the last recorded time for the previous fruit
-      }
+    // Initialize text components for score, countdown, mistakes
+    initializeTextComponents();
 
-      // Generate random milliseconds between 0 and 0.99 seconds
-      final milliSecondTime = random.nextInt(100) / 100;
+    sliceTrail = SliceTrailComponent();
+    add(sliceTrail);
+  }
 
-      // Calculate the next fruit appearance time by adding a random value to the last time
-      final componentTime = random.nextInt(1) + milliSecondTime + initTime;
-      fruitsTime.add(componentTime); // Add the calculated time to the fruitsTime list
-    }
-
+  void initializeTextComponents() {
     final _scoreTextPaint = TextPaint(
       style: const TextStyle(
         fontSize: 32,
@@ -70,7 +72,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
 
     final _countdownTextPaint = TextPaint(
       style: const TextStyle(
-        fontSize: 50,
+        fontSize: 45,
         color: AppColors.white,
         fontFamily: 'Insan',
         letterSpacing: 2.0,
@@ -88,42 +90,34 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     );
 
     // Add game components to the page
-    addAll(
-      [
-        // Back button to return to the previous screen
-        BackButtonCustom(
-          onPressed: () {
-            removeAll(children); // Remove all child components
-            game.router.pop(); // Navigate back in the game
-          },
-        ),
-        // Pause button to pause the game
-        PauseButtonCustom(),
-        // Countdown text component to show remaining time
-        _countdownTextComponent = TextComponent(
-          text: '${countDown.toInt() + 1}', // Display countdown number
-          size: Vector2.all(50), // Set size of the text
-          position: game.size / 2, // Center position
-          anchor: Anchor.center, // Anchor point for centering
-          textRenderer: _countdownTextPaint,
-        ),
-        // Mistake text component to show the number of mistakes
-        _mistakeTextComponent = TextComponent(
-          text: 'Mistake: $mistakeCount',
-          // 10 is padding
-          position: Vector2(game.size.x - 10, 10),
-          anchor: Anchor.topRight,
-          textRenderer: _mistakeTextPaint,
-        ),
-        // Score text component to show the current score
-        _scoreTextComponent = TextComponent(
-          text: 'Score: $score', // Display score
-          position: Vector2(game.size.x - 10, _mistakeTextComponent!.position.y + 40), // Position below mistakes
-          anchor: Anchor.topRight, // Anchor point for top right
-          textRenderer: _scoreTextPaint,
-        ),
-      ],
-    );
+    addAll([
+      BackButtonCustom(
+        onPressed: () {
+          removeAll(children);
+          game.router.pop();
+        },
+      ),
+      PauseButtonCustom(),
+      _countdownTextComponent = TextComponent(
+        text: "- Level 1 -",
+        size: Vector2.all(50),
+        position: Vector2(game.size.x / 2, game.size.y / 2 - 10),
+        anchor: Anchor.center,
+        textRenderer: _countdownTextPaint,
+      ),
+      _mistakeTextComponent = TextComponent(
+        text: 'Mistake: $mistakeCount',
+        position: Vector2(game.size.x - 15, 10),
+        anchor: Anchor.topRight,
+        textRenderer: _mistakeTextPaint,
+      ),
+      _scoreTextComponent = TextComponent(
+        text: 'Score: $score',
+        position: Vector2(game.size.x - 15, _mistakeTextComponent!.position.y + 40),
+        anchor: Anchor.topRight,
+        textRenderer: _scoreTextPaint,
+      ),
+    ]);
   }
 
   /// Updates the game state every frame.
@@ -135,7 +129,9 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
       countDown -= dt; // Decrease countdown by the time since last frame
 
       // Update the countdown text component with the current countdown
-      _countdownTextComponent?.text = (countDown.toInt() + 1).toString();
+      if (countDown < 2) {
+        _countdownTextComponent?.text = (countDown.toInt() + 1).toString();
+      }
 
       // Check if the countdown has finished
       if (countDown < 0) {
@@ -147,7 +143,11 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
       }
 
       // Update the countdown text component with the current value
-      _countdownTextComponent?.text = (finishCountDown.toInt() + 1).toString(); // Convert to int for display
+      if (level == 3) {
+        _countdownTextComponent?.text = (finishCountDown.toInt() + 1).toString(); // Convert to int for display
+      } else {
+        _countdownTextComponent?.text = "- Level ${level + 1} -";
+      }
 
       // Check if the countdown time has finished
       if (finishCountDown <= 0) {
@@ -168,35 +168,32 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
       time += dt; // Increment time by the time since last frame
 
       // Check which fruits should appear based on the current time
-      fruitsTime.where((element) => element < time).toList().forEach(
-        (element) {
-          final gameSize = game.size; // Get the size of the game area
-
-          // Generate a random horizontal position for the fruit
-          double posX = random.nextInt(gameSize.x.toInt()).toDouble();
-
-          Vector2 fruitPosition = Vector2(posX, gameSize.y); // Set fruit position at the bottom
-          Vector2 velocity = Vector2(0, game.maxVerticalVelocity); // Set vertical velocity
-
-          final randFruit = game.fruits.random(); // Get a random fruit
-
-          // Add a new fruit component to the game
-          add(
-            FruitComponent(
-              this,
-              fruitPosition,
-              acceleration: AppConfig.acceleration, // Set fruit's acceleration
-              fruit: randFruit, // Specify which fruit
-              size: AppConfig.shapeSize, // Set size of the fruit
-              image: game.images.fromCache(randFruit.image), // Load fruit image
-              pageSize: gameSize, // Pass game size
-              velocity: velocity, // Set velocity
-            ),
-          );
-          fruitsTime.remove(element);
-        },
-      );
+      fruitsTime.where((element) => element < time).toList().forEach((element) {
+        spawnFruit();
+        fruitsTime.remove(element);
+      });
     }
+  }
+
+  void spawnFruit() {
+    final gameSize = game.size;
+    double posX = random.nextInt(gameSize.x.toInt()).toDouble();
+    Vector2 fruitPosition = Vector2(posX, gameSize.y);
+    Vector2 velocity = Vector2(0, game.maxVerticalVelocity);
+
+    final randFruit = game.fruits.random();
+    add(
+      FruitComponent(
+        this,
+        fruitPosition,
+        acceleration: AppConfig.acceleration,
+        fruit: randFruit,
+        size: AppConfig.shapeSize,
+        image: game.images.fromCache(randFruit.image),
+        pageSize: gameSize,
+        velocity: velocity,
+      ),
+    );
   }
 
   @override
@@ -205,14 +202,24 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
   @override
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
+    sliceTrail.addPoint(event.canvasPosition);
+    onFruitSliced(sliceTrail);
 
     componentsAtPoint(event.canvasPosition).forEach((element) {
       if (element is FruitComponent) {
         if (element.canDragOnShape) {
           element.touchAtPoint(event.canvasPosition);
+          game.add(FruitSliceComponent(event.canvasPosition));
+          playRandomSliceSound();
         }
       }
     });
+  }
+
+  @override
+  void onDragEnd(DragEndEvent event) {
+    super.onDragEnd(event);
+    sliceTrail.clear(); // Clear trail on drag end for a fresh swipe
   }
 
   @override
@@ -220,8 +227,8 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     super.onGameResize(size);
 
     _countdownTextComponent?.position = game.size / 2;
-    _mistakeTextComponent?.position = Vector2(game.size.x - 10, 10);
-    _scoreTextComponent?.position = Vector2(game.size.x - 10, _mistakeTextComponent!.position.y + 40);
+    _mistakeTextComponent?.position = Vector2(game.size.x - 15, 10);
+    _scoreTextComponent?.position = Vector2(game.size.x - 15, _mistakeTextComponent!.position.y + 40);
   }
 
   bool hasFruits() {
@@ -230,12 +237,29 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
 
   /// Navigate to the game over screen.
   void gameOver() {
+    FlameAudio.bgm.stop();
     game.router.pushNamed(AppRouter.gameOver); // Navigate to game over route
   }
 
   void gameWin() {
-    game.saveScore(score);
-    game.router.pushNamed(AppRouter.gameVictory);
+    if (level < 3) {
+      level++;
+      resetLevel();
+    } else {
+      FlameAudio.bgm.stop();
+      game.saveScore(score);
+      game.router.pushNamed(AppRouter.gameVictory);
+    }
+  }
+
+  void resetLevel() {
+    fruitsTime.clear();
+    time = 0;
+    countDown = 3;
+    finishCountDown = 2.0;
+
+    _countdownFinished = false;
+    generateFruitTimings();
   }
 
   /// Increment the player's score by one and update the score display.
@@ -251,6 +275,41 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     // Check if the player has made too many mistakes
     if (mistakeCount >= 3) {
       gameOver(); // End the game if mistakes exceed limit
+    }
+  }
+
+  void onFruitSliced(SliceTrailComponent sliceTrailComponent) {
+    sliceTrailComponent.changeColor();
+  }
+
+  void playRandomSliceSound() {
+    String selectedSound = sliceSounds[random.nextInt(sliceSounds.length)];
+    FlameAudio.play(selectedSound, volume: 0.5);
+  }
+
+  void generateFruitTimings() {
+    fruitsTime.clear();
+    double initTime = 0; // Variable to store the initial time for fruit generation
+
+    int fruitCount = level == 1
+        ? 15
+        : level == 2
+            ? 30
+            : 40; // More fruits per level
+    double minInterval = level == 1
+        ? 1.5
+        : level == 2
+            ? 1.0
+            : 0.6; // Shorter intervals in higher levels
+
+    // Generate timings for when fruits will appear
+    for (int i = 0; i < fruitCount; i++) {
+      if (i != 0) initTime = fruitsTime.last;
+
+      double milliSecondTime = random.nextInt(100) / 100;
+      double componentTime = random.nextInt(1) * minInterval + milliSecondTime + initTime;
+
+      fruitsTime.add(componentTime);
     }
   }
 }

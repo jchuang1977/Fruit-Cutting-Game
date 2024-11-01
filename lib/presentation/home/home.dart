@@ -39,6 +39,7 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
         _button = RoundedButton(
           text: 'Start',
           onPressed: () {
+            game.startBgmMusic();
             game.router.pushNamed(AppRouter.gamePage);
           },
           bgColor: AppColors.blue,
