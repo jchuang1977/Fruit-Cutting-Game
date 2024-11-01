@@ -1,7 +1,7 @@
 name: fruit_cutting_game
 description: "A fun and interactive Fruit Cutting Game built using Flutter. 🎮"
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.9
 
 environment:
   sdk: ^3.5.3
@@ -14,6 +14,7 @@ dependencies:
   url_launcher: ^6.3.1
   intl:
   path_provider: ^2.1.4
+  flame_audio:
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +46,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/audio/music/
+    - assets/audio/sfx/
 
   fonts:
     - family: Insan
