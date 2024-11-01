@@ -24,14 +24,14 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 <!-- Leaderboard -->
 | Score | Player | Message | Date |
 |-------|--------|---------|------|
-
+| 88 | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | ggezwp | 11/01/2024 21:57 (UTC 7) |
 <!-- /Leaderboard -->
 
 ## 🎮 Last 20 plays
 <!-- Recent Plays -->
 | Date | Player | Message | Score |
 |-------|--------|---------|------|
-
+| 11/01/2024 21:57 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | ggezwp | 88 |
 <!-- /Recent Plays -->
 
 ## Leaderboard
