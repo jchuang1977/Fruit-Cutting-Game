@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/parallax.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import 'package:fruit_cutting_game/core/configs/assets/app_images.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
@@ -17,6 +18,7 @@ import 'package:fruit_cutting_game/presentation/home/home.dart';
 
 /// Main game class that extends FlameGame
 class MainRouterGame extends FlameGame with KeyboardEvents {
+  final Random random = Random();
   late final RouterComponent router;
   late double maxVerticalVelocity;
 
@@ -35,11 +37,15 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
     FruitModel(image: AppImages.flutter, isBomb: true),
   ];
 
+  void startBgmMusic() {
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play('music/Aylex-Off-Road.ogg', volume: 0.3);
+  }
+
   @override
   void onLoad() async {
     super.onLoad();
 
-    // Load images for all fruits in the list.
     for (final fruit in fruits) {
       await images.load(fruit.image);
     }
@@ -62,7 +68,6 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
             AppRouter.homePage: Route(HomePage.new),
             AppRouter.gamePage: Route(GamePage.new),
             AppRouter.gameVictory: VictoryRoute(),
-            // AppRouter.gameSave: SaveRoute(),
             AppRouter.gameOver: GameOverRoute(),
             AppRouter.gamePause: PauseRoute(),
           },
