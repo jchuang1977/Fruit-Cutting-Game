@@ -36,17 +36,7 @@ jobs:
 
       - name: Close Issue
         if: steps.update_leaderboard.outputs.result == 'true'
-        uses: actions/github-script@v7
+        uses: peter-evans/close-issue@v3
         with:
-          script: |
-            console.log(context); // Log context for debugging
-            console.log(github); // Log github object for debugging
-
-            const issue_number = context.payload.issue.number; // Lấy số issue từ context
-            const { owner, repo } = context.repo; // Lấy thông tin repo
-            await github.issues.update({
-              owner,
-              repo,
-              issue_number,
-              state: 'closed'
-            });
+          issue-number: ${{ github.event.issue.number }}
+          comment: Auto-closing issue ${{ github.event.issue.number }}
