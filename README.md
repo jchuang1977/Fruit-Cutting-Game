@@ -89,6 +89,6 @@ With its engaging fruit-cutting mechanics, **Flutter Fruit Cutting Game** is a p
 
 <div align="center">
 
-#### Made by Flutter <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/assets/icons/flutter.png" height="15"> with Love ❤️ | Developed by [ChunhThanhDe](https://github.com/chunhthanhde)
+#### Made by Flutter <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/assets/icons/flutter_icon.png" height="15"> with Love ❤️ | Developed by [ChunhThanhDe](https://github.com/chunhthanhde)
 
 </div>
