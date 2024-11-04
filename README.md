@@ -1,17 +1,19 @@
 # 🎮 Flutter Fruit Cutting Game
 
-A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤️ by starring ⭐ this repository if you like it!
+A fun and interactive **Fruit Cutting Game** built using Flutter.
+
+Show some ❤️ by starring ⭐ this repository if you like it!
 
 ###### Contact for work, email: chunhthanhde.dev@gmail.com
 
-<img src="assets/icons/fruit_cutting_logo.png" height="120px" alt="game logo"/>
+<img src="assets/icons/fruit_cutting_logo.png" height="80px" alt="game logo"/>
 
 ![GitHub stars](https://img.shields.io/github/stars/Flutter-Journey/Fruit-Cutting-Game?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/Flutter-Journey/Fruit-Cutting-Game?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/Flutter-Journey/Fruit-Cutting-Game?style=social)
 
 <a href="https://www.linkedin.com/in/chunhthanhde/">
-<img src="https://img.shields.io/badge/Support-Recommend%2FEndorse%20me%20on%20Linkedin-blue?style=for-the-badge&logo=linkedin" alt="Support me on LinkedIn" />
+  <img src="https://img.shields.io/badge/Support-Recommend%2FEndorse%20me%20on%20Linkedin-blue?style=for-the-badge&logo=linkedin" alt="Support me on LinkedIn" />
 </a>
 
 <a href="https://www.buymeacoffee.com/chunhthanhde" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
@@ -22,24 +24,23 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 
 ## 🤩 Leaderboard - Top 20
 <!-- Leaderboard -->
-| Score | Player | Message | Date |
-|-------|--------|---------|------|
-| 110 | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | Over 100 | 11/01/2024 22:13 (UTC 7) |
-| 93 | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> Âu Minh Tú ](https://github.com/auminhtu2001) | Ok Ok | 11/01/2024 22:19 (UTC 7) |
-| 88 | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | ggezwp | 11/01/2024 21:57 (UTC 7) |
-| 62 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/ChunhThanhDe) | Vietnam number 1 | 11/01/2024 21:55 (UTC 7) |
-| 0 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Chung](https://github.com/ChunhThanhDe) | test | 11/04/2024 17:03 (UTC 7) |
+| Score | Game Mode | Player | Message | Date |
+|-------|-----------|--------|---------|------|
+| 110 | Medium | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | Over 100 | 11/01/2024 22:13 (UTC 7) |
+| 93 | Medium | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> Âu Minh Tú ](https://github.com/auminhtu2001) | Ok Ok | 11/01/2024 22:19 (UTC 7) |
+| 88 | Medium | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | ggezwp | 11/01/2024 21:57 (UTC 7) |
+| 62 | Medium | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/ChunhThanhDe) | Vietnam number 1 | 11/01/2024 21:55 (UTC 7) |
+
 <!-- /Leaderboard -->
 
 ## 🎮 Last 20 plays
 <!-- Recent Plays -->
-| Date | Player | Message | Score |
-|-------|--------|---------|------|
-| 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Chung](https://github.com/ChunhThanhDe) | test | 0 |
-| 11/01/2024 22:19 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> Âu Minh Tú ](https://github.com/auminhtu2001) | Ok Ok | 93 |
-| 11/01/2024 22:13 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | Over 100 | 110 |
-| 11/01/2024 21:55 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/ChunhThanhDe) | Vietnam number 1 | 62 |
-| 11/01/2024 21:57 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | ggezwp | 88 |
+| Date | Player | Message | Game Mode | Score | Status |
+|------|--------|---------|-----------|-------|--------|
+| 11/01/2024 22:19 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> Âu Minh Tú ](https://github.com/auminhtu2001) | Ok Ok | Medium | 93 | Win |
+| 11/01/2024 22:13 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | Over 100 | Medium | 110 | Win |
+| 11/01/2024 21:55 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/ChunhThanhDe) | Vietnam number 1 | Medium | 62 | Win |
+| 11/01/2024 21:57 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | ggezwp | Medium | 88 | Win |
 <!-- /Recent Plays -->
 
 ## Leaderboard

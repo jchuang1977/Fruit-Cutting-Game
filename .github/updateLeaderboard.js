@@ -59,10 +59,10 @@ module.exports = async ({ github, context }) => {
     };
 
     // Get the corresponding difficulty level or 'N/A' if not found
-    const difficulty = modeMapping[mode] || 'N/A';
+    const difficulty = modeMapping[mode] || '';
 
     // Determine game outcome based on win value
-    const gameOutcome = win === 1 ? 'Win' : (win === 0 ? 'Game Over' : 'N/A');
+    const gameOutcome = win === 1 ? 'Win' : (win === 0 ? 'Game Over' : '');
 
     const newLeaderboardItem = `| ${score} | ${difficulty} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${date} |\n`;
 
@@ -79,7 +79,7 @@ module.exports = async ({ github, context }) => {
 
         let recentPlaysRows = recentPlaysContent
             .split('\n')
-            .filter(row => row.startsWith('|') && !row.includes('Date | Player | Message | Score ') && !row.includes('|-------|--------|---------|------|'));
+            .filter(row => row.startsWith('|') && !row.includes('Date | Player | Message | Game Mode | Score | Status ') && !row.includes('|------|--------|---------|-----------|-------|--------|'));
 
 
         recentPlaysRows.unshift(newEntry);
@@ -90,28 +90,26 @@ module.exports = async ({ github, context }) => {
         }
 
 
-        const updatedRecentPlays = `<!-- Recent Plays -->\n| Date | Player | Message | Score |\n|-------|--------|---------|------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
+        const updatedRecentPlays = `<!-- Recent Plays -->\n| Date | Player | Message | Game Mode | Score | Status |\n|------|--------|---------|-----------|-------|--------|\n${recentPlaysRows.join('\n')}\n<!-- /Recent Plays -->`;
         readme = readme.replace(recentPlaysSection[0], updatedRecentPlays);
     }
 
     // Update Leaderboard
     const leaderboardSection = /<!-- Leaderboard -->[\s\S]*?<!-- \/Leaderboard -->/.exec(readme);
-    if (leaderboardSection) {
+    if (leaderboardSection && win === 1 ) {
         let leaderboardContent = leaderboardSection[0];
         leaderboardContent = leaderboardContent.replace(/<!-- \/Leaderboard -->/, `${newLeaderboardItem}<!-- \/Leaderboard -->`);
 
         let leaderboardRows = leaderboardContent
             .split('\n')
-            .filter(row => row.startsWith('|') && !row.includes('Score | Player | Message | Date') && !row.includes('|-------|--------|---------|------|'));
+            .filter(row => row.startsWith('|') && !row.includes('Score | Game Mode | Player | Message | Date') && !row.includes('|-------|-----------|--------|---------|------|'));
 
         leaderboardRows.sort((a, b) => {
             const scoreA = a.match(/^\| (\d+) \|/);
             const scoreB = b.match(/^\| (\d+) \|/);
-            const dateA = a.match(/\| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|/)[4].trim();
-            const dateB = b.match(/\| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|/)[4].trim();
+            const dateA = a.match(/\| (\d+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|/)[5].trim();
+            const dateB = b.match(/\| (\d+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|/)[5].trim();
 
-
-            // So sánh theo điểm trước
             if (scoreB && scoreA) {
                 const scoreDiff = parseInt(scoreB[1]) - parseInt(scoreA[1]);
                 if (scoreDiff !== 0) {
@@ -125,10 +123,10 @@ module.exports = async ({ github, context }) => {
         console.log("Current length of leaderboardRows after sorting:", leaderboardRows.length);
 
         if (leaderboardRows.length > 20) {
-            leaderboardRows = leaderboardRows.slice(0, 20); // Giữ lại 20 phần tử đầu tiên
+            leaderboardRows = leaderboardRows.slice(0, 20);
         }
 
-        const updatedLeaderboard = `<!-- Leaderboard -->\n| Score | Player | Message | Date |\n|-------|--------|---------|------|\n${leaderboardRows.join('\n')}\n<!-- /Leaderboard -->`;
+        const updatedLeaderboard = `<!-- Leaderboard -->\n| Score | Game Mode | Player | Message | Date |\n|-------|-----------|--------|---------|------|\n${leaderboardRows.join('\n')}\n<!-- /Leaderboard -->`;
         readme = readme.replace(leaderboardSection[0], updatedLeaderboard);
     }
 
