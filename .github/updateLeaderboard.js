@@ -63,7 +63,7 @@ module.exports = async ({ github, context }) => {
         const difficulty = modeMapping[mode] || '';
         const gameOutcome = win === 1 ? 'Win' : 'Game Over';
 
-        const newLeaderboardItem = `| ${score} | ${difficulty} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${date} |\n`;
+        const newLeaderboardItem = `| ${score} | ${difficulty} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${date} |`;
         const newEntry = `| ${date} | [<img src="${issue.author.avatarUrl}" alt="${issue.author.login}" width="24" /> ${name}](${githubLink}) | ${message} | ${difficulty} | ${score} | ${gameOutcome} |`;
 
         const readmePath = 'README.md';
