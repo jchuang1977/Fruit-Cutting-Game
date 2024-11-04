@@ -53,9 +53,9 @@ class GamePausePage extends Component with TapCallbacks, HasGameReference<MainRo
     // Add the text component to display "PAUSED".
     addAll([
       _textComponent = TextComponent(
-        text: 'PAUSED', // The message to display when the game is paused.
-        position: game.canvasSize / 2, // Center the text on the canvas.
-        anchor: Anchor.center, // Set the anchor point to the center of the text.
+        text: 'PAUSED',
+        position: game.canvasSize / 2,
+        anchor: Anchor.center,
         children: [
           // Add a scaling effect to the text to make it pulsate.
           ScaleEffect.to(
@@ -75,8 +75,8 @@ class GamePausePage extends Component with TapCallbacks, HasGameReference<MainRo
   /// Called when the game is resized; updates text position to stay centered.
   @override
   void onGameResize(Vector2 size) {
-    super.onGameResize(size); // Call the superclass method to handle resizing.
-    _textComponent.position = size / 2; // Recenter the text component.
+    super.onGameResize(size);
+    _textComponent.position = size / 2;
   }
 
   /// Always returns true, indicating that this component can contain tap events.

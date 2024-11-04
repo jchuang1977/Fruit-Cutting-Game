@@ -12,6 +12,8 @@ import 'package:flame/rendering.dart';
 import 'package:flame/text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fruit_cutting_game/common/helpers/app_save_action.dart';
+import 'package:fruit_cutting_game/common/widgets/button/rounded_button.dart';
+import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
 import 'package:intl/intl.dart';
@@ -46,24 +48,33 @@ class VictoryRoute extends Route {
 /// This class represents the pause page displayed when the game is paused.
 class GameVictoryPage extends Component with TapCallbacks, HasGameReference<MainRouterGame> {
   late TextComponent _textComponent; // Text component to show the "VICTORY" message.
+  late TextComponent _textTimeComponent;
+  late TextComponent _textScoreComponent;
+  late TextComponent _textLeaderboardComponent;
+  late TextComponent _textGameModeComponent;
 
-  late TextComponent _timeComponent;
-
-  late TextComponent _scoreComponent;
+  late RoundedButton _buttonNewGameComponent;
 
   final String timezone = 'UTC+7';
 
   /// Load the components for the pause page.
   @override
   Future<void> onLoad() async {
-    final game = findGame()!; // Find the current game instance.
-
     final textTitlePaint = TextPaint(
       style: const TextStyle(
         fontSize: 80,
         color: AppColors.white,
         fontFamily: 'Marshmallow',
         letterSpacing: 3.0,
+      ),
+    );
+
+    final textPaint = TextPaint(
+      style: const TextStyle(
+        fontSize: 15,
+        color: AppColors.white,
+        fontFamily: 'Insan',
+        letterSpacing: 2.0,
       ),
     );
 
@@ -85,12 +96,28 @@ class GameVictoryPage extends Component with TapCallbacks, HasGameReference<Main
       ),
     );
 
+    _buttonNewGameComponent = RoundedButton(
+      bgColor: AppColors.githubColor,
+      borderColor: AppColors.blue,
+      text: "New Game",
+      anchor: Anchor.center,
+      onPressed: () {
+        game.router
+          ..pop() // Go back to the previous route.
+          ..pushNamed(AppRouter.homePage, replace: true); // Push the home page route.
+      },
+    );
+
+    add(_buttonNewGameComponent);
+
+    final flameGame = findGame()!; // Find the current game instance.
+
     // Add the text component to display "VICTORY".
     addAll(
       [
         _textComponent = TextComponent(
-          text: 'VICTORY', // The message to display when the game is paused.
-          position: game.canvasSize / 2, // Center the text on the canvas.
+          text: 'VICTORY', // The message to display when the flameGame is paused.
+          position: flameGame.canvasSize / 2, // Center the text on the canvas.
           anchor: Anchor.center, // Set the anchor point to the center of the text.
           children: [
             // Add a scaling effect to the text to make it pulsate.
@@ -105,17 +132,29 @@ class GameVictoryPage extends Component with TapCallbacks, HasGameReference<Main
           ],
           textRenderer: textTitlePaint,
         ),
-        _timeComponent = TextComponent(
+        _textTimeComponent = TextComponent(
           text: "", // The message to display.
-          position: game.canvasSize / 2, // Center the text on the canvas.
+          position: flameGame.canvasSize / 2, // Center the text on the canvas.
           anchor: Anchor.centerLeft, // Set the anchor point to the center.
           textRenderer: textTimePaint,
         ),
-        _scoreComponent = TextComponent(
-          text: 'Score: ', // The message to display.
-          position: game.canvasSize / 2, // Center the text on the canvas.
-          anchor: Anchor.center, // Set the anchor point to the center.
+        _textLeaderboardComponent = TextComponent(
+          text: "Click anywhere to start new Game",
+          position: flameGame.canvasSize / 2,
+          anchor: Anchor.centerRight,
+          textRenderer: textPaint,
+        ),
+        _textScoreComponent = TextComponent(
+          text: 'Score: ',
+          position: flameGame.canvasSize / 2,
+          anchor: Anchor.center,
           textRenderer: textScorePaint,
+        ),
+        _textGameModeComponent = TextComponent(
+          text: "Mode: ${game.mode == 0 ? 'Easy' : game.mode == 1 ? 'Medium' : 'Hard'}",
+          position: flameGame.canvasSize / 2,
+          anchor: Anchor.centerLeft,
+          textRenderer: textPaint,
         ),
       ],
     );
@@ -124,12 +163,15 @@ class GameVictoryPage extends Component with TapCallbacks, HasGameReference<Main
   /// Called when the game is resized; updates text position to stay centered.
   @override
   void onGameResize(Vector2 size) {
-    super.onGameResize(size); // Call the superclass method to handle resizing.
-    _textComponent.position = Vector2(game.size.x / 2, game.size.y / 2 - 50);
-    _timeComponent.position = Vector2(15, 20);
-    _scoreComponent.position = Vector2(game.size.x / 2, game.size.y / 2 + 60);
+    super.onGameResize(size);
+    _textComponent.position = Vector2(game.size.x / 2, game.size.y / 2 - 70);
+    _textTimeComponent.position = Vector2(15, 20);
+    _textScoreComponent.position = Vector2(game.size.x / 2, game.size.y / 2 + 25);
+    _buttonNewGameComponent.position = Vector2(game.size.x / 2, game.size.y / 2 + 110);
+    _textLeaderboardComponent.position = Vector2(game.size.x - 15, game.size.y - 15);
+    _textGameModeComponent.position = Vector2(15, game.size.y - 15);
 
-    _scoreComponent.text = 'Score: ${game.getScore()}';
+    _textScoreComponent.text = 'Score: ${game.getScore()}';
   }
 
   /// Always returns true, indicating that this component can contain tap events.
@@ -145,8 +187,8 @@ class GameVictoryPage extends Component with TapCallbacks, HasGameReference<Main
     DateTime now = DateTime.now().toUtc().add(const Duration(hours: 7));
     String formattedTime = DateFormat('MM/dd/yyyy HH:mm').format(now);
 
-    if (_timeComponent.text != '$formattedTime ($timezone)') {
-      _timeComponent.text = '$formattedTime ($timezone)';
+    if (_textTimeComponent.text != '$formattedTime ($timezone)') {
+      _textTimeComponent.text = '$formattedTime ($timezone)';
     }
   }
 
@@ -154,8 +196,12 @@ class GameVictoryPage extends Component with TapCallbacks, HasGameReference<Main
   @override
   Future<void> onTapUp(TapUpEvent event) async {
     await captureAndSaveImage();
-    // Save your score
-    final GitHubService gitHubService = GitHubService(time: _timeComponent.text, score: game.getScore().toString());
+    final GitHubService gitHubService = GitHubService(
+      time: _textTimeComponent.text,
+      score: game.getScore().toString(),
+      mode: game.mode.toString(),
+      win: true,
+    );
     gitHubService.createIssue();
   }
 
@@ -186,7 +232,9 @@ class GameVictoryPage extends Component with TapCallbacks, HasGameReference<Main
       }
       // ignore: empty_catches
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 }

@@ -7,6 +7,7 @@ import 'package:flame/parallax.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import 'package:fruit_cutting_game/core/configs/assets/app_images.dart';
+import 'package:fruit_cutting_game/core/configs/assets/app_sfx.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/data/models/fruit_model.dart';
@@ -39,7 +40,39 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
 
   void startBgmMusic() {
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('music/Aylex-Off-Road.ogg', volume: 0.3);
+    FlameAudio.bgm.play(AppSfx.musicBG, volume: 0.3);
+  }
+
+  int score = 0; // Current score of the player
+
+  /// Retrieves the current score.
+  ///
+  /// Returns the current score value.
+  int getScore() {
+    return score;
+  }
+
+  /// Saves the input score.
+  ///
+  /// Updates the score with the provided scoreInput value.
+  void saveScore(int scoreInput) {
+    score = scoreInput;
+  }
+
+  int mode = 0; // Current game mode (0, 1, 2, etc.)
+
+  /// Retrieves the current game mode.
+  ///
+  /// Returns the current mode value.
+  int getMode() {
+    return mode;
+  }
+
+  /// Saves the input mode.
+  ///
+  /// Updates the mode with the provided modeInput value.
+  void saveMode(int modeInput) {
+    mode = modeInput;
   }
 
   @override
@@ -85,18 +118,7 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
   /// Calculate the maximum vertical velocity based on the game size.
   void getMaxVerticalVelocity(Vector2 size) {
     // Formula to calculate maximum vertical velocity.
-    maxVerticalVelocity = sqrt(2 * (AppConfig.gravity.abs() + AppConfig.acceleration.abs()) * (size.y - AppConfig.objSize * 2)); // Adjust for the object's size.
-  }
-
-  // Field to store the player's name
-  int score = 0;
-
-  // Placeholder for saving the name when appropriate
-  int getScore() {
-    return score;
-  }
-
-  void saveScore(int scoreInput) {
-    score = scoreInput;
+    // Adjust for the object's size.
+    maxVerticalVelocity = sqrt(2 * (AppConfig.gravity.abs() + AppConfig.acceleration.abs()) * (size.y - AppConfig.objSize * 2));
   }
 }
