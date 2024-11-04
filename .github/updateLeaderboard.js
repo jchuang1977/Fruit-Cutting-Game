@@ -39,9 +39,9 @@ module.exports = async ({ github, context }) => {
         const winMatch = /Win:\s*(\d+)/.exec(issue.title);
 
         // Extract values or fallback to author details if null
-        const name = nameMatch ? nameMatch[1].trim() : issue.author.login;
-        const githubLink = githubLinkMatch ? githubLinkMatch[1].trim() : issue.author.url;
-        const message = messageMatch ? messageMatch[1].trim() : '';
+        const name = nameMatch && nameMatch[1].trim() !== '' ? nameMatch[1].trim() : issue.author.login;
+        const githubLink = githubLinkMatch && githubLinkMatch[1].trim() !== '' ? githubLinkMatch[1].trim() : issue.author.url;
+        const message = messageMatch ? messageMatch[1].trim() : 'Happy playing 🎉 !!!';
         const score = scoreMatch ? parseInt(scoreMatch[1].trim()) : null;
         const date = dateMatch ? dateMatch[1].trim() : null;
         const mode = modeMatch ? parseInt(modeMatch[1].trim()) : null;
