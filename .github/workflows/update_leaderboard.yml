@@ -6,7 +6,7 @@ on:
 
 jobs:
   update_leaderboard:
-    if: startsWith(github.event.issue.title, 'Game Result Submission') && github.event.comment.body == 'accept' && github.actor == 'ChunhThanhDe'
+    if: startsWith(github.event.issue.title, 'Game Result Submission') && contains(github.event.comment.body, 'accept') && github.actor == 'ChunhThanhDe'
     runs-on: ubuntu-latest
     permissions:
       contents: write
