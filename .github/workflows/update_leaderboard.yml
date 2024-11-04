@@ -1,17 +1,16 @@
 name: Update Leaderboard
 
 on:
-  issues:
-    types: [opened, edited]
+  issue_comment:
+    types: [created]
 
 jobs:
   update_leaderboard:
-    if: startsWith(github.event.issue.title, 'Game Result Submission')
+    if: startsWith(github.event.issue.title, 'Game Result Submission') && github.event.comment.body == 'accept' && github.actor == 'ChunhThanhDe'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       issues: write
-      pull-requests: write
 
     steps:
       - name: Checkout repository
@@ -24,23 +23,19 @@ jobs:
           script: |
             const updateLeaderboard = require('./.github/updateLeaderboard.js');
             const result = await updateLeaderboard({ github, context });
-            core.setOutput('success', result); // Setting the output for later steps
-            core.setOutput('issueBody', context.payload.issue.body); // Get the issue body
+            return result;
 
-      - name: Create Pull Request
-        if: steps.update_leaderboard.outputs.success == 'true'
-        id: create_pr
-        uses: peter-evans/create-pull-request@v7.0.5
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          branch: update-leaderboard
-          commit-message: ':sparkles: Update leaderboard'
-          title: 'Update Leaderboard'
-          body: ${{ steps.update_leaderboard.outputs.issueBody }} # Use the issue body as PR body
-          base: main
+      - name: Commit changes
+        if: steps.update_leaderboard.outputs.result == 'true'
+        run: |
+          git config --global user.name 'Github Actions'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m ':sparkles: Update leaderboard' || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:main
 
       - name: Close Issue
-        if: steps.create_pr.outputs.pull_request_url != ''
+        if: steps.update_leaderboard.outputs.result == 'true'
         uses: actions/github-script@v7
         with:
           script: |
