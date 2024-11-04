@@ -2,7 +2,7 @@ name: Update Leaderboard
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
 
 jobs:
   update_leaderboard:
@@ -25,15 +25,28 @@ jobs:
             const updateLeaderboard = require('./.github/updateLeaderboard.js');
             const result = await updateLeaderboard({ github, context });
             core.setOutput('success', result); // Setting the output for later steps
+            core.setOutput('issueBody', context.payload.issue.body); // Get the issue body
 
       - name: Create Pull Request
         if: steps.update_leaderboard.outputs.success == 'true'
+        id: create_pr
         uses: peter-evans/create-pull-request@v7.0.5
         with:
           token: ${{ secrets.GH_TOKEN }}
           branch: update-leaderboard
           commit-message: ':sparkles: Update leaderboard'
           title: 'Update Leaderboard'
-          body: |
-            This PR updates the leaderboard based on the latest game results.
+          body: ${{ steps.update_leaderboard.outputs.issueBody }} # Use the issue body as PR body
           base: main
+
+      - name: Close Issue
+        if: steps.create_pr.outputs.pull_request_url != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue_number = context.payload.issue.number;
+            await github.issues.update({
+              ...context.repo,
+              issue_number,
+              state: 'closed'
+            });
