@@ -6,6 +6,7 @@ import 'package:fruit_cutting_game/core/configs/assets/app_images.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_router.dart';
 import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
+import 'package:fruit_cutting_game/presentation/home/widgets/game_mode_component.dart';
 import 'package:fruit_cutting_game/presentation/home/widgets/tutorial_fruit_component.dart';
 
 class HomePage extends Component with HasGameReference<MainRouterGame> {
@@ -19,6 +20,8 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
   // ignore: unused_field
   late final TextComponent _ediblesTextComponent;
   late final TextComponent _bombTextComponent;
+
+  late final InteractiveButtonComponent _gameModeComponent;
 
   @override
   void onLoad() async {
@@ -90,14 +93,17 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
         TutorialFruitsListComponent(
           isLeft: false,
           fruits: [
-            TutorialFruitComponent(text: 'Bomp', imagePath: AppImages.bomb, isLeft: false),
+            TutorialFruitComponent(text: 'Bomb', imagePath: AppImages.bomb, isLeft: false),
             TutorialFruitComponent(text: 'Flame', imagePath: AppImages.flame, isLeft: false),
             TutorialFruitComponent(text: 'Flutter', imagePath: AppImages.flutter, isLeft: false),
           ],
         )..position = Vector2(0, 50),
+        _gameModeComponent = InteractiveButtonComponent(
+          size: Vector2(40, 40), // Adjust size as needed
+          position: Vector2(150, 200), // Adjust position as needed
+        )..anchor = Anchor.bottomRight,
       ],
     );
-    ;
   }
 
   @override
@@ -106,10 +112,13 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
 
     // button in center of page
     _button.position = size / 2;
+
     _tutorialRuleScore1Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 3.9);
     _tutorialRuleScore2Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 5.1);
     _tutorialRuleLose1Component.position = Vector2(game.size.x / 2, game.size.y / 5.1);
     _tutorialRuleLose2Component.position = Vector2(game.size.x / 2, game.size.y / 3.9);
+
     _bombTextComponent.position = Vector2(game.size.x - 45, 10);
+    _gameModeComponent.position = Vector2(game.size.x - 50, game.size.y - 50);
   }
 }

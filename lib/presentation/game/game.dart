@@ -8,6 +8,7 @@ import 'package:flame/text.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:fruit_cutting_game/common/widgets/button/back_button.dart';
 import 'package:fruit_cutting_game/common/widgets/button/pause_button.dart';
+import 'package:fruit_cutting_game/core/configs/assets/app_sfx.dart';
 import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/presentation/game/widgets/fruit_component.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
@@ -18,24 +19,30 @@ import 'package:fruit_cutting_game/presentation/game/widgets/slice_component.dar
 
 /// The main game page where the game play happens.
 class GamePage extends Component with DragCallbacks, HasGameReference<MainRouterGame> {
-  final Random random = Random(); // Random number generator for fruit timings
+  // Random number generator for fruit timings
+  final Random random = Random();
   late List<double> fruitsTime; // List to hold the timing for when fruits appear
+
+  // Timing variables
   late double time; // Current elapsed time
   late double countDown; // Countdown timer for the start of the game
+  double finishCountDown = 2.0; // Finish countdown duration
+
+  // Game variables
+  late int level = 1; // Current game level
+  late int mistakeCount; // Number of mistakes made by the player
+  late int score; // Player's score
+  bool _countdownFinished = false; // Flag to check if countdown is finished
+
+  // UI Components
   TextComponent? _countdownTextComponent; // Component to display countdown
   TextComponent? _mistakeTextComponent; // Component to display mistake count
   TextComponent? _scoreTextComponent; // Component to display score
-  bool _countdownFinished = false; // Flag to check if countdown is finished
-  late int mistakeCount; // Number of mistakes made by the player
-  late int score; // Player's score
+  TextComponent? _modeTextComponent;
 
-  double finishCountDown = 2.0;
-
-  int level = 1;
-
-  // slash effect
+  // Slash effect
   late SliceTrailComponent sliceTrail;
-  final List<String> sliceSounds = ['sfx/sword-cut-type.mp3', 'sfx/bush-cut.mp3'];
+  final List<String> sliceSounds = [AppSfx.sfxChopping, AppSfx.sfxCut];
 
   /// Called when the component is added to the game.
   @override
@@ -49,6 +56,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     score = 0; // Set initial score to zero
     time = 0; // No time has passed at the start
     _countdownFinished = false; // Countdown has not finished yet
+    level = 1;
 
     generateFruitTimings();
 
@@ -89,6 +97,16 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
       ),
     );
 
+    final _modeTextPaint = TextPaint(
+      style: const TextStyle(
+        fontSize: 18,
+        color: AppColors.white,
+        fontWeight: FontWeight.w100,
+        fontFamily: 'Insan',
+        letterSpacing: 2.0,
+      ),
+    );
+
     // Add game components to the page
     addAll([
       BackButtonCustom(
@@ -116,6 +134,12 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
         position: Vector2(game.size.x - 15, _mistakeTextComponent!.position.y + 40),
         anchor: Anchor.topRight,
         textRenderer: _scoreTextPaint,
+      ),
+      _modeTextComponent = TextComponent(
+        text: 'Mode ${game.mode == 0 ? 'Easy' : game.mode == 1 ? 'Medium' : 'Hard'}',
+        position: Vector2(game.size.x - 15, game.size.y - 15),
+        anchor: Anchor.bottomRight,
+        textRenderer: _modeTextPaint,
       ),
     ]);
   }
@@ -229,6 +253,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     _countdownTextComponent?.position = game.size / 2;
     _mistakeTextComponent?.position = Vector2(game.size.x - 15, 10);
     _scoreTextComponent?.position = Vector2(game.size.x - 15, _mistakeTextComponent!.position.y + 40);
+    _modeTextComponent?.position = Vector2(game.size.x - 15, game.size.y - 15);
   }
 
   bool hasFruits() {
@@ -238,6 +263,7 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
   /// Navigate to the game over screen.
   void gameOver() {
     FlameAudio.bgm.stop();
+    game.saveScore(score);
     game.router.pushNamed(AppRouter.gameOver); // Navigate to game over route
   }
 
@@ -291,16 +317,8 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     fruitsTime.clear();
     double initTime = 0; // Variable to store the initial time for fruit generation
 
-    int fruitCount = level == 1
-        ? 15
-        : level == 2
-            ? 30
-            : 40; // More fruits per level
-    double minInterval = level == 1
-        ? 1.5
-        : level == 2
-            ? 1.0
-            : 0.6; // Shorter intervals in higher levels
+    int fruitCount = getFruitCount(level, game.mode);
+    double minInterval = getMinInterval(level, game.mode);
 
     // Generate timings for when fruits will appear
     for (int i = 0; i < fruitCount; i++) {
@@ -311,5 +329,25 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
 
       fruitsTime.add(componentTime);
     }
+  }
+
+  int getFruitCount(int level, int mode) {
+    const List<List<int>> fruitCounts = [
+      [15, 20, 30], // Level 1
+      [20, 30, 40], // Level 2
+      [30, 40, 60], // Level 3
+    ];
+
+    return fruitCounts[level - 1][mode];
+  }
+
+  double getMinInterval(int level, int mode) {
+    const List<List<double>> minIntervals = [
+      [1.5, 1.5, 1.2], // Level 1
+      [1.2, 1.0, 0.8], // Level 2
+      [0.8, 0.6, 0.5], // Level 3
+    ];
+
+    return minIntervals[level - 1][mode];
   }
 }

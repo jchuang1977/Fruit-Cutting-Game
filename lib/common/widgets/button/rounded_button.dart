@@ -38,6 +38,8 @@ class RoundedButton extends PositionComponent with TapCallbacks {
   /// Paint object for drawing the background.
   late final Paint _bgPaint;
 
+  final double sizeX;
+
   /// Constructor for the `RoundedButton`.
   ///
   /// - `text`: The text to be displayed on the button.
@@ -49,6 +51,7 @@ class RoundedButton extends PositionComponent with TapCallbacks {
     required this.onPressed,
     required this.bgColor,
     required this.borderColor,
+    this.sizeX = 190,
     super.anchor = Anchor.center,
   }) : _textDrawable = TextPaint(
           style: const TextStyle(
@@ -60,7 +63,7 @@ class RoundedButton extends PositionComponent with TapCallbacks {
           ),
         ).toTextPainter(text) {
     // Sets the button size
-    size = Vector2(190, 50);
+    size = Vector2(sizeX, 50);
 
     // Centers the text inside the button
     _textOffset = Offset(

@@ -11,13 +11,13 @@ assignees: ''
 
 **Please fill in the following details:**
 
-#### 👤 **Name**:  <!-- Enter your name here -->
+#### - 👤 **Name**:  <!-- Enter your name here -->
 
-#### 🔗 **GitHub Profile Link**:  <!-- Enter your GitHub profile link here -->
+#### - 🔗 **GitHub Profile Link**:  <!-- Enter your GitHub profile link here -->
 
-#### 💬 **Message**: <!-- Add a message about your experience -->
+#### - 💬 **Message**: <!-- Add a message about your experience -->
 
-#### 🖼️ **Screenshot**
+#### - 🖼️ **Screenshot**
 <!-- Add your screenshot link here -->
 
 ---

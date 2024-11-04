@@ -2,15 +2,16 @@
 
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:js' as js;
 
 import 'package:flutter/material.dart';
 
 class WebTitleSwitcher extends StatefulWidget {
   const WebTitleSwitcher({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
   final Widget child;
 
   @override

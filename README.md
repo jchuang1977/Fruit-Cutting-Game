@@ -25,7 +25,7 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 | Score | Player | Message | Date |
 |-------|--------|---------|------|
 | 110 | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | Over 100 | 11/01/2024 22:13 (UTC 7) |
-| 93 | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> 🔗 GitHub Profile Link:](💬 Message:) | 🖼️ Screenshot | 11/01/2024 22:19 (UTC 7) |
+| 93 | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> Âu Minh Tú ](https://github.com/auminhtu2001) | Ok Ok | 11/01/2024 22:19 (UTC 7) |
 | 88 | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | ggezwp | 11/01/2024 21:57 (UTC 7) |
 | 62 | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/ChunhThanhDe) | Vietnam number 1 | 11/01/2024 21:55 (UTC 7) |
 <!-- /Leaderboard -->
@@ -34,7 +34,7 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 <!-- Recent Plays -->
 | Date | Player | Message | Score |
 |-------|--------|---------|------|
-| 11/01/2024 22:19 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> 🔗 GitHub Profile Link:](💬 Message:) | 🖼️ Screenshot | 93 |
+| 11/01/2024 22:19 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> Âu Minh Tú ](https://github.com/auminhtu2001) | Ok Ok | 93 |
 | 11/01/2024 22:13 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | Over 100 | 110 |
 | 11/01/2024 21:55 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/ChunhThanhDe) | Vietnam number 1 | 62 |
 | 11/01/2024 21:57 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | ggezwp | 88 |
@@ -54,12 +54,16 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 
 ## 🎮 Demo
 
-Check out how the game looks in action! You can view a gameplay demo [here](https://www.youtube.com/watch?v=demo_link).
+Check out how the game looks in action! You can view a gameplay demo [here](https://www.youtube.com/watch?v=YU_S1bes25o).
 
+![demo](media/gif/Fruit-Cutting-Game.gif)
+
+
+## 🏏 Screen
 <table>
 <tr>
-<td><img src="https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/master/media/screenshot1.jpg" height="300px"></td>
-<td><img src="https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/master/media/screenshot2.jpg" height="300px"></td>
+<td><img src="https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/master/media/image/image_newgame.png" height="300px"></td>
+<td><img src="https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/master/media/image/image_victory.png" height="300px"></td>
 </tr>
 </table>
 
