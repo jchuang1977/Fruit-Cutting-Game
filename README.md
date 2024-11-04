@@ -37,6 +37,7 @@ Show some ❤️ by starring ⭐ this repository if you like it!
 <!-- Recent Plays -->
 | Date | Player | Message | Game Mode | Score | Status |
 |------|--------|---------|-----------|-------|--------|
+| 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> ]() |  | Easy | 0 | Game Over |
 | 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> - 🔗 GitHub Profile Link:](- 💬 Message:) |  | Easy | 0 | Game Over |
 | 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Chung](https://github.com/ChunhThanhDe) | test | Easy | 0 | Game Over |
 | 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Chung](https://github.com/ChunhThanhDe) | test | Easy | 0 | Game Over |
