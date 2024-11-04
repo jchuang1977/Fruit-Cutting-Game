@@ -24,12 +24,13 @@ jobs:
           script: |
             const updateLeaderboard = require('./.github/updateLeaderboard.js');
             const result = await updateLeaderboard({ github, context });
-            return result;
+            core.setOutput('success', result); // Setting the output for later steps
 
       - name: Create Pull Request
-        if: steps.update_leaderboard.outputs.result == 'true'
-        uses: peter-evans/create-pull-request@v5
+        if: steps.update_leaderboard.outputs.success == 'true'
+        uses: peter-evans/create-pull-request@v7.0.5
         with:
+          token: ${{ secrets.GH_TOKEN }}
           branch: update-leaderboard
           commit-message: ':sparkles: Update leaderboard'
           title: 'Update Leaderboard'
