@@ -30,9 +30,9 @@ module.exports = async ({ github, context }) => {
 
         const issue = result.repository.issue;
 
-        const nameMatch = /👤 Name:\s*(.*?)\n-/.exec(issue.bodyText);
-        const githubLinkMatch = /🔗 GitHub Profile Link:\s*(.*?)\n-/.exec(issue.bodyText);
-        const messageMatch = /💬 Message:\s*(.*?)\n-/.exec(issue.bodyText);
+        const nameMatch = /👤 Name:(.*?)\n-/.exec(issue.bodyText);
+        const githubLinkMatch = /🔗 GitHub Profile Link:(.*?)\n-/.exec(issue.bodyText);
+        const messageMatch = /💬 Message:(.*?)\n-/.exec(issue.bodyText);
         const scoreMatch = /Score:\s*(\d+)/.exec(issue.title);
         const dateMatch = /Game Result Submission:\s*(.*?) - Score:/.exec(issue.title);
         const modeMatch = /Mode:\s*(\d+)/.exec(issue.title);
