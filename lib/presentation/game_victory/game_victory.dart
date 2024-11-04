@@ -139,7 +139,7 @@ class GameVictoryPage extends Component with TapCallbacks, HasGameReference<Main
           textRenderer: textTimePaint,
         ),
         _textLeaderboardComponent = TextComponent(
-          text: "Click anywhere to start new Game",
+          text: "Click anywhere to save Rankings",
           position: flameGame.canvasSize / 2,
           anchor: Anchor.centerRight,
           textRenderer: textPaint,
