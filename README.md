@@ -62,8 +62,8 @@ Check out how the game looks in action! You can view a gameplay demo [here](http
 ## 🏏 Screen
 <table>
 <tr>
-<td><img src="https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/master/media/image/image_newgame.png" height="300px"></td>
-<td><img src="https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/master/media/image/image_victory.png" height="300px"></td>
+<td><img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_newgame.png"></td>
+<td><img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_victory.png"></td>
 </tr>
 </table>
 
