@@ -99,7 +99,7 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
           ],
         )..position = Vector2(0, 50),
         _gameModeComponent = InteractiveButtonComponent(
-          size: Vector2(40, 40), // Adjust size as needed
+          size: Vector2(50, 50), // Adjust size as needed
           position: Vector2(150, 200), // Adjust position as needed
         )..anchor = Anchor.bottomRight,
       ],

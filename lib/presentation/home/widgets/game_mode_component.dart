@@ -38,7 +38,7 @@ class InteractiveButtonComponent extends PositionComponent with TapCallbacks, Ha
     // Paint style for the text component.
     final textPaint = TextPaint(
       style: const TextStyle(
-        fontSize: 18,
+        fontSize: 22,
         color: AppColors.white,
         fontFamily: 'Marshmallow',
         letterSpacing: 3.0,
