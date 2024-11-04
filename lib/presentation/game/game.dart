@@ -227,11 +227,11 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
     sliceTrail.addPoint(event.canvasPosition);
-    onFruitSliced(sliceTrail);
 
     componentsAtPoint(event.canvasPosition).forEach((element) {
       if (element is FruitComponent) {
         if (element.canDragOnShape) {
+          onFruitSliced(sliceTrail);
           element.touchAtPoint(event.canvasPosition);
           game.add(FruitSliceComponent(event.canvasPosition));
           playRandomSliceSound();
