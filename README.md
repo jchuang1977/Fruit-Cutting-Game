@@ -56,8 +56,7 @@ A fun and interactive **Fruit Cutting Game** built using Flutter. Show some ❤�
 
 Check out how the game looks in action! You can view a gameplay demo [here](https://www.youtube.com/watch?v=YU_S1bes25o).
 
-![demo](media/gif/Fruit-Cutting-Game.gif)
-
+<img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/gif/Fruit-Cutting-Game.gif" height="300" />
 
 ## 🏏 Screen
 <table>
