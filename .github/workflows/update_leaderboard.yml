@@ -39,5 +39,5 @@ jobs:
         uses: peter-evans/close-issue@v3
         with:
           issue-number: ${{ github.event.issue.number }}
-          comment: Have fun playing! 🎉 - Your score has been added to the Leaderboard, and the issue has been automatically closed! ✅
+          comment: Have fun playing! 🎉 Your score has been added to the Leaderboard, and the issue has been automatically closed! ✅
 

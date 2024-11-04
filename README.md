@@ -37,12 +37,6 @@ Show some ❤️ by starring ⭐ this repository if you like it!
 <!-- Recent Plays -->
 | Date | Player | Message | Game Mode | Score | Status |
 |------|--------|---------|-----------|-------|--------|
-| 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> ChunhThanhDe](https://github.com/ChunhThanhDe) |  | Easy | 0 | Game Over |
-| 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> ]() |  | Easy | 0 | Game Over |
-| 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> - 🔗 GitHub Profile Link:](- 💬 Message:) |  | Easy | 0 | Game Over |
-| 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Chung](https://github.com/ChunhThanhDe) | test | Easy | 0 | Game Over |
-| 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Chung](https://github.com/ChunhThanhDe) | test | Easy | 0 | Game Over |
-| 11/04/2024 17:03 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Chung](https://github.com/ChunhThanhDe) | test | Easy | 0 | Game Over |
 | 11/01/2024 22:19 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/80706048?s=24&u=bc59f1d3738c90060537773c9c07cd6a10ed274e&v=4" alt="auminhtu2001" width="24" /> Âu Minh Tú ](https://github.com/auminhtu2001) | Ok Ok | Medium | 93 | Win |
 | 11/01/2024 22:13 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/56793922?s=24&u=32e8f49b4146dd45be7cef08a33d2531e4b53790&v=4" alt="alaireselene" width="24" /> Truong-Son Nguyen](https://github.com/alaireselene) | Over 100 | Medium | 110 | Win |
 | 11/01/2024 21:55 (UTC 7) | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/ChunhThanhDe) | Vietnam number 1 | Medium | 62 | Win |
