@@ -88,9 +88,12 @@ class FruitComponent extends SpriteComponent {
   /// - `vector2`: The point where the fruit was touched.
   void touchAtPoint(Vector2 vector2) {
     // Prevent any action if the fruit has already been divided and dragging is disabled.
+    print("touchAtPoint start");
     if (divided && !canDragOnShape) {
       return; // Exit if already divided.
     }
+
+    print("touchAtPoint after divided");
 
     // Check if the fruit is a bomb.
     if (fruit.isBomb) {
@@ -107,7 +110,7 @@ class FruitComponent extends SpriteComponent {
     // Otherwise, if it's within the horizontal range, we'll handle it as a horizontal cut.
     if (a < 45 || (a > 135 && a < 225) || a > 315) {
       // Create two halves of the fruit for a vertical slice.
-
+      print("touchAtPoint a");
       final dividedImage1 = composition.ImageComposition()
             ..add(
               image,
@@ -120,7 +123,7 @@ class FruitComponent extends SpriteComponent {
               Vector2(0, 0),
               source: Rect.fromLTWH(0, image.height / 2, image.width.toDouble(), image.height / 2),
             );
-
+      print("touchAtPoint b");
       // Add both halves of the fruit to the game after slicing.
       parentComponent.addAll([
         FruitComponent(
@@ -150,9 +153,11 @@ class FruitComponent extends SpriteComponent {
           divided: true, // Mark as divided.
         )
       ]);
+
+      print("touchAtPoint b1");
     } else {
       // Create two halves of the fruit for a horizontal slice.
-
+      print("touchAtPoint c");
       final dividedImage1 = composition.ImageComposition()
             ..add(
               image,
@@ -199,7 +204,10 @@ class FruitComponent extends SpriteComponent {
           divided: true, // Mark as divided.
         )
       ]);
+      print("touchAtPoint d");
     }
+
+    print("touchAtPoint e");
 
     parentComponent.addScore(); // Update the score when fruit is successfully cut.
     removeFromParent(); // Remove the original, whole fruit from the game.
