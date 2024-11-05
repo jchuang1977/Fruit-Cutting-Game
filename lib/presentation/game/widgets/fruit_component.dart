@@ -175,9 +175,9 @@ class FruitComponent extends SpriteComponent {
         ]);
       }
     } catch (e, stackTrace) {
-      if (kDebugMode) {
-        print('Error adding components: $e\n$stackTrace');
-      }
+      // if (kDebugMode) {
+      print('Error adding components: $e\n$stackTrace');
+      // }
     }
 
     parentComponent.addScore(); // Update the score when fruit is successfully cut.
