@@ -11,8 +11,8 @@ class FruitSliceComponent extends ParticleSystemComponent {
       : super(
           // Generates a particle effect
           particle: Particle.generate(
-            count: 30, // Number of particles to generate (reduced for performance)
-            lifespan: 0.75, // Duration each particle stays visible on the screen
+            count: 15, // Number of particles to generate (reduced for performance)
+            lifespan: 0.5, // Duration each particle stays visible on the screen
 
             // Defines how each particle is generated
             generator: (i) {
@@ -30,12 +30,12 @@ class FruitSliceComponent extends ParticleSystemComponent {
               // Creates an individual particle with acceleration and speed
               return AcceleratedParticle(
                 acceleration: Vector2(
-                  (random.nextDouble() - 0.5) * 50, // Random acceleration on the x-axis
-                  (random.nextDouble() - 0.5) * 50, // Random acceleration on the y-axis
+                  (random.nextDouble() - 0.5) * 25, // Random acceleration on the x-axis
+                  (random.nextDouble() - 0.5) * 25, // Random acceleration on the y-axis
                 ),
                 speed: Vector2(
-                  (random.nextDouble() - 0.5) * 75, // Random initial speed on the x-axis
-                  (random.nextDouble() - 0.5) * 75, // Random initial speed on the y-axis
+                  (random.nextDouble() - 0.5) * 50, // Random initial speed on the x-axis
+                  (random.nextDouble() - 0.5) * 50, // Random initial speed on the y-axis
                 ),
                 position: position, // Initial position of the particle
                 child: CircleParticle(

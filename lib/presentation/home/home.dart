@@ -71,6 +71,8 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
       ]);
 
       game.isDesktop = true;
+    } else {
+      game.isDesktop = false;
     }
 
     addAll(
