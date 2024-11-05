@@ -43,6 +43,8 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
     FlameAudio.bgm.play(AppSfx.musicBG, volume: 0.3);
   }
 
+  bool isDesktop = false; // Current state of the screen
+
   int score = 0; // Current score of the player
 
   /// Retrieves the current score.

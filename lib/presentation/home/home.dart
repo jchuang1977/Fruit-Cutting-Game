@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit_cutting_game/common/widgets/button/rounded_button.dart';
 import 'package:fruit_cutting_game/common/widgets/text/simple_center_text.dart';
@@ -24,49 +23,10 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
 
   late final InteractiveButtonComponent _gameModeComponent;
 
-  // warning widget
-  late final SpriteComponent _gifWidget;
-  late final TextComponent _textComponent;
-
-  bool isAddAll = false;
-  bool isAddWarning = false;
-
   @override
   void onLoad() async {
     super.onLoad();
-    // if (game.size.y < 400 || game.size.x < 400 || game.size.x < game.size.y) {
-    //   final warningGifImage = await Flame.images.load(AppImages.banana);
-    //   addAll(
-    //     [
-    //       _textComponent = TextComponent(
-    //         text: 'Use a computer monitor\nfor the best experience',
-    //         textRenderer: TextPaint(
-    //           style: const TextStyle(
-    //             fontSize: 22,
-    //             color: AppColors.white,
-    //             fontFamily: 'Insan',
-    //             letterSpacing: 2.0,
-    //             fontWeight: FontWeight.bold,
-    //           ),
-    //         ),
-    //         position: Vector2(game.size.x / 2, game.size.y / 2 + 70),
-    //         anchor: Anchor.center,
-    //       ),
-    //       _gifWidget = SpriteComponent.fromImage(
-    //         warningGifImage,
-    //         size: Vector2(120, 120),
-    //       )
-    //         ..position = Vector2(game.size.x / 2, game.size.y / 2 - 50)
-    //         ..anchor = Anchor.center,
-    //     ],
-    //   );
-    //   isAddWarning = true;
-    // } else {
-    initComponent();
-    // }
-  }
 
-  void initComponent() {
     final textTitlePaint = TextPaint(
       style: const TextStyle(
         fontSize: 26,
@@ -76,43 +36,13 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
         fontWeight: FontWeight.bold,
       ),
     );
-
-    addAll(
-      [
-        _button = RoundedButton(
-          text: 'Start',
-          onPressed: () {
-            game.startBgmMusic();
-            game.router.pushNamed(AppRouter.gamePage);
-          },
-          bgColor: AppColors.blue,
-          borderColor: AppColors.white,
-        ),
+    if (game.size.x > 600 && game.size.y > 400) {
+      addAll([
         _ediblesTextComponent = TextComponent(
           text: 'Edibles',
           position: Vector2(45, 10),
           anchor: Anchor.topLeft,
           textRenderer: textTitlePaint,
-        ),
-        _tutorialRuleLose1Component = SimpleCenterText(
-          text: 'Bomb explodes is lose,',
-          textColor: AppColors.white,
-          fontSize: 28,
-        ),
-        _tutorialRuleLose2Component = SimpleCenterText(
-          text: 'miss three fruit is a loss.',
-          textColor: AppColors.white,
-          fontSize: 28,
-        ),
-        _tutorialRuleScore1Component = SimpleCenterText(
-          text: 'Hit 1 fruit for 1 point,',
-          textColor: AppColors.white,
-          fontSize: 28,
-        ),
-        _tutorialRuleScore2Component = SimpleCenterText(
-          text: '1 fruit can earn many points..',
-          textColor: AppColors.white,
-          fontSize: 28,
         ),
         TutorialFruitsListComponent(
           isLeft: true,
@@ -138,33 +68,64 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
             TutorialFruitComponent(text: 'Flutter', imagePath: AppImages.flutter, isLeft: false),
           ],
         )..position = Vector2(0, 50),
+      ]);
+
+      game.isDesktop = true;
+    }
+
+    addAll(
+      [
+        _button = RoundedButton(
+          text: 'Start',
+          onPressed: () {
+            game.startBgmMusic();
+            game.router.pushNamed(AppRouter.gamePage);
+          },
+          bgColor: AppColors.blue,
+          borderColor: AppColors.white,
+        ),
+        _tutorialRuleLose1Component = SimpleCenterText(
+          text: 'Bomb explodes is lose,',
+          textColor: AppColors.white,
+          fontSize: game.isDesktop ? 28 : 20,
+        ),
+        _tutorialRuleLose2Component = SimpleCenterText(
+          text: 'miss three fruit is a loss.',
+          textColor: AppColors.white,
+          fontSize: game.isDesktop ? 28 : 20,
+        ),
+        _tutorialRuleScore1Component = SimpleCenterText(
+          text: 'Hit 1 fruit for 1 point,',
+          textColor: AppColors.white,
+          fontSize: game.isDesktop ? 28 : 20,
+        ),
+        _tutorialRuleScore2Component = SimpleCenterText(
+          text: '1 fruit can earn many points..',
+          textColor: AppColors.white,
+          fontSize: game.isDesktop ? 28 : 20,
+        ),
         _gameModeComponent = InteractiveButtonComponent(
           size: Vector2(50, 50), // Adjust size as needed
           position: Vector2(150, 200), // Adjust position as needed
         )..anchor = Anchor.bottomRight,
       ],
     );
-
-    isAddAll = true;
   }
 
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-    if (isAddAll) {
-      // button in center of page
-      _button.position = size / 2;
 
-      _tutorialRuleScore1Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 3.9);
-      _tutorialRuleScore2Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 5.1);
-      _tutorialRuleLose1Component.position = Vector2(game.size.x / 2, game.size.y / 5.1);
-      _tutorialRuleLose2Component.position = Vector2(game.size.x / 2, game.size.y / 3.9);
+    // button in center of page
+    _button.position = size / 2;
 
-      _bombTextComponent.position = Vector2(game.size.x - 45, 10);
-      _gameModeComponent.position = Vector2(game.size.x - 50, game.size.y - 50);
-    } else if (isAddWarning) {
-      _textComponent.position = Vector2(game.size.x / 2, game.size.y / 2 + 70);
-      _gifWidget.position = Vector2(game.size.x / 2, game.size.y / 2 - 50);
-    }
+    _tutorialRuleScore1Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 3.9);
+    _tutorialRuleScore2Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 5.1);
+    _tutorialRuleLose1Component.position = Vector2(game.size.x / 2, game.size.y / 5.1);
+    _tutorialRuleLose2Component.position = Vector2(game.size.x / 2, game.size.y / 3.9);
+
+    _gameModeComponent.position = Vector2(game.size.x - 50, game.size.y - 50);
+
+    if (game.isDesktop) _bombTextComponent.position = Vector2(game.size.x - 45, 10);
   }
 }

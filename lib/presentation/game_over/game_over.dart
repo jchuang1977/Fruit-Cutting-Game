@@ -78,8 +78,8 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
     );
 
     final textTimePaint = TextPaint(
-      style: const TextStyle(
-        fontSize: 25,
+      style: TextStyle(
+        fontSize: game.isDesktop ? 25 : 18,
         color: AppColors.white,
         fontFamily: 'Insan',
         letterSpacing: 2.0,
@@ -87,8 +87,8 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
     );
 
     final textPaint = TextPaint(
-      style: const TextStyle(
-        fontSize: 18,
+      style: TextStyle(
+        fontSize: game.isDesktop ? 18 : 12,
         color: AppColors.white,
         fontFamily: 'Insan',
         letterSpacing: 2.0,
@@ -157,7 +157,7 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
         _textNewGameComponent = TextComponent(
           text: "Click anywhere to start new Game",
           position: flameGame.canvasSize / 2,
-          anchor: Anchor.centerRight,
+          anchor: game.isDesktop ? Anchor.centerRight : Anchor.center,
           textRenderer: textPaint,
         ),
         _textScoreComponent = TextComponent(
@@ -169,7 +169,7 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
         _textGameModeComponent = TextComponent(
           text: "Mode: ${game.mode == 0 ? 'Easy' : game.mode == 1 ? 'Medium' : 'Hard'}",
           position: flameGame.canvasSize / 2,
-          anchor: Anchor.centerLeft,
+          anchor: game.isDesktop ? Anchor.centerLeft : Anchor.center,
           textRenderer: textPaint,
         ),
       ],
@@ -182,12 +182,13 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
     super.onGameResize(size);
     _textComponent.position = Vector2(game.size.x / 2, game.size.y / 2 - 70);
     _textTimeComponent.position = Vector2(15, 20);
-    _textNewGameComponent.position = Vector2(game.size.x - 15, game.size.y - 15);
-    _textGameModeComponent.position = Vector2(15, game.size.y - 15);
     _textScoreComponent.position = Vector2(game.size.x / 2, game.size.y / 2 + 25);
     _textScoreComponent.text = 'Score: ${game.getScore()}';
 
     _buttonLeaderboard.position = Vector2(game.size.x / 2, game.size.y / 2 + 110);
+
+    _textNewGameComponent.position = game.isDesktop ? Vector2(game.size.x - 15, game.size.y - 15) : Vector2(game.size.x / 2, game.size.y - 15);
+    _textGameModeComponent.position = game.isDesktop ? Vector2(15, game.size.y - 15) : Vector2(game.size.x / 2, game.size.y - 30);
   }
 
   /// Always returns true, indicating that this component can contain tap events.

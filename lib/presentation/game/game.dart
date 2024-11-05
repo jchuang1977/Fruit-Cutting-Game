@@ -69,8 +69,8 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
 
   void initializeTextComponents() {
     final _scoreTextPaint = TextPaint(
-      style: const TextStyle(
-        fontSize: 32,
+      style: TextStyle(
+        fontSize: game.isDesktop ? 32 : 25,
         color: AppColors.white,
         fontWeight: FontWeight.w100,
         fontFamily: 'Insan',
@@ -88,8 +88,8 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
     );
 
     final _mistakeTextPaint = TextPaint(
-      style: const TextStyle(
-        fontSize: 32,
+      style: TextStyle(
+        fontSize: game.isDesktop ? 32 : 25,
         color: AppColors.white,
         fontWeight: FontWeight.w100,
         fontFamily: 'Insan',
@@ -227,16 +227,12 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
     sliceTrail.addPoint(event.canvasStartPosition);
-    print("onDragUpdate");
 
     componentsAtPoint(event.canvasStartPosition).forEach((element) {
       if (element is FruitComponent) {
         if (element.canDragOnShape) {
-          print("canDragOnShape");
           onFruitSliced(sliceTrail);
-          print("onFruitSliced");
           element.touchAtPoint(event.canvasStartPosition);
-          print("touchAtPoint done");
           game.add(FruitSliceComponent(event.canvasStartPosition));
           playRandomSliceSound();
         }
