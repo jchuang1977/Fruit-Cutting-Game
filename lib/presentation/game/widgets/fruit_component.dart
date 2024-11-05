@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart' as composition;
+import 'package:flutter/foundation.dart';
 import 'package:fruit_cutting_game/common/helpers/app_utils.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/data/models/fruit_model.dart';
@@ -174,7 +175,9 @@ class FruitComponent extends SpriteComponent {
         ]);
       }
     } catch (e, stackTrace) {
-      print('Error adding components: $e\n$stackTrace');
+      if (kDebugMode) {
+        print('Error adding components: $e\n$stackTrace');
+      }
     }
 
     parentComponent.addScore(); // Update the score when fruit is successfully cut.

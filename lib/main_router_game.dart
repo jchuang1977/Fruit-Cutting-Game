@@ -85,6 +85,8 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
       await images.load(fruit.image);
     }
 
+    await images.load(AppImages.homeBG);
+
     addAll(
       [
         ParallaxComponent(
