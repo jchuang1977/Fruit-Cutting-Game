@@ -19,7 +19,7 @@ Congratulations on your victory! To submit your score, please follow these steps
 When you achieve victory in the game, click on the background of the screen. This will take you to the issue creation page in our GitHub repository.
 
 <div align ="center">
-  <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_new_issue.png" height="300" />
+  <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_new_issue.png" height="500" />
 
   #### - create new issue -
 </div>
@@ -38,7 +38,7 @@ In the issue creation page, please fill out the information using the following 
 <!-- Drag and drop your screenshot here for verification -->
 
 <div align ="center">
-  <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_submit_info.png" height="300" />
+  <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_submit_info.png" height="500" />
 
   #### - fill info -
 </div>
@@ -48,7 +48,7 @@ In the issue creation page, please fill out the information using the following 
 - You can upload images to GitHub first and insert the link here. 📸
 
 <div align ="center">
-  <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/gif/add_image.gif" height="300" />
+  <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/gif/add_image.gif" height="500" />
 
   #### - upload screenshot -
 </div>
@@ -58,7 +58,7 @@ In the issue creation page, please fill out the information using the following 
 Now that you've added all the result information, preview the submitted information to ensure it corresponds with the template, then create an issue.
 
 <div align ="center">
-  <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_created_issue.png" height="300" />
+  <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_created_issue.png" height="500" />
 
   #### - preview issue -
 </div>
