@@ -28,14 +28,16 @@ When you achieve victory in the game, click on the background of the screen. Thi
 
 In the issue creation page, please fill out the information using the following template:
 
-#### - 👤 **Name**:  <!-- Enter your name here -->
+#### - 👤 **Name**:  <-- Enter your name here -->
 
-#### - 🔗 **GitHub Profile Link**:  <!-- Enter your GitHub profile link here -->
+#### - 🔗 **GitHub Profile Link**:  <-- Enter your GitHub profile link here -->
 
-#### - 💬 **Message**: <!-- Add a message about your experience -->
+#### - 💬 **Message**: <-- Add a message about your experience -->
 
 #### - 🖼️ **Screenshot**
-<!-- Drag and drop your screenshot here for verification -->
+<-- Drag and drop your screenshot here for verification -->
+
+<br>
 
 <div align ="center">
   <img src="https://raw.githubusercontent.com/Flutter-Journey/Fruit-Cutting-Game/refs/heads/main/media/image/image_submit_info.png" height="500" />
