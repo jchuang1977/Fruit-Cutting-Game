@@ -34,37 +34,36 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
   @override
   void onLoad() async {
     super.onLoad();
-    if (game.size.y < 400 || game.size.x < 400 || game.size.x < game.size.y) {
-      final warningGifImage = await Flame.images.load(AppImages.banana);
-      addAll(
-        [
-          _textComponent = TextComponent(
-            text: 'Use a computer monitor\nfor the best experience',
-            textRenderer: TextPaint(
-              style: const TextStyle(
-                fontSize: 22,
-                color: AppColors.white,
-                fontFamily: 'Insan',
-                letterSpacing: 2.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            position: Vector2(game.size.x / 2, game.size.y / 2 + 70),
-            anchor: Anchor.center,
-          ),
-          _gifWidget = SpriteComponent.fromImage(
-            warningGifImage,
-            size: Vector2(120, 120),
-          )
-            ..position = Vector2(game.size.x / 2, game.size.y / 2 - 50)
-            ..anchor = Anchor.center,
-        ],
-      );
-
-      isAddWarning = true;
-    } else {
-      initComponent();
-    }
+    // if (game.size.y < 400 || game.size.x < 400 || game.size.x < game.size.y) {
+    //   final warningGifImage = await Flame.images.load(AppImages.banana);
+    //   addAll(
+    //     [
+    //       _textComponent = TextComponent(
+    //         text: 'Use a computer monitor\nfor the best experience',
+    //         textRenderer: TextPaint(
+    //           style: const TextStyle(
+    //             fontSize: 22,
+    //             color: AppColors.white,
+    //             fontFamily: 'Insan',
+    //             letterSpacing: 2.0,
+    //             fontWeight: FontWeight.bold,
+    //           ),
+    //         ),
+    //         position: Vector2(game.size.x / 2, game.size.y / 2 + 70),
+    //         anchor: Anchor.center,
+    //       ),
+    //       _gifWidget = SpriteComponent.fromImage(
+    //         warningGifImage,
+    //         size: Vector2(120, 120),
+    //       )
+    //         ..position = Vector2(game.size.x / 2, game.size.y / 2 - 50)
+    //         ..anchor = Anchor.center,
+    //     ],
+    //   );
+    //   isAddWarning = true;
+    // } else {
+    initComponent();
+    // }
   }
 
   void initComponent() {
