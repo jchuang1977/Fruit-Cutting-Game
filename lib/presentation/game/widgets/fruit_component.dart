@@ -7,11 +7,12 @@ import 'package:flutter/foundation.dart';
 import 'package:fruit_cutting_game/common/helpers/app_utils.dart';
 import 'package:fruit_cutting_game/core/configs/constants/app_configs.dart';
 import 'package:fruit_cutting_game/data/models/fruit_model.dart';
+import 'package:fruit_cutting_game/main_router_game.dart';
 import 'package:fruit_cutting_game/presentation/game/game.dart';
 
 /// A component representing a fruit in the game.
 /// This class manages the fruit's behavior, movement, and interactions.
-class FruitComponent extends SpriteComponent {
+class FruitComponent extends SpriteComponent with HasGameReference<MainRouterGame> {
   Vector2 velocity; // Speed and direction of the fruit.
   final Vector2 pageSize; // Size of the game page.
   final double acceleration; // Acceleration applied to the fruit's velocity.
@@ -99,85 +100,87 @@ class FruitComponent extends SpriteComponent {
       return;
     }
 
-    // Calculate the angle between the touch point and the fruit’s center.
-    // This angle helps determine the slicing direction.
-    final a = AppUtils.getAngleOfTouchPont(center: position, initAngle: angle, touch: vector2);
+    if (game.isDesktop) {
+      // Calculate the angle between the touch point and the fruit’s center.
+      // This angle helps determine the slicing direction.
+      final a = AppUtils.getAngleOfTouchPont(center: position, initAngle: angle, touch: vector2);
 
-    try {
-      // Check if the calculated angle falls along a vertical or horizontal slice.
-      if (a < 45 || (a > 135 && a < 225) || a > 315) {
-        // Create two halves of the fruit for a vertical slice.
-        final dividedImage1 = await createDividedImage(image, Rect.fromLTWH(0, 0, image.width.toDouble(), image.height / 2));
-        final dividedImage2 = await createDividedImage(image, Rect.fromLTWH(0, image.height / 2, image.width.toDouble(), image.height / 2));
+      try {
+        // Check if the calculated angle falls along a vertical or horizontal slice.
+        if (a < 45 || (a > 135 && a < 225) || a > 315) {
+          // Create two halves of the fruit for a vertical slice.
+          final dividedImage1 = await createDividedImage(image, Rect.fromLTWH(0, 0, image.width.toDouble(), image.height / 2));
+          final dividedImage2 = await createDividedImage(image, Rect.fromLTWH(0, image.height / 2, image.width.toDouble(), image.height / 2));
 
-        // Add both halves of the fruit to the game after slicing.
-        parentComponent.addAll([
-          FruitComponent(
-            parentComponent,
-            center - Vector2(size.x / 2 * cos(angle), size.x / 2 * sin(angle)), // Adjust position for upper half.
-            fruit: fruit,
-            image: dividedImage2,
-            acceleration: acceleration,
-            velocity: Vector2(velocity.x - 2, velocity.y), // Apply slightly different velocities for split effect.
-            pageSize: pageSize,
-            divided: true, // Mark as divided.
-            size: Vector2(size.x, size.y / 2), // Adjust size for top half.
-            angle: angle,
-            anchor: Anchor.topLeft,
-          ),
-          FruitComponent(
-            parentComponent,
-            center + Vector2(size.x / 4 * cos(angle + 3 * pi / 2), size.x / 4 * sin(angle + 3 * pi / 2)), // Adjust position for lower half.
-            size: Vector2(size.x, size.y / 2), // Adjust size for bottom half.
-            angle: angle,
-            anchor: Anchor.center,
-            fruit: fruit,
-            image: dividedImage1,
-            acceleration: acceleration,
-            velocity: Vector2(velocity.x + 2, velocity.y), // Different velocity for other half.
-            pageSize: pageSize,
-            divided: true, // Mark as divided.
-          ),
-        ]);
-      } else {
-        // Create two halves of the fruit for a horizontal slice.
-        final dividedImage1 = await createDividedImage(image, Rect.fromLTWH(0, 0, image.width / 2, image.height.toDouble()));
-        final dividedImage2 = await createDividedImage(image, Rect.fromLTWH(image.width / 2, 0, image.width / 2, image.height.toDouble()));
+          // Add both halves of the fruit to the game after slicing.
+          parentComponent.addAll([
+            FruitComponent(
+              parentComponent,
+              center - Vector2(size.x / 2 * cos(angle), size.x / 2 * sin(angle)), // Adjust position for upper half.
+              fruit: fruit,
+              image: dividedImage2,
+              acceleration: acceleration,
+              velocity: Vector2(velocity.x - 2, velocity.y), // Apply slightly different velocities for split effect.
+              pageSize: pageSize,
+              divided: true, // Mark as divided.
+              size: Vector2(size.x, size.y / 2), // Adjust size for top half.
+              angle: angle,
+              anchor: Anchor.topLeft,
+            ),
+            FruitComponent(
+              parentComponent,
+              center + Vector2(size.x / 4 * cos(angle + 3 * pi / 2), size.x / 4 * sin(angle + 3 * pi / 2)), // Adjust position for lower half.
+              size: Vector2(size.x, size.y / 2), // Adjust size for bottom half.
+              angle: angle,
+              anchor: Anchor.center,
+              fruit: fruit,
+              image: dividedImage1,
+              acceleration: acceleration,
+              velocity: Vector2(velocity.x + 2, velocity.y), // Different velocity for other half.
+              pageSize: pageSize,
+              divided: true, // Mark as divided.
+            ),
+          ]);
+        } else {
+          // Create two halves of the fruit for a horizontal slice.
+          final dividedImage1 = await createDividedImage(image, Rect.fromLTWH(0, 0, image.width / 2, image.height.toDouble()));
+          final dividedImage2 = await createDividedImage(image, Rect.fromLTWH(image.width / 2, 0, image.width / 2, image.height.toDouble()));
 
-        // Add both halves of the fruit to the game after slicing.
-        parentComponent.addAll([
-          FruitComponent(
-            parentComponent,
-            center - Vector2(size.x / 4 * cos(angle), size.x / 4 * sin(angle)), // Adjust position for left half.
-            size: Vector2(size.x / 2, size.y), // Adjust size for left half.
-            angle: angle,
-            anchor: Anchor.center,
-            fruit: fruit,
-            image: dividedImage1,
-            acceleration: acceleration,
-            velocity: Vector2(velocity.x - 2, velocity.y), // Apply velocity change for split effect.
-            pageSize: pageSize,
-            divided: true, // Mark as divided.
-          ),
-          FruitComponent(
-            parentComponent,
-            center + Vector2(size.x / 2 * cos(angle + 3 * pi / 2), size.x / 2 * sin(angle + 3 * pi / 2)), // Adjust position for right half.
-            size: Vector2(size.x / 2, size.y), // Adjust size for right half.
-            angle: angle,
-            anchor: Anchor.topLeft,
-            fruit: fruit,
-            image: dividedImage2,
-            acceleration: acceleration,
-            velocity: Vector2(velocity.x + 2, velocity.y), // Apply different velocity for other half.
-            pageSize: pageSize,
-            divided: true, // Mark as divided.
-          ),
-        ]);
+          // Add both halves of the fruit to the game after slicing.
+          parentComponent.addAll([
+            FruitComponent(
+              parentComponent,
+              center - Vector2(size.x / 4 * cos(angle), size.x / 4 * sin(angle)), // Adjust position for left half.
+              size: Vector2(size.x / 2, size.y), // Adjust size for left half.
+              angle: angle,
+              anchor: Anchor.center,
+              fruit: fruit,
+              image: dividedImage1,
+              acceleration: acceleration,
+              velocity: Vector2(velocity.x - 2, velocity.y), // Apply velocity change for split effect.
+              pageSize: pageSize,
+              divided: true, // Mark as divided.
+            ),
+            FruitComponent(
+              parentComponent,
+              center + Vector2(size.x / 2 * cos(angle + 3 * pi / 2), size.x / 2 * sin(angle + 3 * pi / 2)), // Adjust position for right half.
+              size: Vector2(size.x / 2, size.y), // Adjust size for right half.
+              angle: angle,
+              anchor: Anchor.topLeft,
+              fruit: fruit,
+              image: dividedImage2,
+              acceleration: acceleration,
+              velocity: Vector2(velocity.x + 2, velocity.y), // Apply different velocity for other half.
+              pageSize: pageSize,
+              divided: true, // Mark as divided.
+            ),
+          ]);
+        }
+      } catch (e, stackTrace) {
+        if (kDebugMode) {
+          print('Error adding components: $e\n$stackTrace');
+        }
       }
-    } catch (e, stackTrace) {
-      // if (kDebugMode) {
-      print('Error adding components: $e\n$stackTrace');
-      // }
     }
 
     parentComponent.addScore(); // Update the score when fruit is successfully cut.
