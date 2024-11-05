@@ -22,7 +22,11 @@ Show some ❤️ by starring ⭐ this repository if you like it!
 
 **Flutter Fruit Cutting Game** is an addictive arcade-style game where players swipe their screen to cut flying fruits. This game is developed using Flutter, making it available for Android, iOS, and web platforms.
 
-## 🤩 Leaderboard - Top 20
+## [🤩](https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/main/CONTRIBUTING.md) Leaderboard - Top 20
+
+<div>Want to add your name to the leaderboard? Read the <a href="https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/main/CONTRIBUTING.md">guidelines</a> on how to do that.</div>
+<br>
+
 <!-- Leaderboard -->
 | Score | Game Mode | Player | Message | Date |
 |-------|-----------|--------|---------|------|
@@ -33,7 +37,7 @@ Show some ❤️ by starring ⭐ this repository if you like it!
 | 62 | Medium | [<img src="https://avatars.githubusercontent.com/u/98199185?s=24&u=174b59f190c6673c5d4dd4e0eaf9004d337b31fe&v=4" alt="ChunhThanhDe" width="24" /> Nguyễn Thành Chung](https://github.com/ChunhThanhDe) | Vietnam number 1 | 11/01/2024 21:55 (UTC 7) |
 <!-- /Leaderboard -->
 
-## 🎮 Last 20 plays
+## [🎮](https://github.com/Flutter-Journey/Fruit-Cutting-Game/blob/main/CONTRIBUTING.md) Last 20 plays
 <!-- Recent Plays -->
 | Date | Player | Message | Game Mode | Score | Status |
 |------|--------|---------|-----------|-------|--------|
