@@ -26,7 +26,7 @@ When you achieve victory in the game, click on the background of the screen. Thi
 
 ### Step 2: Fill in the details in the body of the issue
 
-In the issue creation page, please fill out the information using the following template:
+In the issue creation page, please fill out the information using the following template.
 
 #### - 👤 **Name**:  <-- Enter your name here -->
 
@@ -44,6 +44,14 @@ In the issue creation page, please fill out the information using the following 
 
   #### - fill info -
 </div>
+
+<br>
+
+If you don't fill in the information, don't worry. Remember that only the **`screenshot`** is required.
+Then just press `Submit new issue`. You don't need to do anything else.
+I will fill it by use the information of the your github account.
+
+<br>
 
 **Note**: 🎯
 - Ensure your information is accurate, as it will be added to the leaderboard.
