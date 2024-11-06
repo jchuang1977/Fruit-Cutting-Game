@@ -100,20 +100,49 @@ class FruitComponent extends SpriteComponent with HasGameReference<MainRouterGam
       return;
     }
 
+    // NOTE: Removed fruit splitting feature because of unfixed 'toImageSync' bug on Flutter SDK
+    // check here: https://github.com/flutter/flutter/issues/144451
+    //
     if (game.isDesktop) {
-      // Calculate the angle between the touch point and the fruit’s center.
+      // 1. Calculate the angle between the touch point and the fruit’s center.
       // This angle helps determine the slicing direction.
+      // Formula: `atan2(dy, dx)` where `dy = touchPoint.y - center.y` and `dx = touchPoint.x - center.x`.
+      // `atan2` returns the angle between the positive x-axis and the vector from (0, 0) to (dx, dy) in radians.
+      // The resulting angle helps identify whether the touch is in a vertical or horizontal slicing direction.
       final a = AppUtils.getAngleOfTouchPont(center: position, initAngle: angle, touch: vector2);
 
       try {
-        // Check if the calculated angle falls along a vertical or horizontal slice.
+        // 2. Check if the calculated angle falls along a vertical or horizontal slice.
+        // This check uses angle ranges to decide the slicing direction:
+        // Vertical slices: angle between 0-45°, 135-225°, 315-360°
+        // Horizontal slices: angle between 45-135° and 225-315°.
         if (a < 45 || (a > 135 && a < 225) || a > 315) {
-          // Create two halves of the fruit for a vertical slice.
+          // Vertical slice: Create two halves of the fruit.
           final dividedImage1 = await createDividedImage(image, Rect.fromLTWH(0, 0, image.width.toDouble(), image.height / 2));
           final dividedImage2 = await createDividedImage(image, Rect.fromLTWH(0, image.height / 2, image.width.toDouble(), image.height / 2));
 
-          // Add both halves of the fruit to the game after slicing.
+          // 3. Position adjustments using cosine and sine for direction:
+          // The formula used to adjust the position of each half of the fruit is based on vector rotation.
+          // For the upper half, the position is adjusted by subtracting a vector: `Vector2(size.x / 2 * cos(angle), size.x / 2 * sin(angle))`
+          // For the lower half, the position is adjusted similarly with the opposite direction for the slice.
           parentComponent.addAll([
+            // Adjust position for the upper half of the fruit after slicing
+            // The formula used here is based on vector rotation:
+
+            // 3.1. `size.x / 2`: This is half the width of the fruit, determining the distance
+            //    from the center to the edge of the fruit for the upper half after slicing.
+
+            // 3.2. `cos(angle)`: This gives the horizontal (x-axis) component of the vector
+            //    that defines the direction of movement for the upper half, based on the angle of the slice.
+            //    It determines how far to move the upper half horizontally.
+
+            // 3.3. `sin(angle)`: This gives the vertical (y-axis) component of the vector
+            //    that defines the direction of movement for the upper half, based on the angle of the slice.
+            //    It determines how far to move the upper half vertically.
+
+            // 3.4. `center - Vector2(...)`: By subtracting the calculated vector from the center,
+            //    we adjust the position of the upper half of the fruit, moving it in the correct direction
+            //    after the slice, according to the calculated angle.
             FruitComponent(
               parentComponent,
               center - Vector2(size.x / 2 * cos(angle), size.x / 2 * sin(angle)), // Adjust position for upper half.
@@ -127,6 +156,22 @@ class FruitComponent extends SpriteComponent with HasGameReference<MainRouterGam
               angle: angle,
               anchor: Anchor.topLeft,
             ),
+
+            // Adjust position for the lower half of the fruit after slicing
+            // Similar to the upper half, but with adjustments for the lower side:
+
+            // 3.5. `size.x / 4`: This is a quarter of the width of the fruit, determining the distance
+            //      from the center to the edge of the fruit for the lower half after slicing.
+
+            // 3.6. `cos(angle + 3 * pi / 2)`: This gives the horizontal (x-axis) component for the lower half's direction.
+            //      By adding `3 * pi / 2` to the angle, we rotate the vector to move the lower half in the opposite direction.
+
+            // 3.7. `sin(angle + 3 * pi / 2)`: This gives the vertical (y-axis) component for the lower half's direction.
+            //      Adding `3 * pi / 2` rotates the vertical direction to move the lower half.
+
+            // 3.8. `center + Vector2(...)`: By adding the calculated vector to the center,
+            //      we adjust the position of the lower half of the fruit, moving it in the correct direction
+            //      after the slice, according to the modified angle.
             FruitComponent(
               parentComponent,
               center + Vector2(size.x / 4 * cos(angle + 3 * pi / 2), size.x / 4 * sin(angle + 3 * pi / 2)), // Adjust position for lower half.
@@ -142,12 +187,29 @@ class FruitComponent extends SpriteComponent with HasGameReference<MainRouterGam
             ),
           ]);
         } else {
-          // Create two halves of the fruit for a horizontal slice.
+          // Horizontal slice: Create two halves of the fruit.
           final dividedImage1 = await createDividedImage(image, Rect.fromLTWH(0, 0, image.width / 2, image.height.toDouble()));
           final dividedImage2 = await createDividedImage(image, Rect.fromLTWH(image.width / 2, 0, image.width / 2, image.height.toDouble()));
 
-          // Add both halves of the fruit to the game after slicing.
+          // 4. Position adjustments for horizontal slice:
+          // The formulas for adjusting the position are similar to the vertical slice, but with a different factor for horizontal separation.
           parentComponent.addAll([
+            // Adjust position for the left half of the fruit after slicing
+            // The formula used here is based on vector rotation:
+            // 4.1. `size.x / 4`: This is a quarter of the width of the fruit, determining the distance
+            //      from the center to the edge of the fruit for the left half after slicing.
+
+            // 4.2. `cos(angle)`: This gives the horizontal (x-axis) component of the vector
+            //      that defines the direction of movement for the left half, based on the angle of the slice.
+            //      It determines how far to move the left half horizontally.
+
+            // 4.3. `sin(angle)`: This gives the vertical (y-axis) component of the vector
+            //      that defines the direction of movement for the left half, based on the angle of the slice.
+            //      It determines how far to move the left half vertically.
+
+            // 4.4. `center - Vector2(...)`: By subtracting the calculated vector from the center,
+            //      we adjust the position of the left half of the fruit, moving it in the correct direction
+            //      after the slice, according to the calculated angle.
             FruitComponent(
               parentComponent,
               center - Vector2(size.x / 4 * cos(angle), size.x / 4 * sin(angle)), // Adjust position for left half.
@@ -161,6 +223,22 @@ class FruitComponent extends SpriteComponent with HasGameReference<MainRouterGam
               pageSize: pageSize,
               divided: true, // Mark as divided.
             ),
+
+            // Adjust position for the right half of the fruit after slicing
+            // Similar to the left half, but with adjustments for the right side:
+
+            // 4.5. `size.x / 2`: This is half the width of the fruit, determining the distance
+            //      from the center to the edge of the fruit for the right half after slicing.
+
+            // 4.6. `cos(angle + 3 * pi / 2)`: This gives the horizontal (x-axis) component for the right half's direction.
+            //      By adding `3 * pi / 2` to the angle, we effectively rotate the movement in the opposite direction.
+
+            // 4.7. `sin(angle + 3 * pi / 2)`: This gives the vertical (y-axis) component for the right half's direction.
+            //      Similar to `cos`, adding `3 * pi / 2` rotates the vertical direction to move the right half.
+
+            // 4.8. `center + Vector2(...)`: By adding the calculated vector to the center,
+            //      we adjust the position of the right half of the fruit, moving it in the correct direction
+            //      after the slice, based on the modified angle.
             FruitComponent(
               parentComponent,
               center + Vector2(size.x / 2 * cos(angle + 3 * pi / 2), size.x / 2 * sin(angle + 3 * pi / 2)), // Adjust position for right half.
@@ -188,16 +266,27 @@ class FruitComponent extends SpriteComponent with HasGameReference<MainRouterGam
   }
 
   Future<Image> createDividedImage(Image originalImage, Rect sourceRect) async {
+    // Create a PictureRecorder to record drawing operations on the Canvas
     final recorder = PictureRecorder();
+
+    // Create a Canvas to draw the image, linked to the recorder
     final canvas = Canvas(recorder);
+
+    // Create a Paint (no special settings) to use for drawing
     final paint = Paint();
+
+    // Draw the specified portion of the original image (sourceRect) onto the Canvas
     canvas.drawImageRect(
-      originalImage,
-      sourceRect,
-      Rect.fromLTWH(0, 0, sourceRect.width, sourceRect.height),
-      paint,
+      originalImage, // The original image
+      sourceRect, // The region to cut from the original image
+      Rect.fromLTWH(0, 0, sourceRect.width, sourceRect.height), // Destination rect on the Canvas
+      paint, // Default paint
     );
+
+    // End recording and get the Picture object
     final picture = recorder.endRecording();
+
+    // Convert the Picture to an Image with the specified width and height
     return await picture.toImage(sourceRect.width.toInt(), sourceRect.height.toInt());
   }
 }
