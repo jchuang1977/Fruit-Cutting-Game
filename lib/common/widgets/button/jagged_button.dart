@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +125,8 @@ class JaggedButton extends PositionComponent with TapCallbacks {
       }
     }
 
-    if (borderPosition == JaggedBorderPosition.top || borderPosition == JaggedBorderPosition.bottom) {
+    if (borderPosition == JaggedBorderPosition.top ||
+        borderPosition == JaggedBorderPosition.bottom) {
       path.lineTo(size.x, 0); // Complete the top right
       path.lineTo(0, 0); // Complete the top left
     } else {

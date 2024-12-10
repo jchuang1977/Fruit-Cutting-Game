@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'dart:math';
 import 'dart:ui';
 
@@ -168,7 +174,8 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
 
       // Update the countdown text component with the current value
       if (level == 3) {
-        _countdownTextComponent?.text = (finishCountDown.toInt() + 1).toString(); // Convert to int for display
+        _countdownTextComponent?.text =
+            (finishCountDown.toInt() + 1).toString(); // Convert to int for display
       } else {
         _countdownTextComponent?.text = "- Level ${level + 1} -";
       }
@@ -252,7 +259,8 @@ class GamePage extends Component with DragCallbacks, HasGameReference<MainRouter
 
     _countdownTextComponent?.position = game.size / 2;
     _mistakeTextComponent?.position = Vector2(game.size.x - 15, 10);
-    _scoreTextComponent?.position = Vector2(game.size.x - 15, _mistakeTextComponent!.position.y + 40);
+    _scoreTextComponent?.position =
+        Vector2(game.size.x - 15, _mistakeTextComponent!.position.y + 40);
     _modeTextComponent?.position = Vector2(game.size.x - 15, game.size.y - 15);
   }
 

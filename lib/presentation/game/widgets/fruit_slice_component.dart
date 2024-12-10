@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'package:flame/components.dart';
 import 'package:flame/particles.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +46,8 @@ class FruitSliceComponent extends ParticleSystemComponent {
                 position: position, // Initial position of the particle
                 child: CircleParticle(
                   radius: 1 + random.nextDouble() * 2, // Random radius between 1 and 3
-                  paint: Paint()..color = colors[random.nextInt(colors.length)], // Random color from the list
+                  paint: Paint()
+                    ..color = colors[random.nextInt(colors.length)], // Random color from the list
                 ),
               );
             },

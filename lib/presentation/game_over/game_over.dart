@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'dart:async';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
@@ -187,8 +193,11 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
 
     _buttonLeaderboard.position = Vector2(game.size.x / 2, game.size.y / 2 + 110);
 
-    _textNewGameComponent.position = game.isDesktop ? Vector2(game.size.x - 15, game.size.y - 15) : Vector2(game.size.x / 2, game.size.y - 15);
-    _textGameModeComponent.position = game.isDesktop ? Vector2(15, game.size.y - 15) : Vector2(game.size.x / 2, game.size.y - 30);
+    _textNewGameComponent.position = game.isDesktop
+        ? Vector2(game.size.x - 15, game.size.y - 15)
+        : Vector2(game.size.x / 2, game.size.y - 15);
+    _textGameModeComponent.position =
+        game.isDesktop ? Vector2(15, game.size.y - 15) : Vector2(game.size.x / 2, game.size.y - 30);
   }
 
   /// Always returns true, indicating that this component can contain tap events.
@@ -225,7 +234,8 @@ class GameOverPage extends Component with TapCallbacks, HasGameReference<MainRou
 
       game.render(c);
 
-      final Image image = await recorder.endRecording().toImage(game.size.x.toInt(), game.size.y.toInt());
+      final Image image =
+          await recorder.endRecording().toImage(game.size.x.toInt(), game.size.y.toInt());
       ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData!.buffer.asUint8List();
 

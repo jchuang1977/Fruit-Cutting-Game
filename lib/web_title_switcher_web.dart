@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 // web_title_switcher_web.dart
 
 // ignore: avoid_web_libraries_in_flutter
@@ -63,7 +69,8 @@ class _WebTitleSwitcherWebState extends State<WebTitleSwitcher> {
   }
 
   void _updateTabTitle() {
-    final String title = _isTabActive ? "ChunhThanhDe - Fruit Cutting Game 🍎" : "Contact to cooperate 🍎";
+    final String title =
+        _isTabActive ? "ChunhThanhDe - Fruit Cutting Game 🍎" : "Contact to cooperate 🍎";
     html.document.title = title;
   }
 

@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:fruit_cutting_game/common/widgets/button/rounded_button.dart';
@@ -121,8 +127,10 @@ class HomePage extends Component with HasGameReference<MainRouterGame> {
     // button in center of page
     _button.position = size / 2;
 
-    _tutorialRuleScore1Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 3.9);
-    _tutorialRuleScore2Component.position = Vector2(game.size.x / 2, game.size.y - game.size.y / 5.1);
+    _tutorialRuleScore1Component.position =
+        Vector2(game.size.x / 2, game.size.y - game.size.y / 3.9);
+    _tutorialRuleScore2Component.position =
+        Vector2(game.size.x / 2, game.size.y - game.size.y / 5.1);
     _tutorialRuleLose1Component.position = Vector2(game.size.x / 2, game.size.y / 5.1);
     _tutorialRuleLose2Component.position = Vector2(game.size.x / 2, game.size.y / 3.9);
 

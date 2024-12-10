@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'dart:ui';
 import 'dart:async';
 // ignore: avoid_web_libraries_in_flutter
@@ -213,7 +219,8 @@ class GameVictoryPage extends Component with TapCallbacks, HasGameReference<Main
 
       game.render(c);
 
-      final Image image = await recorder.endRecording().toImage(game.size.x.toInt(), game.size.y.toInt());
+      final Image image =
+          await recorder.endRecording().toImage(game.size.x.toInt(), game.size.y.toInt());
       ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData!.buffer.asUint8List();
 

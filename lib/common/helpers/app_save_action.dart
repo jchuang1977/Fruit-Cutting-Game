@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'package:url_launcher/url_launcher.dart';
 
 class GitHubService {
@@ -14,7 +20,8 @@ class GitHubService {
     required this.mode,
     required this.win,
   })  : title = 'Game Result Submission: $time - Score: $score - Mode: $mode - Win: ${win ? 1 : 0}',
-        baseIssueUrl = 'https://github.com/Flutter-Journey/Fruit-Cutting-Game/issues/new?assignees=&labels=game-result&projects=&template=game_result.md';
+        baseIssueUrl =
+            'https://github.com/Flutter-Journey/Fruit-Cutting-Game/issues/new?assignees=&labels=game-result&projects=&template=game_result.md';
 
   void createIssue() async {
     // Encode title to include in the URL

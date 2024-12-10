@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
@@ -7,7 +13,8 @@ import 'package:fruit_cutting_game/core/configs/theme/app_colors.dart';
 import 'package:fruit_cutting_game/main_router_game.dart';
 
 // InteractiveButtonComponent represents a button with an image and text that can be interacted with.
-class InteractiveButtonComponent extends PositionComponent with TapCallbacks, HasGameReference<MainRouterGame> {
+class InteractiveButtonComponent extends PositionComponent
+    with TapCallbacks, HasGameReference<MainRouterGame> {
   // List of text labels for different game modes.
   final List<String> texts = [
     'easy',

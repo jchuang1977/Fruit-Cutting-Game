@@ -1,3 +1,9 @@
+/*
+ * @ Author: Flutter Journey 🎯 <flutterjourney.org@gmail.com>
+ * @ Created: 2024-12-09 13:15:47
+ * @ Message: You look very hardworking 👨‍💻. Keep focusing on your goals. 🌤️
+ */
+
 import 'dart:math';
 
 import 'package:flame/components.dart';
@@ -123,6 +129,8 @@ class MainRouterGame extends FlameGame with KeyboardEvents {
   void getMaxVerticalVelocity(Vector2 size) {
     // Formula to calculate maximum vertical velocity.
     // Adjust for the object's size.
-    maxVerticalVelocity = sqrt(2 * (AppConfig.gravity.abs() + AppConfig.acceleration.abs()) * (size.y - AppConfig.objSize * 2));
+    maxVerticalVelocity = sqrt(2 *
+        (AppConfig.gravity.abs() + AppConfig.acceleration.abs()) *
+        (size.y - AppConfig.objSize * 2));
   }
 }
